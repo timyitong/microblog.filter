@@ -1,0 +1,44 @@
+000 (936409.000.000) 03/13 17:52:19 Job submitted from host: <128.2.207.79:42920>
+...
+001 (936409.000.000) 03/13 17:53:09 Job executing on host: <10.1.1.244:44891>
+...
+006 (936409.000.000) 03/13 17:53:18 Image size of job updated: 66920
+...
+005 (936409.000.000) 03/13 17:53:45 Job terminated.
+	(0) Abnormal termination (signal 11)
+	(0) No core file
+		Usr 0 00:00:23, Sys 0 00:00:01  -  Run Remote Usage
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Run Local Usage
+		Usr 0 00:00:23, Sys 0 00:00:01  -  Total Remote Usage
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Total Local Usage
+	0  -  Run Bytes Sent By Job
+	0  -  Run Bytes Received By Job
+	0  -  Total Bytes Sent By Job
+	0  -  Total Bytes Received By Job
+...
+000 (936645.000.000) 03/13 18:18:33 Job submitted from host: <128.2.207.79:42920>
+...
+007 (936645.000.000) 03/13 18:20:45 Shadow exception!
+	FAILED TO SEND INITIAL KEEP ALIVE TO OUR PARENT <128.2.207.79:42920>
+	0  -  Run Bytes Sent By Job
+	0  -  Run Bytes Received By Job
+...
+001 (936645.000.000) 03/13 18:23:31 Job executing on host: <10.1.1.249:41460>
+...
+005 (936645.000.000) 03/13 18:23:32 Job terminated.
+	(1) Normal termination (return value 255)
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Run Remote Usage
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Run Local Usage
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Total Remote Usage
+		Usr 0 00:00:00, Sys 0 00:00:00  -  Total Local Usage
+	0  -  Run Bytes Sent By Job
+	0  -  Run Bytes Received By Job
+	0  -  Total Bytes Sent By Job
+	0  -  Total Bytes Received By Job
+...
+000 (936659.000.000) 03/13 19:08:32 Job submitted from host: <128.2.207.79:42920>
+...
+001 (936659.000.000) 03/13 19:08:42 Job executing on host: <10.1.1.249:41460>
+...
+006 (936659.000.000) 03/13 19:08:51 Image size of job updated: 82472
+...

@@ -1,7 +1,7 @@
 Universe = vanilla
 executable = /bos/usr0/yitongz/indri-5.4/buildindex/IndriBuildIndex
-arguments = -corpus.path=../../data/_indri_xml_topic/MB032\  -corpus.class=trectext -field.name=CLEANTWEET -index=../../data/_indri_inv/MB032 -indexType=indri
-output = /bos/usr0/yitongz/condor/indexbuild/MB032.job.out
-log = /bos/usr0/yitongz/condor/indexbuild/MB032.job.log
-error = /bos/usr0/yitongz/condor/indexbuild/MB032.job.err
+arguments = -corpus.path=/bos/tmp13/yitongz/data/_indri_xml_topic/MB032 -corpus.class=trectext -field.name=CLEANTWEET -index=/bos/tmp13/yitongz/data/_indri_inv/MB032 -indexType=indri
+output = /bos/usr0/yitongz/microblog.filter/condor/indexbuild/MB032.job.out
+log = /bos/usr0/yitongz/microblog.filter/condor/indexbuild/MB032.job.log
+error = /bos/usr0/yitongz/microblog.filter/condor/indexbuild/MB032.job.err
 queue
