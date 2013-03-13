@@ -1,0 +1,6 @@
+<parameters>
+<query>
+<number>MB048</number>
+<text> Egyptian evacuation </text>
+</query>
+</parameters>

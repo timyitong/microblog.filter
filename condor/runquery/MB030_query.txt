@@ -1,0 +1,6 @@
+<parameters>
+<query>
+<number>MB030</number>
+<text> Keith Olbermann new job </text>
+</query>
+</parameters>

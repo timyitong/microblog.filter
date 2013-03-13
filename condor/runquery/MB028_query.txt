@@ -1,0 +1,6 @@
+<parameters>
+<query>
+<number>MB028</number>
+<text> Detroit Auto Show </text>
+</query>
+</parameters>

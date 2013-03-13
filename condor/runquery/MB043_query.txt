@@ -1,0 +1,6 @@
+<parameters>
+<query>
+<number>MB043</number>
+<text> Kucinich olive pit lawsuit </text>
+</query>
+</parameters>

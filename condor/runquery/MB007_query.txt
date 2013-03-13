@@ -1,0 +1,6 @@
+<parameters>
+<query>
+<number>MB007</number>
+<text> Pakistan diplomat arrest murder </text>
+</query>
+</parameters>

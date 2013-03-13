@@ -1,0 +1,6 @@
+<parameters>
+<query>
+<number>MB012</number>
+<text> Assange Nobel peace nomination </text>
+</query>
+</parameters>

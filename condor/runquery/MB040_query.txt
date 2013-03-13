@@ -1,0 +1,6 @@
+<parameters>
+<query>
+<number>MB040</number>
+<text> Beck attacks Piven </text>
+</query>
+</parameters>

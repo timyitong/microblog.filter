@@ -1,0 +1,6 @@
+<parameters>
+<query>
+<number>MB022</number>
+<text> healthcare law unconstitutional  </text>
+</query>
+</parameters>

@@ -1,0 +1,6 @@
+<parameters>
+<query>
+<number>MB047</number>
+<text> organic farming requirements </text>
+</query>
+</parameters>

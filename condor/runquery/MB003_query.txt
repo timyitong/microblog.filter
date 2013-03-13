@@ -1,0 +1,6 @@
+<parameters>
+<query>
+<number>MB003</number>
+<text> Haiti Aristide return </text>
+</query>
+</parameters>

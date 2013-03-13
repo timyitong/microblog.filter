@@ -1,0 +1,6 @@
+<parameters>
+<query>
+<number>MB017</number>
+<text> White Stripes breakup  </text>
+</query>
+</parameters>

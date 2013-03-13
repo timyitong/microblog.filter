@@ -1,0 +1,6 @@
+<parameters>
+<query>
+<number>MB013</number>
+<text> Oprah Winfrey half-sister </text>
+</query>
+</parameters>
