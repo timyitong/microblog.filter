@@ -35,7 +35,7 @@ public class RunQuery{
             writer.write("/bos/usr0/yitongz/indri-5.4/runquery/./IndriRunQuery "
              +s+"_query.txt"
              +" -count=1000 -index=/bos/tmp13/yitongz/data/_indri_inv/"
-             +s+" -trecFormat=1 > /bos/tmp13/data/queryresult/"
+             +s+" -trecFormat=1 > /bos/tmp13/yitongz/data/queryresult/"
              +s+".out");
             writer.newLine();
         }
