@@ -1,0 +1,7 @@
+Universe = vanilla
+executable = /bos/usr0/yitongz/indri-5.4/runquery/IndriRunQuery
+arguments = /bos/usr0/yitongz/indri-5.4/runquery/query_sample.txt -count=1000 -index=/bos/usr0/yitongz/_indri_topic_xml/MB001/MB001 -trecFormat=1
+output = /bos/usr0/yitongz/example.job.out
+log = /bos/usr0/yitongz/example.job.log
+error = /bos/usr0/yitongz/example.job.err
+queue
