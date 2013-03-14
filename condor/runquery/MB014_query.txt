@@ -1,6 +1,6 @@
 <parameters>
 <query>
 <number>MB014</number>
-<text> release of "The Rite" </text>
+<text> release of The Rite </text>
 </query>
 </parameters>

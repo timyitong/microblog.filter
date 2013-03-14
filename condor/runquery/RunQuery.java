@@ -21,7 +21,7 @@ public class RunQuery{
             bw.write("<number>"+s+"</number>");
             bw.newLine();
 
-            bw.write("<text>"+q.words+"</text>");
+            bw.write("<text>"+q.words.replaceAll("[\"|,|\']","")+"</text>");
             bw.newLine();
             
             bw.write("</query>");

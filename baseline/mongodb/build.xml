@@ -1,0 +1,41 @@
+<project name="yitongz.mongodb" default="dist" basedir=".">
+       <description>
+                Storing all tweets into MongoDB and support quering
+        </description>
+        <property name="src"    location="src"/>
+        <property name="build"  location="build"/>
+        <property name="dist"   location="dist"/>
+        <property name="main-class"  value="yitongz.mongodb.Main"/>
+        <property name="lib.dir"     value="extlib"/>
+        <path id="classpath">
+            <fileset dir="${lib.dir}" includes="**/*.jar"/>
+        </path>
+        
+        <target name="init">
+            <mkdir dir="${build}"/>
+        </target>
+
+        <target name="compile" depends="init" description="compile the source java files">
+                <javac srcdir="${src}"  destdir="${build}"  classpathref="classpath" debug="on" includeantruntime="false"/>
+        </target>
+
+        <target name="dist" depends="compile" description="generate the distribution">
+                <mkdir dir="${dist}/lib"/>
+                <jar jarfile="${dist}/lib/yitongz.mongodb.jar" basedir="${build}">
+                    <zipgroupfileset dir="${lib.dir}" includes="*.jar" excludes=""/>
+                    <manifest>
+                         <attribute name="Main-Class" value="${main-class}"/>
+                    </manifest>
+                </jar>
+        </target>
+
+        <target name="run" depends="dist">
+            <java jar="${dist}/lib/yitongz.mongodb.jar" fork="true">
+            </java>
+        </target>
+
+        <target name="clean" description="clean up the built source code">
+                <delete dir="${build}"/>
+                <delete dir="${dist}"/>
+        </target>
+</project>

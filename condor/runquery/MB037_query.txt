@@ -1,6 +1,6 @@
 <parameters>
 <query>
 <number>MB037</number>
-<text> Giffords' recovery </text>
+<text> Giffords recovery </text>
 </query>
 </parameters>

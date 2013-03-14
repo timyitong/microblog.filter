@@ -1,6 +1,6 @@
 <parameters>
 <query>
 <number>MB024</number>
-<text> Super Bowl, seats </text>
+<text> Super Bowl seats </text>
 </query>
 </parameters>
