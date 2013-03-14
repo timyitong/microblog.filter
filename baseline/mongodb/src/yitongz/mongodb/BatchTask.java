@@ -29,6 +29,7 @@ public class BatchTask{
 				cutoff=scorer.getCutoff(tweet,query);
 				s=scorer.getScore(tweet,query);
 				tweet.score=s;
+				//System.out.println(s+"::"+cutoff);
 				tweet.relevant= s>cutoff ? true : false;
 				resultList.add(tweet);
 			}

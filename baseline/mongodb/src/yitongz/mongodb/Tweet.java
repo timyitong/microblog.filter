@@ -59,7 +59,9 @@ public class Tweet{
 
 			cursor.close();
 		}catch(Exception e){
-			clean_tweet="";
+			tweetid=tweet_id;
+			docno=tweet_id;
+			clean_tweet=null;
 			//System.out.println("NOT FOUND tweetid:"+tweet_id);
 			//e.printStackTrace();
 		}
@@ -69,6 +71,9 @@ public class Tweet{
 	}
 
 	public double simScore(Tweet t){
+		if (t.clean_tweet==null || this.clean_tweet==null)
+			return 0;
+
 		Hashtable <String,Integer> tf_map1=new Hashtable <String,Integer>();
 		Hashtable <String,Integer> tf_map2=new Hashtable <String,Integer>();
 		LinkedList <String> l1=new LinkedList <String>();
@@ -118,6 +123,7 @@ public class Tweet{
 		mod2=Math.sqrt(mod2);
 
 		sim=sim/(mod1*mod2);
+
 		return sim;
 	}
 }

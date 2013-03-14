@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.StringTokenizer;
 import java.io.*;
+import java.lang.Math;
 
 public class BaselineScore implements RelevantScore{
 	public static String indri_result="../../data/queryresult/";
@@ -54,12 +55,12 @@ public class BaselineScore implements RelevantScore{
 		double score=0;
 		double sum=0;
 		for (Document doc : list){
-			score+=t.simScore(doc.tweet)*doc.indri_score;
-			sum+=doc.indri_score;
+			score+=t.simScore(doc.tweet)*Math.exp(doc.indri_score);
+			sum+=Math.exp(doc.indri_score);
 		}
-		score=score/(0-sum);
+		score=score/sum;
 
-		return 0;
+		return score;
 	}
 	public double getCutoff(Tweet t, Query q){
 		ArrayList<Document> list=map.get(q.num);
@@ -73,13 +74,17 @@ public class BaselineScore implements RelevantScore{
 				double score=0;
 				double tmp_sum=0;
 				for (Document d : list){
-					score+=doc.tweet.simScore(d.tweet)*d.indri_score;
-					tmp_sum+=d.indri_score;
+					//DO NOT CALCULATE THE SIM WITH ITSELF
+					if (d.tweet.tweetid.equals(doc.tweet.tweetid))
+						continue;
+					score+=doc.tweet.simScore(d.tweet)*Math.exp(d.indri_score);
+					tmp_sum+=Math.exp(d.indri_score);
 				}
-				score=score/(0-tmp_sum);
+				score=score/tmp_sum;
 				sum+=score;
 			}
-			sum=sum/(list.size());
+			//DO NOT CALCULATE THE SIM WITH ITSELF
+			sum=sum/(list.size()-1);
 			cuttoff=new Double(sum);
 			cuttoff_map.put(q.num,cuttoff);
 		}
