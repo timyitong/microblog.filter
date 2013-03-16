@@ -37,7 +37,7 @@ public class RunQuery{
              +" -count=1000 -index=/bos/tmp13/yitongz/data/_indri_inv/"
              +s+" -trecFormat=1 "
              +" -fbDocs=20 -fbTerms=20 -fbOrigWeight=0.3"
-             +" > /bos/tmp13/yitongz/data/queryresult/"
+             +" > /bos/tmp13/yitongz/data/queryresult_prf/"
              +s+".out");
             writer.newLine();
         }
