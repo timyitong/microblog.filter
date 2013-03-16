@@ -1,0 +1,6 @@
+<parameters>
+<query>
+<number>MB039</number>
+<text> Egyptian curfew </text>
+</query>
+</parameters>

@@ -1,0 +1,6 @@
+<parameters>
+<query>
+<number>MB029</number>
+<text> global warming and weather  </text>
+</query>
+</parameters>

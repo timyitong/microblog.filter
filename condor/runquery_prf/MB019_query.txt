@@ -1,0 +1,6 @@
+<parameters>
+<query>
+<number>MB019</number>
+<text> Cuomo budget cuts </text>
+</query>
+</parameters>

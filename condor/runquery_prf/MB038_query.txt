@@ -1,0 +1,6 @@
+<parameters>
+<query>
+<number>MB038</number>
+<text> protests in Jordan </text>
+</query>
+</parameters>

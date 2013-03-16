@@ -1,0 +1,6 @@
+<parameters>
+<query>
+<number>MB027</number>
+<text> reduce energy consumption </text>
+</query>
+</parameters>
