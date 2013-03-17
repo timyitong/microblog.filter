@@ -36,11 +36,9 @@ public class TweetForCheckList{
 		br.close();
 		}catch(Exception e){e.printStackTrace();}
 	}
-	public static Iterator<String> iterator(int query_id){
+	public static ArrayList<String> getList(int query_id){
 		if (map==null)
 			init();
-		if (map.get(query_id)==null)
-			System.out.println(query_id+"::shit");
-		return map.get(query_id).iterator(); 
+		return map.get(query_id); 
 	}
 }

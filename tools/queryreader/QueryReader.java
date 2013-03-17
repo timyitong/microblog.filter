@@ -13,10 +13,10 @@ import java.io.*;
 import java.util.*;
 
 public class QueryReader{
-	public static String doc_url="../../data/queryresult_prf/";
+	public static String doc_url="../../data/queryresult/";
 	public static String out_url="../../data/query_reader/";
 
-	public static int K=10;
+	public static int K=100;
 	public static void main(String argv[]) throws Exception{
 		MongoClient mongo=new MongoClient("localhost",27017);
 		DB db=mongo.getDB("microblog-filter");

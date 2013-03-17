@@ -2,20 +2,14 @@ package yitongz.mongodb;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.Collections;
 import java.util.StringTokenizer;
 import java.io.*;
 import java.lang.Math;
 
-public class BaselineScore implements RelevantScore{
-	public static String indri_result="../../data/queryresult_default/";
-	public static int k=10;
-
-	protected Hashtable <String,ArrayList<Document> > map=new Hashtable <String, ArrayList<Document> >();
-	protected Hashtable <String,Double> cuttoff_map=new Hashtable <String,Double>();
-
-	public BaselineScore(){
-
-	}
+public class IndriPRFScore extends BaselineScore {
+	public static String indri_result="../../data/queryresult_prf/";
+	public static int doc_len=1000;
 
 	public ArrayList <Document> init(Query q){
 		ArrayList <Document> list=new ArrayList <Document> ();
@@ -26,7 +20,9 @@ public class BaselineScore implements RelevantScore{
 		map.put(q.num,list);
 
 		int i=0;
-		while ((line=br.readLine())!=null && i<k){
+
+		//here instead of read in top k documents, I read in all
+		while ((line=br.readLine())!=null && i<doc_len){
 			StringTokenizer st=new StringTokenizer(line);
 			st.nextToken();
 			st.nextToken();
@@ -54,11 +50,23 @@ public class BaselineScore implements RelevantScore{
 
 		double score=0;
 		double sum=0;
+
 		for (Document doc : list){
-			score+=t.simScore(doc.tweet)*Math.exp(doc.indri_score);
+			doc.sim_score=t.simScore(doc.tweet);
+		}
+
+		Collections.sort(list);
+
+		int i=0;
+		for (Document doc : list){
+			if (i>=k)
+				break;
+			score+=doc.sim_score*Math.exp(doc.indri_score);
 			sum+=Math.exp(doc.indri_score);
+			i++;
 		}
 		score=score/sum;
+		//System.out.println(score);
 
 		return score;
 	}
@@ -69,10 +77,15 @@ public class BaselineScore implements RelevantScore{
 
 		Double cuttoff=cuttoff_map.get(q.num);
 		if (cuttoff==null){
+			//@overide
+			int end=Math.min(k,list.size());
+			list=new ArrayList <Document>(list.subList(0,end));
+
 			double sum=0;
 			for (Document doc : list){
 				double score=0;
 				double tmp_sum=0;
+
 				for (Document d : list){
 					//DO NOT CALCULATE THE SIM WITH ITSELF
 					if (d.tweet.tweetid.equals(doc.tweet.tweetid))
@@ -83,31 +96,21 @@ public class BaselineScore implements RelevantScore{
 				score=score/tmp_sum;
 				sum+=score;
 			}
+			/* Remember current configuration: length-1, not using sum*1.5
+			 * We can get a recal of 0.77
+			 */
 			//DO NOT CALCULATE THE SIM WITH ITSELF
-			//sum=sum/(list.size()-1);
+			sum=sum/(list.size()-1);
 
 			//Try to figure out the weight, how much it should contain itself:
-			sum=(sum+0.7)/(list.size());
+			//sum=(sum+0.7)/(list.size());	
+
+			//sum=sum*1.5;
 
 			cuttoff=new Double(sum);
 			cuttoff_map.put(q.num,cuttoff);
 		}
 
 		return (double) cuttoff;
-	}
-
-	class Document implements Comparable <Document> {
-		double indri_score;
-		Tweet tweet;
-		double sim_score;
-		/*Document will rank higher will higher sim score*/
-		public int compareTo(Document d){
-			if (this.sim_score>d.sim_score)
-				return -1;
-			else if (this.sim_score==d.sim_score)
-				return 0;
-			else
-				return 1;
-		}	
 	}
 }

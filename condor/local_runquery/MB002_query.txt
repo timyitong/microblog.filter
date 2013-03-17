@@ -1,6 +1,6 @@
 <parameters>
 <query>
 <number>MB002</number>
-<text> #weight(0.95 #combine(#uw5(2022 FIFA)) 0.05 #combine(2022 FIFA soccer))  </text>
+<text> 2022  </text>
 </query>
 </parameters>

@@ -62,12 +62,18 @@ public class Tweet{
 			tweetid=tweet_id;
 			docno=tweet_id;
 			clean_tweet=null;
-			//System.out.println("NOT FOUND tweetid:"+tweet_id);
+			//System.out.println("NOT_FOUND tweetid: "+tweet_id);
 			//e.printStackTrace();
 		}
 	}
 	public String toString(){
 		return "tweetid:"+tweetid+" clean_tweet:"+clean_tweet;
+	}
+
+	public double simScore(Query q){
+		Tweet t=new Tweet();
+		t.clean_tweet=q.words;
+		return this.simScore(t);
 	}
 
 	public double simScore(Tweet t){

@@ -1,0 +1,88 @@
+	/*These are for checkIn calculation*/
+	public ArrayList <Centroid> centroid_list=new ArrayList <Centroid>();
+	public Centroid first_one;
+	public double rel_cutoff=0;
+	public int rel_count=0;
+	public double ir_cutoff=0;
+	public int ir_count=0;
+
+	public static int k=2;
+
+	public static double alpha=0.7;
+	/********/
+
+public boolean checkIn(Tweet t){
+
+		if (t.tweetid.equals(first_one.tweet.tweetid))
+			{System.out.println("======\n");return true;}
+
+		Centroid new_cent=new Centroid(t);
+		for (Centroid cent : centroid_list){
+			cent.score=cent.tweet.simScore(new_cent.tweet);
+		}
+		/*K nearst neighbour:*/
+		Collections.sort(centroid_list);
+		int top_len=Math.min(centroid_list.size(),k);
+		ArrayList <Centroid> top_k_list=new ArrayList <Centroid> (centroid_list.subList(0,top_len));
+		
+		/*K nearst neighbour:voting*/
+		double vote=0;
+		double rel_vote=0;
+		double ir_vote=0;
+		int rel=0;
+		double rel_sum=0;
+		double ir_sum=0;
+		for (Centroid cent : top_k_list){
+			if (cent.relevant){
+				rel_vote+=cent.score*cent.query_score;
+				rel_sum+=cent.score;
+
+				rel++;
+			}else{
+				ir_vote+=cent.score*cent.query_score;
+				ir_sum+=cent.score;
+			}
+			//System.out.println("score:"+cent.score+" hostid:"+cent.tweet.tweetid+" vote:"+vote);
+		}
+		rel_vote=rel_vote/rel_sum;
+		ir_vote=ir_vote/ir_sum;
+
+		/*Punish the vote score with similarity with query*/
+		vote=alpha*vote+(1-alpha)*t.simScore(this);
+
+		//System.out.println("result:"+t.tweetid+" "+vote);
+		if ( vote > 0)
+			new_cent.relevant=true;
+		else
+			new_cent.relevant=false;
+
+		//prevent cold start, that the first one is the relevant one
+		if ( 2.71828*rel > centroid_list.size())
+			new_cent.relevant=false;
+		//If it is before the first tweet:
+		if (new_cent.tweet.tweetid.compareTo(first_one.tweet.tweetid)<0)
+			new_cent.relevant=false;
+		//System.out.println("judge:"+new_cent.relevant+"\n");
+		
+		/*Only put strong item to the queue:*/
+		if (new_cent.relevant){
+			if (rel_count==0 || vote > rel_cutoff/rel_count){
+				new_cent.query_score=vote;
+				centroid_list.add(new_cent);
+				rel_count++;
+				rel_cutoff+=vote;
+			}else{
+			}
+		}else{
+			if (ir_count==0 || vote > ir_cutoff/ir_count){
+				new_cent.query_score=vote;
+				centroid_list.add(new_cent);
+				ir_count++;
+				ir_cutoff+=vote;
+			}else{
+
+			}
+		}
+
+		return new_cent.relevant;
+	}

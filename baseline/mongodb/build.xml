@@ -1,4 +1,4 @@
-<project name="yitongz.mongodb" default="dist" basedir=".">
+<project name="yitongz.mongodb" default="run" basedir=".">
        <description>
                 Storing all tweets into MongoDB and support quering
         </description>
