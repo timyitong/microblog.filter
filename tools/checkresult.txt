@@ -1,0 +1,266 @@
+tag: 2
+missing_rel: 4
+total_rel:28
+missing_irel: 349
+total_missing: 353
+total: 1136
+
+tag: 3
+missing_rel: 5
+total_rel:38
+missing_irel: 377
+total_missing: 382
+total: 1011
+
+tag: 4
+missing_rel: 8
+total_rel:111
+missing_irel: 421
+total_missing: 429
+total: 1384
+
+tag: 5
+missing_rel: 0
+total_rel:12
+missing_irel: 308
+total_missing: 308
+total: 1335
+
+tag: 7
+missing_rel: 5
+total_rel:122
+missing_irel: 298
+total_missing: 303
+total: 1199
+
+tag: 8
+missing_rel: 5
+total_rel:101
+missing_irel: 464
+total_missing: 469
+total: 1677
+
+tag: 9
+missing_rel: 18
+total_rel:152
+missing_irel: 196
+total_missing: 214
+total: 854
+
+tag: 10
+missing_rel: 4
+total_rel:49
+missing_irel: 604
+total_missing: 608
+total: 1293
+
+tag: 12
+missing_rel: 0
+total_rel:4
+missing_irel: 433
+total_missing: 433
+total: 1213
+
+tag: 13
+missing_rel: 2
+total_rel:28
+missing_irel: 232
+total_missing: 234
+total: 666
+
+tag: 14
+missing_rel: 10
+total_rel:121
+missing_irel: 553
+total_missing: 563
+total: 2061
+
+tag: 15
+missing_rel: 0
+total_rel:2
+missing_irel: 363
+total_missing: 363
+total: 1437
+
+tag: 17
+missing_rel: 2
+total_rel:64
+missing_irel: 362
+total_missing: 364
+total: 961
+
+tag: 19
+missing_rel: 3
+total_rel:57
+missing_irel: 243
+total_missing: 246
+total: 1059
+
+tag: 20
+missing_rel: 18
+total_rel:178
+missing_irel: 335
+total_missing: 353
+total: 1056
+
+tag: 22
+missing_rel: 8
+total_rel:148
+missing_irel: 250
+total_missing: 258
+total: 876
+
+tag: 23
+missing_rel: 7
+total_rel:95
+missing_irel: 308
+total_missing: 315
+total: 1290
+
+tag: 24
+missing_rel: 10
+total_rel:100
+missing_irel: 376
+total_missing: 386
+total: 1476
+
+tag: 25
+missing_rel: 7
+total_rel:90
+missing_irel: 296
+total_missing: 303
+total: 1197
+
+tag: 27
+missing_rel: 30
+total_rel:81
+missing_irel: 288
+total_missing: 318
+total: 1248
+
+tag: 28
+missing_rel: 4
+total_rel:13
+missing_irel: 405
+total_missing: 409
+total: 1318
+
+tag: 29
+missing_rel: 6
+total_rel:114
+missing_irel: 300
+total_missing: 306
+total: 1427
+
+tag: 30
+missing_rel: 6
+total_rel:83
+missing_irel: 298
+total_missing: 304
+total: 979
+
+tag: 32
+missing_rel: 4
+total_rel:65
+missing_irel: 394
+total_missing: 398
+total: 1691
+
+tag: 33
+missing_rel: 0
+total_rel:8
+missing_irel: 578
+total_missing: 578
+total: 1657
+
+tag: 34
+missing_rel: 0
+total_rel:42
+missing_irel: 306
+total_missing: 306
+total: 1040
+
+tag: 35
+missing_rel: 0
+total_rel:11
+missing_irel: 236
+total_missing: 236
+total: 808
+
+tag: 37
+missing_rel: 8
+total_rel:87
+missing_irel: 263
+total_missing: 271
+total: 989
+
+tag: 38
+missing_rel: 1
+total_rel:29
+missing_irel: 515
+total_missing: 516
+total: 1478
+
+tag: 39
+missing_rel: 2
+total_rel:38
+missing_irel: 417
+total_missing: 419
+total: 939
+
+tag: 40
+missing_rel: 1
+total_rel:18
+missing_irel: 377
+total_missing: 378
+total: 1094
+
+tag: 42
+missing_rel: 5
+total_rel:34
+missing_irel: 559
+total_missing: 564
+total: 1635
+
+tag: 43
+missing_rel: 4
+total_rel:37
+missing_irel: 216
+total_missing: 220
+total: 787
+
+tag: 44
+missing_rel: 1
+total_rel:24
+missing_irel: 401
+total_missing: 402
+total: 1298
+
+tag: 45
+missing_rel: 5
+total_rel:93
+missing_irel: 333
+total_missing: 338
+total: 1410
+
+tag: 47
+missing_rel: 2
+total_rel:15
+missing_irel: 317
+total_missing: 319
+total: 1412
+
+tag: 48
+missing_rel: 2
+total_rel:60
+missing_irel: 542
+total_missing: 544
+total: 1440
+
+tag: 49
+missing_rel: 0
+total_rel:2
+missing_irel: 281
+total_missing: 281
+total: 1215
+

@@ -1,3 +1,6 @@
+cd ../../baseline/mongodb
+java -jar dist/lib/yitongz.mongodb.jar
+cd ../../tools/eval
 mv ../../data/result/13* ../../data/result/$1
 cp ../../data/result/$1 ../../data/result/original/$1
 gzip -9 ../../data/result/$1
