@@ -1,0 +1,6 @@
+<parameters>
+<query>
+<number>MB044</number>
+<text> White House spokesman replaced </text>
+</query>
+</parameters>

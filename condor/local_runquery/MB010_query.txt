@@ -1,0 +1,6 @@
+<parameters>
+<query>
+<number>MB010</number>
+<text> Egyptian protesters attack museum </text>
+</query>
+</parameters>

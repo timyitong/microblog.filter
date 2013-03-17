@@ -1,0 +1,6 @@
+<parameters>
+<query>
+<number>MB045</number>
+<text> political campaigns and social media </text>
+</query>
+</parameters>
