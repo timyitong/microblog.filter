@@ -31,7 +31,7 @@ public class Tweet{
 
 	private WordStats wordstats=WordStats.getInstance();
 
-	public double score;
+	public double score=0;
 	public boolean relevant;
 	public String query_num;
 

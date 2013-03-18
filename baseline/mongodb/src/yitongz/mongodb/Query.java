@@ -84,16 +84,19 @@ public class Query{
 		build.append(words);
 		WordStats stat=WordStats.getInstance();
 		StringTokenizer st=new StringTokenizer(words);
+		int count=-1;
+		String exp_word=null;
 		while (st.hasMoreTokens()){
 			String w=st.nextToken();
-			int count=stat.getTF(w);
-			if (count==0){
-				build.append(" "+w);
-				build.append(" "+w);
-				build.append(" "+w);
-				build.append(" "+w);
-				build.append(" "+w);
+			int tmp_count=stat.getTF(w);
+			if (tmp_count<count){
+				count=tmp_count;
+				exp_word=w;
 			}
+		}
+		if (exp_word!=null){
+			for (int i=0;i<5;i++)
+				build.append(" "+exp_word);
 		}
 		return build.toString();
 	}
