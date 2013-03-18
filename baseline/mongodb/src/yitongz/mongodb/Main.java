@@ -102,6 +102,8 @@ public class Main{
 		try{
 		new BatchTask();
 
+		//Add word stats
+
 		//Insert all queries
 			//addQueries();
 		//Insert all tweets

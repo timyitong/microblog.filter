@@ -18,6 +18,7 @@ public class BatchTask{
 
 			/*GET the query:*/
 			Query query=new Query(i);
+			WordStats.current_query=i;
 
 			/*The original readin list is in Descending time order
 			 * we need to sort them:
@@ -61,6 +62,7 @@ public class BatchTask{
 			for (Tweet t: resultStack){
 				resultList.add(t);
 			}
+			System.out.println(i);
 		}
 
 		Printer.printFilterResult(resultList);

@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.lang.Math;
+import java.util.StringTokenizer;
+import java.lang.StringBuilder;
 
 public class Query{
 	public String tweetid;
@@ -28,7 +30,9 @@ public class Query{
 	public Centroid first_neg_centroid=null;
 
 	public double rel_score_sum=0;
+	public double rel_score_sqr_sum=0;
 	public int rel_count=0;
+	public int count=0;
 
 	public static int k=2;
 
@@ -52,6 +56,8 @@ public class Query{
 			newesttweet=obj.getString("newesttweet");
 			num=obj.getString("num");
 			words=obj.getString("words");
+			/*HERE do a little query expansion*/
+			words=expand(words);
 
 			cursor.close();
 
@@ -62,7 +68,9 @@ public class Query{
 
 
 			/*add default score with query*/
-			rel_score_sum+=tmp.simScore(this);
+			double score=tmp.simScore(this);
+			rel_score_sum+=score;
+			rel_score_sqr_sum+=score*score;
 			rel_count+=1;
 
 			centroid_list.add(first_one);
@@ -71,9 +79,28 @@ public class Query{
 			e.printStackTrace();
 		}
 	}
+	public String expand(String words){
+		StringBuilder build=new StringBuilder();
+		build.append(words);
+		WordStats stat=WordStats.getInstance();
+		StringTokenizer st=new StringTokenizer(words);
+		while (st.hasMoreTokens()){
+			String w=st.nextToken();
+			int count=stat.getTF(w);
+			if (count==0){
+				build.append(" "+w);
+				build.append(" "+w);
+				build.append(" "+w);
+				build.append(" "+w);
+				build.append(" "+w);
+			}
+		}
+		return build.toString();
+	}
 
 	
 	public boolean checkIn(Tweet t){
+		this.count++;
 		int check=t.tweetid.compareTo(first_one.tweet.tweetid);
 
 		if (check < 0){ // not reach the first element yet
@@ -81,7 +108,9 @@ public class Query{
 			new_cent.query_score=t.simScore(this);
 
 			//Here choose the farthest one:
-			if (first_neg_centroid==null || new_cent.query_score < first_neg_centroid.query_score){
+
+			//here choose the closet neg one as the first neg:
+			if (first_neg_centroid==null || new_cent.query_score > first_neg_centroid.query_score){
 				first_neg_centroid=new_cent;
 			}
 
@@ -89,6 +118,7 @@ public class Query{
 		}else if (check == 0){
 			first_neg_centroid.relevant=false;
 			centroid_list.add(first_neg_centroid);
+			System.out.println(t.tweetid);
 			return true;
 		}
 
@@ -111,20 +141,40 @@ public class Query{
 			sim_sum+=cent.score;
 			//System.out.println("score:"+cent.score+" hostid:"+cent.tweet.tweetid+" vote:"+vote);
 		}
-		vote=vote/sim_sum;
+		if (sim_sum!=0)
+			vote=vote/sim_sum;
+		else
+			vote=0;
 
 		/*Punish the vote score with similarity with query*/
 		vote=alpha*vote+(1-alpha)*t.simScore(this);
 
 		//System.out.println("result:"+t.tweetid+" "+vote);
-		if ( vote > rel_score_sum/rel_count){
+		double cutoff;
+		double avg=rel_score_sum/rel_count;
+		if (rel_count==1)
+			cutoff=avg;
+		else{
+			double ratio=(rel_count-1.0)/count;
+			cutoff=avg-0.3*Math.sqrt(    (rel_score_sqr_sum-avg*avg*rel_count) /  (rel_count-1)   );
+		}
+
+		if (t.tweetid.equals("29093916263321600")){
+			System.out.println(num+": "+cutoff+"   "+vote);
+		}
+
+		if ( vote > cutoff){
 			new_cent.relevant=true;
 			rel_score_sum+=vote;
+			rel_score_sqr_sum+=vote*vote;
 			rel_count++;
+			//System.out.println(num+": "+cutoff);
 		}else
 			new_cent.relevant=false;
-
-		new_cent.query_score=vote;
+		//use vote score as the new score
+			new_cent.query_score=vote;
+		//use sim score as the new score
+			//new_cent.query_score=t.simScore(this);
 		centroid_list.add(new_cent);
 
 		//System.out.println("judge:"+new_cent.relevant+"\n");
