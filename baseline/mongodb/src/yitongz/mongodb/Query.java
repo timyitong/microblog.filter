@@ -23,6 +23,7 @@ public class Query{
 	public String newesttweet;
 	public String num;
 	public String words;
+	public String words_expand;
 
 	/*These are for checkIn calculation*/
 	public ArrayList <Centroid> centroid_list=new ArrayList <Centroid>();
@@ -56,6 +57,7 @@ public class Query{
 			newesttweet=obj.getString("newesttweet");
 			num=obj.getString("num");
 			words=obj.getString("words");
+			words_expand=obj.getString("words_expand");
 			/*HERE do a little query expansion*/
 			words=expand(words);
 
@@ -175,10 +177,11 @@ public class Query{
 		}else
 			new_cent.relevant=false;
 		//use vote score as the new score
-			new_cent.query_score=vote;
+		new_cent.query_score=vote;
 		//use sim score as the new score
 			//new_cent.query_score=t.simScore(this);
 		centroid_list.add(new_cent);
+
 
 		//System.out.println("judge:"+new_cent.relevant+"\n");
 		
