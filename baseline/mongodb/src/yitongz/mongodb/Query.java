@@ -133,13 +133,15 @@ public class Query{
 		for (Centroid cent : centroid_list){
 			cent.score=cent.tweet.simScore(new_cent.tweet);
 		}
-		/*K nearst neighbour:*/
+		double vote=0;
+		/* This block is commented out because I adopt rachhio
+		//K nearst neighbour:
 		Collections.sort(centroid_list);
 		int top_len=Math.min(centroid_list.size(),k);
 		ArrayList <Centroid> top_k_list=new ArrayList <Centroid> (centroid_list.subList(0,top_len));
 		
-		/*K nearst neighbour:voting*/
-		double vote=0;
+		//K nearst neighbour:voting
+		
 		double sim_sum=0;
 
 		int rel=0;
@@ -153,8 +155,11 @@ public class Query{
 		else
 			vote=0;
 
-		/*Punish the vote score with similarity with query*/
+		//Punish the vote score with similarity with query
 		vote=alpha*vote+(1-alpha)*t.simScore(this);
+		*/
+
+		vote=t.simScore(this);
 
 		//System.out.println("result:"+t.tweetid+" "+vote);
 		double cutoff;
