@@ -45,6 +45,8 @@ public class WordCounter{
 		StringTokenizer st=new StringTokenizer(s);
 		while (st.hasMoreTokens()){
 			String w=st.nextToken();
+			if (w.replaceAll("[0-9]","").length()==0)
+				continue;
 			if (stop_map.contains(w.toLowerCase()) || stop_map_local.contains(w.toLowerCase()))
 				continue;
 
