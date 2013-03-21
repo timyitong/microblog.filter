@@ -90,17 +90,33 @@ public class LanSimScore implements SimScoreCalculator{
 		return score;
 	}
 	public double getSimScore(Tweet t, Query q){
-		/* This is the expanded tweets version
-		double rate=0.7;
-		Tweet t=new Tweet();
-		t.clean_tweet=q.words;
-		double s1=this.simScore(t);
-		t.clean_tweet=q.words_expand;
-		double s2=this.simScore(t);
-		return rate*s1+(1-rate)*s2;
-		*/
-		Tweet t2=new Tweet();
-		t2.clean_tweet=q.words;
-		return getSimScore(t,t2);	
+		if (t.clean_tweet==null)
+			return 0;
+
+		double a=1,b=0.8,c=0.1;
+		DocVector d2_rel=new DocVector();
+		DocVector d2_ir=new DocVector();
+		int count_rel=0;
+		int count_ir=0;
+		for (Centroid cent :q.centroid_list){
+			if (cent.tweet.vector==null)
+				continue;
+			if (cent.relevant){
+				d2_rel.add(cent.tweet.vector);
+				count_rel++;
+			}else{
+				d2_ir.add(cent.tweet.vector);
+				count_ir++;
+			}	
+		}
+		d2_rel.multiply(b/count_rel);
+		d2_ir.multiply(c/count_ir);
+		DocVector d2=new DocVector();
+		d2.add(q.vector);
+		d2.multiply(a);
+		d2.add(d2_rel);
+		d2.minus(d2_ir);
+
+		return d2.innerProduct(t.vector)/(d2.mod()*t.vector.mod());
 	}
 }

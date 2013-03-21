@@ -23,6 +23,7 @@ public class Query{
 	public String newesttweet;
 	public String num;
 	public String words;
+	public DocVector vector;
 	public String words_expand;
 
 	/*These are for checkIn calculation*/
@@ -57,6 +58,7 @@ public class Query{
 			newesttweet=obj.getString("newesttweet");
 			num=obj.getString("num");
 			words=obj.getString("words");
+			vector=new DocVector(words);
 			words_expand=obj.getString("words_expand");
 			/*HERE do a little query expansion*/
 			words=expand(words);
@@ -180,7 +182,8 @@ public class Query{
 		new_cent.query_score=vote;
 		//use sim score as the new score
 			//new_cent.query_score=t.simScore(this);
-		centroid_list.add(new_cent);
+		if (new_cent.tweet.clean_tweet!=null)
+			centroid_list.add(new_cent);
 
 
 		//System.out.println("judge:"+new_cent.relevant+"\n");

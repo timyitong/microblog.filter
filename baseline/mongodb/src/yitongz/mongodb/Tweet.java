@@ -19,6 +19,7 @@ public class Tweet{
 	String tweetid;
 	String docno;
 	String clean_tweet;
+	DocVector vector;
 	String notags_tweet;
 	String expand;
 	String expand_tweet;
@@ -56,6 +57,8 @@ public class Tweet{
 			retweet=obj.getString("retweet");
 			hasurls=obj.getString("hasurls");
 			onlyenglish=obj.getString("onlyenglish");
+
+			vector=new DocVector(clean_tweet);
 
 			cursor.close();
 		}catch(Exception e){
