@@ -93,7 +93,7 @@ public class LanSimScore implements SimScoreCalculator{
 		if (t.clean_tweet==null)
 			return 0;
 
-		double a=1,b=0.8,c=0;
+		double a=1,b=0.8,c=0.1;
 		DocVector d2_rel=new DocVector();
 		DocVector d2_ir=new DocVector();
 		int count_rel=0;

@@ -58,10 +58,17 @@ public class Query{
 			newesttweet=obj.getString("newesttweet");
 			num=obj.getString("num");
 			words=obj.getString("words");
-			vector=new DocVector(words);
 			words_expand=obj.getString("words_expand");
 			/*HERE do a little query expansion*/
-			words=expand(words);
+			//words=expand(words);
+			vector=new DocVector(words);
+			if (words_expand!=null){
+				DocVector vector_expand=new DocVector(words_expand);
+				vector_expand.multiply(0.1);
+				vector.multiply(0.9);
+				vector.add(vector_expand);
+			}
+
 
 			cursor.close();
 
@@ -168,9 +175,10 @@ public class Query{
 			cutoff=avg;
 		else{
 			double ratio=(rel_count-1.0)/count;
-			cutoff=avg-0.3*Math.sqrt(    (rel_score_sqr_sum-avg*avg*rel_count) /  (rel_count-1)   );
+			cutoff=avg-0.5*Math.sqrt(    (rel_score_sqr_sum-avg*avg*rel_count) /  (rel_count-1)   );
 		}
 
+		//System.out.println(cutoff+"::"+vote);
 		if (t.tweetid.equals("29093916263321600")){
 			System.out.println(num+": "+cutoff+"   "+vote);
 		}
