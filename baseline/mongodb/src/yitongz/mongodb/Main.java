@@ -97,20 +97,31 @@ public class Main{
 			queries.insert(doc);
 		}
 	}
+	private static void init() throws Exception{
+		/*switch to test data*/
+			//Configure.switch_to_test();
+		/*Load in the truth files*/
+		Facts.load();
+
+		/*Insert all queries*/
+			//addQueries();
+		/*Insert all tweets*/
+			//addTweets();
+		/*Add WortStats to database*/
+			WordStats st=WordStats.getInstance();
+			st.run();
+	}
+	private static void test() throws Exception{
+
+	}
+	private static void run() throws Exception{
+		new BatchTask();
+	}
 	public static void main(String argv[]){
 		try{
-		QueryList.QUERY_FILE="../../data/train.topics.filtering_ch.txt";
-		TweetForCheckList.list_url="../../data/train.filtering-qrels.txt";
-		//System.out.println(QueryList.QUERY_FILE);
-		new BatchTask();
-
-		//Add word stats
-
-		//Insert all queries
-			//addQueries();
-		//Insert all tweets
-			//addTweets();
-		
-	}catch(Exception e){e.printStackTrace();}
+			init();
+			//test();
+			//run();
+		}catch(Exception e){e.printStackTrace();}
 	}
 }

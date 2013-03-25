@@ -129,7 +129,7 @@ public class Query{
 			if (first_neg_centroid==null || new_cent.query_score > first_neg_centroid.query_score){
 				first_neg_centroid=new_cent;
 			}
-
+			t.score=0;
 			return false;
 		}else if (check == 0){
 			if (first_neg_centroid!=null){
@@ -139,6 +139,7 @@ public class Query{
 			}else{
 				System.out.println(this.num);
 			}
+			t.score=rel_score_sum/rel_count;
 			return true;
 		}
 
@@ -173,7 +174,7 @@ public class Query{
 		*/
 
 		vote=t.simScore(this);
-
+		new_cent.tweet.score=vote;
 		//System.out.println("result:"+t.tweetid+" "+vote);
 		double cutoff;
 		double avg=rel_score_sum/rel_count;
@@ -189,14 +190,26 @@ public class Query{
 			System.out.println(num+": "+cutoff+"   "+vote);
 		}
 
+		boolean judge; 
 		if ( vote > cutoff){
-			new_cent.relevant=true;
-			rel_score_sum+=vote;
-			rel_score_sqr_sum+=vote*vote;
-			rel_count++;
+			judge=true;
+			
+			//IF I check the FACT
+			if (Configure.CHECK_FACT)
+				new_cent.relevant=Facts.check(this.num,t.tweetid);
+			else
+				new_cent.relevant=true;
+			
+			if (new_cent.relevant){
+				rel_score_sum+=vote;
+				rel_score_sqr_sum+=vote*vote;
+				rel_count++;
+			}
 			//System.out.println(num+": "+cutoff);
-		}else
+		}else{
+			judge=false;
 			new_cent.relevant=false;
+		}
 		//use vote score as the new score
 		new_cent.query_score=vote;
 		//use sim score as the new score
@@ -204,10 +217,9 @@ public class Query{
 		if (new_cent.tweet.clean_tweet!=null)
 			centroid_list.add(new_cent);
 
-
 		//System.out.println("judge:"+new_cent.relevant+"\n");
-		
-		return new_cent.relevant;
+
+		return judge;
 	}
 
 	public String toString(){

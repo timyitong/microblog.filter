@@ -10,62 +10,50 @@ public class BatchTask{
 		run();
 	}
 	private void run(){
-		ArrayList<Tweet> resultList=new ArrayList<Tweet> ();
-		for (int i=1;i<=49 ;i++){
+		for (int i=Configure.QUERY_START;i<=Configure.QUERY_END ;i++){
+			ArrayList<Tweet> resultList=new ArrayList<Tweet> ();
 			Stack<Tweet> resultStack=new Stack<Tweet>();
 
-			//if (i%5==1 || i==18) continue;
-			if (i%5!=1) continue;
+			//CHECK MODE decide which to skip
+			if (Configure.TEST_MODE){
+				if (i%5==1 || i==18) continue; // the 18 is missing all needed to run tweets
+			}else{
+				if (i%5!=1) continue;
+			}
 
-			/*GET the query:*/
+			//SET Word Statistics Dictionary
+			WordStats.setCurrentQueryID(i);
+			//GET the query:
 			Query query=new Query(i);
-			WordStats.current_query=i;
 
-			/*The original readin list is in Descending time order
-			 * we need to sort them:
-			 */
+			// GET tweets list
+			// The original readin list is in Descending time order
+			// we need to sort them:
 			ArrayList<String> tweets_list=TweetForCheckList.getList(i);
 			Collections.sort(tweets_list);
 
 			Iterator <String> tweets=tweets_list.iterator();
 			
-			//RelevantScore scorer=new BaselineScore();
-			/*
-			 * Notice this kNN method, can retrieve a very high recall collection
-			 * The tweet should first pass this test
-			 */
-			RelevantScore scorer=new IndriPRFScore();
-
-			double cutoff;
-			double s;
-			//double cutoff=scorer.getCutoff();
+			//CHECK each tweet
 			while (tweets.hasNext()){
 				String tweet_id=tweets.next();
-				/*GET the tweet:*/
+				//NEW the tweet:
 				Tweet tweet=new Tweet(tweet_id); 
 				tweet.query_num=query.num;
 
-				cutoff=scorer.getCutoff(tweet,query);
-				s=scorer.getScore(tweet,query);
-				tweet.score=s;
-				/*Here we pass the first high recall filtering*/
-				tweet.relevant= s>cutoff ? true : false;
-				//if (tweet.relevant){
-					/* Let us see whether the query centroid will accept it or not
-					 * Only these tweets pass this test could be the true tweet.
-					 */
-					tweet.relevant=query.checkIn(tweet);
-				//}
+				//CHECK whether this TWEET relevant to this QUERY
+				tweet.relevant=query.checkIn(tweet);
 
+				//ADD tweet to RESULT
 				resultStack.add(tweet);
-				//System.out.println(tweet.relevant);
 			}
 			for (Tweet t: resultStack){
 				resultList.add(t);
 			}
 			System.out.println(i);
+			Printer.printFilterResult(resultList);
 		}
-
-		Printer.printFilterResult(resultList);
+		//After all printing close the printer
+		Printer.close();
 	}	
 }

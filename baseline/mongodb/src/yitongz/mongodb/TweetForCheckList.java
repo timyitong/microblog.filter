@@ -13,7 +13,7 @@ This class read in all the tweets needed to be made a decision about and return 
 */
 
 public class TweetForCheckList{
-	public static String list_url="../../data/filtering-qrels.txt";
+	public static String list_url=Configure.TRUE_RESULT_FILE;
 	public static Hashtable <Integer, ArrayList<String> > map=null;
 	private TweetForCheckList(){}
 	private static void init(){

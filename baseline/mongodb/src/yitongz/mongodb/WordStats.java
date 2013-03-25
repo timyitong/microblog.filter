@@ -15,14 +15,17 @@ import java.util.*;
 import java.text.NumberFormat;
 
 public class WordStats{
-	private String folder="../../data/_indri_xml_topic/";
+	private String folder=Configure.TOPIC_TWEET_FOLDER;
 	private static WordStats stat=new WordStats();
 	private Hashtable <String,Integer> map=null;
 	private Hashtable <Integer,Integer> map_tc=null; 
 	public static int current_query=2;
-	private String tc_url="../../data/word_stats.txt";
+	private String tc_url=Configure.TOTAL_WORD_STATS;
 	private WordStats(){
 		map=new Hashtable<String,Integer>();
+	}
+	public static void setCurrentQueryID(int i){
+		WordStats.current_query=i;
 	}
 	public static WordStats getInstance(){
 		return stat;
@@ -81,9 +84,14 @@ public class WordStats{
 
 		DBCollection coll=DBCon.getTable("words");
 
-		for (int i=2;i<=49;i++){
-			if (i%5==1)
-				continue;
+		for (int i=1;i<=49;i++){
+			//CHECK MODE decide which to skip
+			if (Configure.TEST_MODE){
+				if (i%5==1 || i==18) continue; // the 18 is missing all needed to run tweets
+			}else{
+				if (i%5!=1) continue;
+			}
+
 			tag="MB"+nf.format(i);
 			TreeMap <String,Integer> map=new TreeMap<String,Integer>();
 			BufferedReader br=new BufferedReader(new FileReader(new File(folder+tag+" ")));

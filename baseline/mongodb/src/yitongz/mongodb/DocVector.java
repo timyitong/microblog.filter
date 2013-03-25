@@ -22,7 +22,45 @@ public class DocVector implements VectorCalculator{
 				f=f+1;
 			}
 		}
+		if (Configure.VECTOR_MODE.equals("BM25"))
+			normalize_bm25(w.length());
+		else if (Configure.VECTOR_MODE.equals("KL"))
+			normalize_kl(w.length());
+		else if (Configure.VECTOR_MODE.equals("Lan"))
+			normalize_lan(w.length());
+	}
+	private void normalize_lan(int doc_length){
+		WordStats wordStats=WordStats.getInstance();
 
+		for (Map.Entry<String,Double> entry : this.map.entrySet() ) {
+	        Double f = entry.getValue();
+	        String term = entry.getKey();
+		}
+	}
+	private void normalize_kl(int doc_length){
+		WordStats wordStats=WordStats.getInstance();
+
+		for (Map.Entry<String,Double> entry : this.map.entrySet() ) {
+	        Double f = entry.getValue();
+	        String term = entry.getKey();
+		}
+	}
+	private void normalize_bm25(int doc_length){
+		WordStats wordStats=WordStats.getInstance();
+		int total_oc=wordStats.getTC();
+		double k1=2;
+		double b=0.75;
+		int avg_doc_length=20;
+		double k3=0;
+
+		for (Map.Entry<String,Double> entry : this.map.entrySet() ) {
+	        Double f = entry.getValue();
+	        String term = entry.getKey();
+	        int df=wordStats.getTF(term);
+	        double idf=(total_oc+0.5-df)/(0.5+df);
+	        double tf=f/(f+k1*((1-b)+b*doc_length/avg_doc_length) );
+	        f=idf*tf;
+		}
 	}
 	public void add(DocVector d){
 		for (Map.Entry<String,Double> entry : d.map.entrySet() ) {

@@ -9,7 +9,7 @@ import java.io.*;
 import java.util.*;
 public class QueryList{
 	private static ArrayList <Query> list=null;
-	public static String QUERY_FILE="../../data/2012.topics.MB1-50.filtering-wrapped.txt";
+	public static String QUERY_FILE=Configure.QUERY_FILE;
 	private QueryList(){
 
 	}

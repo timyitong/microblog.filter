@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.io.*;
 
 public class Printer{
-	public static String output_url="../../data/result/";
-	public static String run_name="yitongz-baseline";
+	public static String output_url=Configure.OUTPUT_FOLDER;
+	public static String run_name=Configure.RUN_NAME;
+	private static BufferedWriter bw=null;
 	public static void printFilterResult(ArrayList <Tweet> list){
 		try{
-			BufferedWriter bw=new BufferedWriter(new FileWriter(new File(output_url+System.currentTimeMillis()+".txt")));
+			if (bw==null) bw=new BufferedWriter(new FileWriter(new File(output_url+System.currentTimeMillis()+".txt")));
 			for (Tweet t: list){
 				bw.write(t.query_num
 						+" "+t.tweetid
@@ -17,6 +18,10 @@ public class Printer{
 						+" "+run_name);
 				bw.newLine();
 			}
+		}catch(Exception e){e.printStackTrace();}
+	}
+	public static void close(){
+		try{
 			bw.close();
 		}catch(Exception e){e.printStackTrace();}
 	}

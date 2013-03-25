@@ -58,7 +58,11 @@ public class Tweet{
 			hasurls=obj.getString("hasurls");
 			onlyenglish=obj.getString("onlyenglish");
 
-			vector=new DocVector(clean_tweet);
+			//whether I use the expanded tweet
+			if (Configure.USE_TWEET_EXPAND)
+				vector=new DocVector(expand_tweet);
+			else
+				vector=new DocVector(clean_tweet);
 
 			cursor.close();
 		}catch(Exception e){
