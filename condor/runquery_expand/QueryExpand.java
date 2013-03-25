@@ -15,8 +15,8 @@ import java.text.NumberFormat;
 public class QueryExpand{
 	public static String doc_url="../../data/queryresult/";
 	public static String index_url="../../data/_indri_inv/";
-	private static int expand_level=5;
-	private static int k=5;
+	private static int expand_level=10;
+	private static int k=10;
 
 	public static void main(String argv[]) throws Exception{
 		NumberFormat nf=NumberFormat.getInstance();
@@ -36,11 +36,11 @@ public class QueryExpand{
 			String words=query.getString("words");
 			StringTokenizer st=new StringTokenizer(words);
 			StringBuilder words_expand=new StringBuilder();
-			//while (st.hasMoreTokens()){
-			//	String w=st.nextToken();
-				writeQueryFile(words);
+			while (st.hasMoreTokens()){
+				String w=st.nextToken();
+				//writeQueryFile(w);
 
-				String command="sh runqueryfile.sh "+"query.txt"+" "+index_url+tag;
+				String command="sh runquery.sh "+w+" "+index_url+tag;
 				System.out.println(command);
 				Process process=Runtime.getRuntime().exec(command);
 				BufferedReader br = new BufferedReader(new InputStreamReader(
@@ -61,7 +61,7 @@ public class QueryExpand{
 						counter.add(tweet.getString("clean_tweet"));
 				}
 				words_expand.append(counter.getTopWords(expand_level));
-			//}
+			}
 			query.append("words_expand",words_expand.toString());
 			if (argv.length>0 && argv[0].equals("save"))
 				coll.save(query);

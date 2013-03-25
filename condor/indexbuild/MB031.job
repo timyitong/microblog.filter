@@ -1,0 +1,7 @@
+Universe = vanilla
+executable = /bos/usr0/yitongz/indri-5.4/buildindex/IndriBuildIndex
+arguments = -corpus.path=/bos/tmp13/yitongz/data/_indri_xml_topic/MB031 -corpus.class=trectext -field.name=CLEANTWEET -index=/bos/tmp13/yitongz/data/_indri_inv/MB031 -indexType=indri
+output = /bos/usr0/yitongz/microblog.filter/condor/indexbuild/MB031.job.out
+log = /bos/usr0/yitongz/microblog.filter/condor/indexbuild/MB031.job.log
+error = /bos/usr0/yitongz/microblog.filter/condor/indexbuild/MB031.job.err
+queue

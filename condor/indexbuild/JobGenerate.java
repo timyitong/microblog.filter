@@ -7,8 +7,8 @@ public class JobGenerate{
 		nf.setMinimumIntegerDigits(3);
 		BufferedWriter w=new BufferedWriter(new FileWriter(new File("submit.sh")));
 
-		for (int i=2;i<=50;i++){
-			if (i%5==1)
+		for (int i=1;i<=50;i++){
+			if (i%5!=1)
 				continue;
 			String s=nf.format(i);
 			BufferedWriter bw=new BufferedWriter(new FileWriter(new File("MB"+s+".job")));
@@ -32,7 +32,7 @@ public class JobGenerate{
 			w.write("condor_submit MB"+s+".job");
 			w.newLine();
             if (i%15==0){
-                w.write("sleep 12m");
+                w.write("sleep 3m");
                 w.newLine();
             }
 
