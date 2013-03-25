@@ -29,7 +29,38 @@ public class IndexBuilder{
 		Arrays.sort(files);
 
 		BufferedWriter bw=new BufferedWriter(new FileWriter(new File(store_url)));
-		BufferedWriter bw2=new BufferedWriter(new FileWriter(new File(after_store_url)));
+		System.out.println(store_url);
+		boolean notFound=true;
+		for (int i=0;i<files.length && notFound;i++){
+			if (files[i].matches(".*DS_Store.*")) continue;
+			BufferedReader br=new BufferedReader(new FileReader(fs[i]));
+			String line=null;
+			StringBuffer buff=null;
+			String stamp=null;
+			while ((line=br.readLine())!=null && notFound){
+				if (line.matches(".*<DOC>.*")){
+					buff=new StringBuffer();
+				}
+				buff.append(line);
+				buff.append("\n");
+				if (line.matches(".*<DOCNO>.*")){
+					stamp=line.substring("<DOCNO>".length(),line.length()-"</DOCNO>".length()).trim();
+					//System.out.println(stamp);
+				}
+				if (line.matches(".*</DOC>.*")){
+					//System.out.println(new BigInteger(stamp).compareTo(timestamp_int) < 0);
+					if (new BigInteger(stamp).compareTo(timestamp_int) < 0){
+						bw.write(buff.toString());
+					}else{
+						notFound=false;
+					}
+				}
+			}
+			bw.flush();
+		}
+		bw.close();
+		/*
+		//BufferedWriter bw2=new BufferedWriter(new FileWriter(new File(after_store_url)));
 		for (int i=0;i<files.length;i++){
 			if (!files[i].matches(".*DS_Store.*")){
 				File xmlFile = fs[i];
@@ -48,7 +79,7 @@ public class IndexBuilder{
 						//System.out.println("tweetid:"+tweetid+";;;;timestamp:"+timestamp);
 						//System.out.println(new BigInteger(timestamp.replaceAll("\\s","")).compareTo(timestamp_int) );
 						
-						/*Tranform Node into String:*/
+						//Tranform Node into String:
 						StringWriter writer=new StringWriter();
 						Transformer t=TransformerFactory.newInstance().newTransformer();
 						t.transform(new DOMSource(d),new StreamResult(writer));
@@ -61,8 +92,9 @@ public class IndexBuilder{
 							bw.write(content);
 							bw.newLine();
 						}else if (tid.compareTo(neweststamp_int) <=0){
-							bw2.write(content);
-							bw2.newLine();
+							
+							//bw2.write(content);
+							//bw2.newLine();
 						}
 
 					}
@@ -70,7 +102,9 @@ public class IndexBuilder{
 			}
 		}	
 		bw.close();
-		bw2.close();
+		//bw2.close();
+
+		*/
 		}catch(Exception e){e.printStackTrace();}
 	}
 	private void build(){

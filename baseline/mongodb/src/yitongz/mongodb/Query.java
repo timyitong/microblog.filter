@@ -175,7 +175,7 @@ public class Query{
 			cutoff=avg;
 		else{
 			double ratio=(rel_count-1.0)/count;
-			cutoff=avg-0.5*Math.sqrt(    (rel_score_sqr_sum-avg*avg*rel_count) /  (rel_count-1)   );
+			cutoff=avg-0.3*Math.sqrt(    (rel_score_sqr_sum-avg*avg*rel_count) /  (rel_count-1)   );
 		}
 
 		//System.out.println(cutoff+"::"+vote);

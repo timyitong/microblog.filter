@@ -100,12 +100,13 @@ public class Main{
 	}
 	public static void main(String argv[]){
 		try{
-		new BatchTask();
+		QueryList.QUERY_FILE="../../data/train.topics.filtering.txt";
+		//new BatchTask();
 
 		//Add word stats
 
 		//Insert all queries
-			//addQueries();
+			addQueries();
 		//Insert all tweets
 			//addTweets();
 		
