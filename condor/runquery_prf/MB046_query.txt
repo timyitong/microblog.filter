@@ -1,0 +1,6 @@
+<parameters>
+<query>
+<number>MB046</number>
+<text> Bottega Veneta </text>
+</query>
+</parameters>

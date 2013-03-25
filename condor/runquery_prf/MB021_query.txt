@@ -1,0 +1,6 @@
+<parameters>
+<query>
+<number>MB021</number>
+<text> Emanuel residency court rulings </text>
+</query>
+</parameters>

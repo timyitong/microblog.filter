@@ -1,0 +1,6 @@
+<parameters>
+<query>
+<number>MB001</number>
+<text> BBC World Service staff cuts </text>
+</query>
+</parameters>

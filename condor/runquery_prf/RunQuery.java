@@ -3,6 +3,7 @@ import java.text.NumberFormat;
 import java.util.*;
 public class RunQuery{
     public static void main(String argv[]) throws Exception{
+        QueryList.QUERY_FILE="../../data/train.topics.filtering.txt";
         NumberFormat nf=NumberFormat.getInstance();
         nf.setMinimumIntegerDigits(3);
         String s;

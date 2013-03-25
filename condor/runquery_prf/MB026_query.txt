@@ -1,0 +1,6 @@
+<parameters>
+<query>
+<number>MB026</number>
+<text> US unemployment </text>
+</query>
+</parameters>

@@ -1,0 +1,6 @@
+<parameters>
+<query>
+<number>MB036</number>
+<text> Moscow airport bombing </text>
+</query>
+</parameters>
