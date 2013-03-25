@@ -87,7 +87,6 @@ public class Main{
 	private static void addQueries() throws Exception{
 		/*Add all queries into Database*/
 		DBCollection queries=DBCon.getTable("queries");
-		
 		Iterator <Query> it = QueryList.iterator();
 		while (it.hasNext()){
 			Query q=it.next();
@@ -100,7 +99,7 @@ public class Main{
 	}
 	public static void main(String argv[]){
 		try{
-		QueryList.QUERY_FILE="../../data/train.topics.filtering.txt";
+		QueryList.QUERY_FILE="../../data/train.topics.filtering_ch.txt";
 		TweetForCheckList.list_url="../../data/train.filtering-qrels.txt";
 		//System.out.println(QueryList.QUERY_FILE);
 		new BatchTask();
@@ -108,7 +107,7 @@ public class Main{
 		//Add word stats
 
 		//Insert all queries
-			addQueries();
+			//addQueries();
 		//Insert all tweets
 			//addTweets();
 		

@@ -18,6 +18,8 @@ import java.lang.Math;
 import java.util.StringTokenizer;
 import java.lang.StringBuilder;
 
+import java.math.BigInteger;
+
 public class Query{
 	public String tweetid;
 	public String newesttweet;
@@ -115,8 +117,8 @@ public class Query{
 	
 	public boolean checkIn(Tweet t){
 		this.count++;
-		int check=t.tweetid.compareTo(first_one.tweet.tweetid);
-
+		int check=new BigInteger(t.tweetid).compareTo(new BigInteger(first_one.tweet.tweetid));	
+		//System.out.println(this.tweetid);
 		if (check < 0){ // not reach the first element yet
 			Centroid new_cent=new Centroid(t);
 			new_cent.query_score=t.simScore(this);
@@ -131,9 +133,9 @@ public class Query{
 			return false;
 		}else if (check == 0){
 			if (first_neg_centroid!=null){
-			first_neg_centroid.relevant=false;
-			centroid_list.add(first_neg_centroid);
-			System.out.println(t.tweetid);
+				first_neg_centroid.relevant=false;
+				centroid_list.add(first_neg_centroid);
+				System.out.println(t.tweetid);
 			}else{
 				System.out.println(this.num);
 			}
