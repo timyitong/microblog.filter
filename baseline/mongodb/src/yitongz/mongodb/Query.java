@@ -130,9 +130,13 @@ public class Query{
 
 			return false;
 		}else if (check == 0){
+			if (first_neg_centroid!=null){
 			first_neg_centroid.relevant=false;
 			centroid_list.add(first_neg_centroid);
 			System.out.println(t.tweetid);
+			}else{
+				System.out.println(this.num);
+			}
 			return true;
 		}
 

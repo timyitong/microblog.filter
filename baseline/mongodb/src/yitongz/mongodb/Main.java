@@ -101,7 +101,9 @@ public class Main{
 	public static void main(String argv[]){
 		try{
 		QueryList.QUERY_FILE="../../data/train.topics.filtering.txt";
-		//new BatchTask();
+		TweetForCheckList.list_url="../../data/train.filtering-qrels.txt";
+		//System.out.println(QueryList.QUERY_FILE);
+		new BatchTask();
 
 		//Add word stats
 

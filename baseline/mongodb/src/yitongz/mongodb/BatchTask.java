@@ -11,10 +11,11 @@ public class BatchTask{
 	}
 	private void run(){
 		ArrayList<Tweet> resultList=new ArrayList<Tweet> ();
-		for (int i=2;i<=49 ;i++){
+		for (int i=1;i<=49 ;i++){
 			Stack<Tweet> resultStack=new Stack<Tweet>();
 
-			if (i%5==1 || i==18) continue;
+			//if (i%5==1 || i==18) continue;
+			if (i%5!=1) continue;
 
 			/*GET the query:*/
 			Query query=new Query(i);
