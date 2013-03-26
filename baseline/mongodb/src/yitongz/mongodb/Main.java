@@ -108,8 +108,8 @@ public class Main{
 		/*Insert all tweets*/
 			//addTweets();
 		/*Add WortStats to database*/
-			WordStats st=WordStats.getInstance();
-			st.run();
+			//WordStats st=WordStats.getInstance();
+			//st.run();
 	}
 	private static void test() throws Exception{
 
@@ -121,7 +121,7 @@ public class Main{
 		try{
 			init();
 			//test();
-			//run();
+			run();
 		}catch(Exception e){e.printStackTrace();}
 	}
 }

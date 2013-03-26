@@ -50,7 +50,7 @@ public class BatchTask{
 			for (Tweet t: resultStack){
 				resultList.add(t);
 			}
-			System.out.println(i);
+			//System.out.println(i);
 			Printer.printFilterResult(resultList);
 		}
 		//After all printing close the printer

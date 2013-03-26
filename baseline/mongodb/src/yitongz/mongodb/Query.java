@@ -29,7 +29,7 @@ public class Query{
 	public String words_expand;
 
 	/*These are for checkIn calculation*/
-	public ArrayList <Centroid> centroid_list=new ArrayList <Centroid>();
+	public CentroidList centroid_list;
 	public Centroid first_one;
 	public Centroid first_neg_centroid=null;
 
@@ -41,6 +41,7 @@ public class Query{
 	public static int k=2;
 
 	public static double alpha=0.3;
+
 	/********/
 
 	public Query(){
@@ -70,24 +71,9 @@ public class Query{
 				vector.multiply(0.9);
 				vector.add(vector_expand);
 			}
-
-
 			cursor.close();
 
-			//Initilize the centroid
-			Tweet tmp=new Tweet(tweetid);
-			first_one=new Centroid(tmp);
-			first_one.relevant=true;
-
-
-			/*add default score with query*/
-			double score=tmp.simScore(this);
-			rel_score_sum+=score;
-			rel_score_sqr_sum+=score*score;
-			rel_count+=1;
-
-			centroid_list.add(first_one);
-
+			centroid_list=new CentroidList(this);
 		}catch(Exception e){
 			e.printStackTrace();
 		}
@@ -116,39 +102,26 @@ public class Query{
 
 	
 	public boolean checkIn(Tweet t){
-		this.count++;
-		int check=new BigInteger(t.tweetid).compareTo(new BigInteger(first_one.tweet.tweetid));	
-		//System.out.println(this.tweetid);
-		if (check < 0){ // not reach the first element yet
-			Centroid new_cent=new Centroid(t);
-			new_cent.query_score=t.simScore(this);
+		Centroid new_cent=new Centroid(t);	
+		//Get the score of this tweet with this query
+		new_cent.tweet.score=t.simScore(this);
+		boolean judge=centroid_list.add(new_cent);
+		
+		//If want to check the fact:
+		if (Configure.CHECK_FACT && judge==true)
+				new_cent.relevant=Facts.check(this.num,t.tweetid);
 
-			//Here choose the farthest one:
+		return judge;
+		
+	}
 
-			//here choose the closet neg one as the first neg:
-			if (first_neg_centroid==null || new_cent.query_score > first_neg_centroid.query_score){
-				first_neg_centroid=new_cent;
-			}
-			t.score=0;
-			return false;
-		}else if (check == 0){
-			if (first_neg_centroid!=null){
-				first_neg_centroid.relevant=false;
-				centroid_list.add(first_neg_centroid);
-				System.out.println(t.tweetid);
-			}else{
-				System.out.println(this.num);
-			}
-			t.score=rel_score_sum/rel_count;
-			return true;
-		}
+	public String toString(){
+		return "tweetid:"+tweetid+" newesttweet:"+newesttweet+" num:"+num+"\n words:"+words;
+	}
+}
 
-		Centroid new_cent=new Centroid(t);
-		for (Centroid cent : centroid_list){
-			cent.score=cent.tweet.simScore(new_cent.tweet);
-		}
-		double vote=0;
-		/* This block is commented out because I adopt rachhio
+/* 	This block is commented out because I adopt rachhio
+		it belongs to checkIn method
 		//K nearst neighbour:
 		Collections.sort(centroid_list);
 		int top_len=Math.min(centroid_list.size(),k);
@@ -171,58 +144,4 @@ public class Query{
 
 		//Punish the vote score with similarity with query
 		vote=alpha*vote+(1-alpha)*t.simScore(this);
-		*/
-
-		vote=t.simScore(this);
-		new_cent.tweet.score=vote;
-		//System.out.println("result:"+t.tweetid+" "+vote);
-		double cutoff;
-		double avg=rel_score_sum/rel_count;
-		if (rel_count==1)
-			cutoff=avg;
-		else{
-			double ratio=(rel_count-1.0)/count;
-			cutoff=avg-0.3*Math.sqrt(    (rel_score_sqr_sum-avg*avg*rel_count) /  (rel_count-1)   );
-		}
-
-		//System.out.println(cutoff+"::"+vote);
-		if (t.tweetid.equals("29093916263321600")){
-			System.out.println(num+": "+cutoff+"   "+vote);
-		}
-
-		boolean judge; 
-		if ( vote > cutoff){
-			judge=true;
-			
-			//IF I check the FACT
-			if (Configure.CHECK_FACT)
-				new_cent.relevant=Facts.check(this.num,t.tweetid);
-			else
-				new_cent.relevant=true;
-			
-			if (new_cent.relevant){
-				rel_score_sum+=vote;
-				rel_score_sqr_sum+=vote*vote;
-				rel_count++;
-			}
-			//System.out.println(num+": "+cutoff);
-		}else{
-			judge=false;
-			new_cent.relevant=false;
-		}
-		//use vote score as the new score
-		new_cent.query_score=vote;
-		//use sim score as the new score
-			//new_cent.query_score=t.simScore(this);
-		if (new_cent.tweet.clean_tweet!=null)
-			centroid_list.add(new_cent);
-
-		//System.out.println("judge:"+new_cent.relevant+"\n");
-
-		return judge;
-	}
-
-	public String toString(){
-		return "tweetid:"+tweetid+" newesttweet:"+newesttweet+" num:"+num+"\n words:"+words;
-	}
-}
+*/

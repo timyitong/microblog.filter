@@ -98,16 +98,18 @@ public class LanSimScore implements SimScoreCalculator{
 		DocVector d2_ir=new DocVector();
 		int count_rel=0;
 		int count_ir=0;
-		for (Centroid cent :q.centroid_list){
-			if (cent.tweet.vector==null)
-				continue;
-			if (cent.relevant){
-				d2_rel.add(cent.tweet.vector);
-				count_rel++;
-			}else{
-				d2_ir.add(cent.tweet.vector);
-				count_ir++;
-			}	
+		if (q.centroid_list!=null){
+			for (Centroid cent :q.centroid_list.getList()){
+				if (cent.tweet.vector==null)
+					continue;
+				if (cent.relevant){
+					d2_rel.add(cent.tweet.vector);
+					count_rel++;
+				}else{
+					d2_ir.add(cent.tweet.vector);
+					count_ir++;
+				}	
+			}
 		}
 		d2_rel.multiply(b/count_rel);
 		d2_ir.multiply(c/count_ir);

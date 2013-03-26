@@ -57,9 +57,10 @@ public class DocVector implements VectorCalculator{
 	        Double f = entry.getValue();
 	        String term = entry.getKey();
 	        int df=wordStats.getTF(term);
-	        double idf=(total_oc+0.5-df)/(0.5+df);
+	        double idf=Math.log((total_oc+0.5-df)/(0.5+df));
 	        double tf=f/(f+k1*((1-b)+b*doc_length/avg_doc_length) );
 	        f=idf*tf;
+	        this.map.put(term,f);
 		}
 	}
 	public void add(DocVector d){
