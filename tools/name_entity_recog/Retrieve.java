@@ -24,12 +24,12 @@ public class Retrieve{
 		DBCollection coll=db.getCollection("queries");
 		DBCollection tweets=db.getCollection("tweets");
 
-		BufferedReader br=new BufferedReader(new FileReader(new File("queries_tagged.txt")));
+		BufferedReader br=new BufferedReader(new FileReader(new File("train.queries_tagged.txt")));
 		StringTokenizer st=new StringTokenizer(br.readLine());
 		br.close();
 
-		for (int i=2;i<=49;i++){
-			if (i%5==1) continue;
+		for (int i=1;i<=49;i++){
+			if (i%5!=1) continue;
 			String query_tag="MB"+nf.format(i);
 
 			BasicDBObject query=new BasicDBObject("num",query_tag);
@@ -47,7 +47,7 @@ public class Retrieve{
 				tag=tag.substring(tag.indexOf('/')+1,tag.length());
 				if (!tag.trim().equals("O")){
 					writeQueryFile(w);
-					String command="sh runqueryfile.sh temp.txt ../../data/_indri_inv/"+query_tag;
+					String command="sh runqueryfile.sh temp.txt ../../data/_indri_inv_train/"+query_tag;
 					System.out.println(command);
 					Process process=Runtime.getRuntime().exec(command);
 
