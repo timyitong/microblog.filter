@@ -77,6 +77,11 @@ public class Tweet{
 		return "tweetid:"+tweetid+" clean_tweet:"+clean_tweet;
 	}
 
+	public double simScore(Query q){
+
+		return Calculator.getInstance().sim.getSimScore(this,q,null);
+	}
+
 	public double simScore(Tweet t){
 		return Calculator.getInstance().sim.getSimScore(this,t);
 	}

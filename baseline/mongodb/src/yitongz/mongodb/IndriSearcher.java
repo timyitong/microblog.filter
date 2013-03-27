@@ -41,38 +41,43 @@ public class IndriSearcher{
 		}
 	}
 	private static void loadDocsFromIndri(){
-		Iterator <Query> it=QueryList.iterator();
-		while (it.hasNext()){
-			Query query=it.next();
+		try{
+			Iterator <Query> it=QueryList.iterator();
+			BufferedWriter bw=new BufferedWriter(new FileWriter(new File(Configure.TOPIREL_FILE)));
+			while (it.hasNext()){
+				Query query=it.next();
 
-			String command="sh runquery.sh temp.txt "+TOP_IR+" "+Configure.INV_LIST_FOLDER+query.num;
-			writeQueryFile(query.words);
-			
-			Process process=Runtime.getRuntime().exec(command);
-			BufferedReader br = new BufferedReader(new InputStreamReader(
-		                    process.getInputStream()));
-			process.waitFor();
+				String command="sh runquery.sh temp.txt "+TOP_IR+" "+Configure.INV_LIST_FOLDER+query.num;
+				writeQueryFile(query.words);
+				
+				Process process=Runtime.getRuntime().exec(command);
+				BufferedReader br = new BufferedReader(new InputStreamReader(
+			                    process.getInputStream()));
+				process.waitFor();
 
-			int j=0;
-			while (br.ready() && j<TOP_IR){
-				String s=br.readLine();
-				StringTokenizer st=new StringTokenizer(s);
-				st.nextToken();
-				st.nextToken();
-				String tid=st.nextToken(); // tweetid
-				if (doc_map==null){
-					doc_map=new HashMap < String,ArrayList<Centroid> > ();
+				int j=0;
+				while (br.ready() && j<TOP_IR){
+					String s=br.readLine();
+					StringTokenizer st=new StringTokenizer(s);
+					st.nextToken();
+					st.nextToken();
+					String tid=st.nextToken(); // tweetid
+					if (doc_map==null){
+						doc_map=new HashMap < String,ArrayList<Centroid> > ();
+					}
+					ArrayList <Centroid> list=doc_map.get(query.num);
+					if (list==null){
+						list=new ArrayList<Centroid>();
+						doc_map.put(query.num,list);
+					}
+					list.add(new Centroid(new Tweet(tid)));
+					bw.write(query.num+" "+tid);
+					bw.newLine();
+					j++;
 				}
-				ArrayList <Centroid> list=doc_map.get(query.num);
-				if (list==null){
-					list=new ArrayList<Centroid>();
-					doc_map.put(query.num,list);
-				}
-				list.add(new Centroid(new Tweet(tid)));
-				System.out.println(query.num+" "+tid);
-				j++;
 			}
-		}
+			bw.close();
+		}catch(Exception e){e.printStackTrace();}
 	}
 	private static void writeQueryFile(String s){
 		try{

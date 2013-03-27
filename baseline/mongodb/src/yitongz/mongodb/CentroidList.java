@@ -9,57 +9,111 @@ import java.io.*;
 
 public class CentroidList{
 	public ArrayList <ArrayList<Centroid>> collections=new ArrayList <ArrayList<Centroid>> ();
+	public ArrayList <Counter> counter_list=new ArrayList <Counter>();
+	public static double INIT_WEIGHT=0.1;
+	public static int SLAVE_NUM=1;
+
 
 	private Query query;
-
-	private static double pace=2.5;
-	//used to calculate the positive cutoff
-	public HashMap <Integer,Counter> pos_counters = new HashMap <Integer,Counter>();
-	//used to calculate the negative cutoff
-	public HashMap <Integer,Counter> neg_counters = new HashMap <Integer,Counter>();
 
 	public CentroidList (Query q){
 		this.query=q;
 		
-		CentroidFactory factory=new CentroidFactory(this);
+		init_MasterSlave();
+	}
+	private void init_MasterSlave(){
+		ArrayList<Centroid> n_list=IndriSearcher.getTopDocs(this.query.num,SLAVE_NUM+1);
 		
-		ArrayList<Centroid> n_list=IndriSearcher.getTopDocs(this.query.num,1);
-		factory.addNeg(n_list);
-		factory.submit();
+		//First init master:
+		ArrayList<Centroid> l1=new ArrayList<Centroid>();
+		collections.add(l1);
+		Counter counter=new Counter();
+		counter_list.add(counter);
+		counter.initWeight(0.9);
+
+		Centroid first_p=new Centroid(new Tweet(query.tweetid));
+		l1.add(first_p);
+		first_p.relevant=true;
+		first_p.tweet.score=first_p.tweet.simScore(query);
+		counter.addPos(first_p.tweet.score);
+
+		Centroid first_n=n_list.get(0);
+		l1.add(first_n);
+		first_n.relevant=false;
+		first_n.tweet.score=first_n.tweet.simScore(query);
+		counter.addNeg(first_n.tweet.score);
+
+		//Then init slaves:
+		for (int i=0;i<SLAVE_NUM;i++){
+			ArrayList<Centroid> l=new ArrayList<Centroid>();
+			collections.add(l);
+			Counter counter=new Counter();
+			counter_list.add(counter);
+			counter.initWeight(0.1);
+
+			Centroid first_n=n_list.get(i+1);
+			l.add(first_n);
+			first_n.relevant=false;
+			first_n.tweet.score=first_n.tweet.simScore(query);
+			counter.addNeg(first_n.tweet.score);
+		}
 	}
 	public double getScore(Centroid c){
 		double score=0;
+		double score_init=0;
+		double w=0;
+		double w_init=0;
+		//bagging the scores:
 		for (int i=0;i<collections.size();i++){
 			ArrayList <Centroid> list=collections.get(i);
+			Counter counter=counter_list.get(i);
 			//getSimScore: Tweet t, Query q, ArrayList<Centroid> list
-			score+=Calculator.getInstance().sim.getSimScore(c.tweet,this,list);
-		}
-		//bagging the scores:
-		score=score/collections.size();
-		return score;
-	}
-	public boolean add(Centroid c){
-		double diff=9999;
-		int possible_index=-1;
-		double score=0;
-		for (int i=0;i<collections.size();i++){
-			double cutoff=avg_cutoff(i);
-			score+=cutoff;
-			double new_diff=Math.abs(c.tweet.score-cutoff);
-			if (new_diff<diff){
-				diff=new_diff;
-				possible_index=i;
+			double ss=Calculator.getInstance().sim.getSimScore(c.tweet,this,list)
+			if (counter.hasStd()){
+				double ww=Math.exp(-counter.std());
+				w+=ww;
+				score+=ww*ss;
+			}else{
+				double ww=counter.initWeight();
+				w_init+=ww;
+				score_init+=ww*ss;
 			}
 		}
+		score=score/w;
+		score_init=score_init/w_init;
+		return (1-INIT_WEIGHT)*score+INIT_WEIGHT*score_init;
+	}
+	public boolean add(Centroid c){
+		double score=0;
+		double score_init=0;
+		double w=0;
+		double w_init=0;
 		//bagging the  cutoff scores
-		/*NOTICE: maybe not necessarily we need to bag the cutoff*/
-		score=score/collections.size();
-		boolean judge= (c.tweet.score>score);
+		for (int i=0;i<collections.size();i++){
+			Counter counter=counter_list.get(i);
+			double ss=counter.cutoff();
+			if (counter.hasStd()){
+				double ww=Math.exp(-counter.std());
+				w+=ww;
+				score+=ww*ss;
+			}else{
+				double ww=counter.initWeight();
+				w_init+=ww;
+				score_init+=ww*ss;
+			}
+		}
+		score=score/w;
+		score_init=score_init/w_init;
+		double final_cutoff=(1-INIT_WEIGHT)*score+INIT_WEIGHT*score_init;
+		//--finished bagging
+
+		//--Get the Judgement
+		boolean judge = (c.tweet.score>score);
 
 		int check=first_pos_id.compareTo(new BigInteger(c.tweet.tweetid));
 		if (check>0){
 			//it is before the first rel tweet, definitely is negative one
-			addNeg(c,possible_index);
+			addNeg(c);
 			return false;
 		}else if (check==0){
 			//This is VERY SPECIAL SITUATION BECAUSE THIS TWEET is already added
@@ -67,58 +121,80 @@ public class CentroidList{
 		}else{
 			if (judge){
 			//RELEVANT:
-				addPos(c,possible_index);
+				addPos(c);
 				return true;
 			}else{
 			//IRRELEVANT:
-				addNeg(c,possible_index);
+				addNeg(c);
 				return false;
 			}
 		}
+	}
+	//Still need to check which one to add
+	private void addPos(Centroid c){
+		int k_init=-1;
+		double diff_init=-999;
+		int k=-1;
+		double diff=-999;
+		for (int i=0;i<collections.size();i++){
+			Counter counter=counter_list.get(i);
+			double ss=stdDiffPos(c.tweet.score);
+			if (counter.hasStd()){
+				if (ss>diff){
+					k=i;
+					diff=ss;
+				}
+			}else{
+				if (ss>diff_init){
+					k_init=i;
+					diff_init=ss;
+				}
+			}
+		}
+		if (k_init>=0)
+			addPos(c,k_init);
+		else
+			addPos(c,k);
+	}
+	private void addNeg(Centroid c){
+		int k_init=-1;
+		double diff_init=-999;
+		int k=-1;
+		double diff=-999;
+		for (int i=0;i<collections.size();i++){
+			Counter counter=counter_list.get(i);
+			double ss=stdDiffNeg(c.tweet.score);
+			if (counter.hasStd()){
+				if (ss>diff){
+					k=i;
+					diff=ss;
+				}
+			}else{
+				if (ss>diff_init){
+					k_init=i;
+					diff_init=ss;
+				}
+			}
+		}
+		if (k_init>=0)
+			addNeg(c,k_init);
+		else
+			addNeg(c,k);
 	}
 	private void addPos(Centroid c, int index){
 		c.relevant=true;
 		ArrayList<Centroid> list=collections.get(index);
 		list.add(c);
 
-		Counter counter=pos_counters.get(index);
-		counter.add(c.tweet.score);
+		Counter counter=counter_list.get(index);
+		counter.addPos(c.tweet.score);
 	}
 	private void addNeg(Centroid c, int index){
 		c.relevant=false;
 		ArrayList<Centroid> list=collections.get(index);
 		list.add(c);
 
-		Counter counter=neg_counters.get(index);
-		counter.add(c.tweet.score);
-	}
-	private double avg_cutoff(int index){
-		return (pos_cutoff(index)+neg_cutoff(index))/2;
-	}
-	private double neg_cutoff(int index){
-		Counter counter=neg_counters.get(index);
-		int count=couter.count()+pos_counters.get(index).count();
-		double avg=counter.avg();
-		double cutoff=0;
-		if (counter.count()==1)
-			cutoff=avg;
-		else{
-			double ratio=pace*(counter.count()-1.0)/count;
-			cutoff=avg+(ratio*counter.std());
-		}
-		return cutoff;
-	}
-	private double pos_cutoff(int index){
-		Counter counter=pos_counters.get(index);
-		int count=couter.count()+neg_counters.get(index).count();
-		double avg=counter.avg();
-		double cutoff=0;
-		if (counter.count()==1)
-			cutoff=avg;
-		else{
-			double ratio=pace*(counter.count()-1.0)/count;
-			cutoff=avg-(ratio*counter.std());
-		}
-		return cutoff;
+		Counter counter=counter_list.get(index);
+		counter.addNeg(c.tweet.score);
 	}
 }
