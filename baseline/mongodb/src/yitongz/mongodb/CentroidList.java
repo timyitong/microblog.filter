@@ -8,198 +8,117 @@ import java.math.BigInteger;
 import java.io.*;
 
 public class CentroidList{
-	private ArrayList <Centroid> centroid_list;
+	public ArrayList <ArrayList<Centroid>> collections=new ArrayList <ArrayList<Centroid>> ();
+
 	private Query query;
-	private String first_pos;
-	private BigInteger first_pos_id;
-	private int k=10;
-	private static boolean RESET_TOP=false;
-	private static HashMap < String,ArrayList<Centroid> > irmap=null;
-	private static int TOP_IR=1;
 
-	private int count=0;
-	private double pace=2.5;
+	private static double pace=2.5;
 	//used to calculate the positive cutoff
-	private int rel_count=0;
-	private double rel_score_sum=0;
-	private double rel_score_sqr_sum=0;
-
+	public HashMap <Integer,Counter> pos_counters = new HashMap <Integer,Counter>();
 	//used to calculate the negative cutoff
-	private int ir_count=0;
-	private double ir_score_sum=0;
-	private double ir_score_sqr_sum=0;
+	public HashMap <Integer,Counter> neg_counters = new HashMap <Integer,Counter>();
 
 	public CentroidList (Query q){
-		first_pos=q.tweetid;
-		first_pos_id=new BigInteger(q.tweetid);
 		this.query=q;
-		centroid_list=new ArrayList <Centroid>();
-		Tweet query_tweet=new Tweet(q.tweetid);
-		if (query_tweet.tweetid==null)
-			System.out.println(q.tweetid);
-		Centroid first_one=new Centroid(query_tweet);
-		first_one.score=first_one.tweet.simScore(query);
-		addPos(first_one);
-
-		getTopIREL();
+		
+		CentroidFactory factory=new CentroidFactory(this);
+		
+		ArrayList<Centroid> n_list=IndriSearcher.getTopDocs(this.query.num,1);
+		factory.addNeg(n_list);
+		factory.submit();
 	}
-	public ArrayList <Centroid> getList(){
-		return this.centroid_list;
-	}
-	public void correct(Centroid nc){
-		if (!Facts.check(query.num,nc.tweet.tweetid)){
-			Iterator <Centroid> it=centroid_list.iterator();
-			while (it.hasNext()){
-				if (it.next().tweet.tweetid.equals(nc.tweet.tweetid)){
-					it.remove();
-					nc.relevant=false;
-					rel_score_sqr_sum-=nc.tweet.score;
-					rel_score_sum-=nc.tweet.score;
-					rel_count--;
-					count--;
-					addNeg(nc);
-					break;
-				}
-			}
+	public double getScore(Centroid c){
+		double score=0;
+		for (int i=0;i<collections.size();i++){
+			ArrayList <Centroid> list=collections.get(i);
+			//getSimScore: Tweet t, Query q, ArrayList<Centroid> list
+			score+=Calculator.getInstance().sim.getSimScore(c.tweet,this,list);
 		}
-	}
-	private void getTopIREL(){
-		try{
-			if (RESET_TOP){ // IF we need reset
-				String command="sh runquery.sh temp.txt "+TOP_IR+" "+Configure.INV_LIST_FOLDER+query.num;
-				writeQueryFile(query.words);
-				
-				Process process=Runtime.getRuntime().exec(command);
-				BufferedReader br = new BufferedReader(new InputStreamReader(
-			                    process.getInputStream()));
-				process.waitFor();
-
-				int j=0;
-				while (br.ready() && j<TOP_IR){
-					String s=br.readLine();
-					StringTokenizer st=new StringTokenizer(s);
-					st.nextToken();
-					st.nextToken();
-					String tid=st.nextToken(); // tweetid
-					if (irmap==null){
-						irmap=new HashMap < String,ArrayList<Centroid> > ();
-					}
-					ArrayList <Centroid> list=irmap.get(query.num);
-					if (list==null){
-						list=new ArrayList<Centroid>();
-						irmap.put(query.num,list);
-					}
-					list.add(new Centroid(new Tweet(tid)));
-					System.out.println(query.num+" "+tid);
-					j++;
-				}
-			}else{ //IF we do not need reset
-				if (irmap==null){ // if not read in yet
-					irmap=new HashMap < String,ArrayList<Centroid> > ();
-					BufferedReader br=new BufferedReader(new FileReader(new File(Configure.TOPIREL_FILE)));
-					String line=null;
-					while ((line=br.readLine())!=null){
-						StringTokenizer st=new StringTokenizer(line);
-						String tag=st.nextToken();
-						String tweetid=st.nextToken();
-						ArrayList<Centroid> list=irmap.get(tag);
-						if (list==null){
-							list=new ArrayList<Centroid>();
-							irmap.put(tag,list);
-						}
-						list.add(  new Centroid(new Tweet(tweetid)) );
-					}
-				}
-			}
-			ArrayList<Centroid> list=irmap.get(query.num);
-			if (list!=null){
-				for (Centroid c: list){
-					c.score=c.tweet.simScore(this.query);
-					c.relevant=false;
-				}
-				Collections.sort(list);
-				int i=0;
-				for (Centroid c: list){
-					if (i>=TOP_IR) break;
-					centroid_list.add(c);
-					i++;
-				}
-			}																				
-		}catch(Exception e){e.printStackTrace();}
+		//bagging the scores:
+		score=score/collections.size();
+		return score;
 	}
 	public boolean add(Centroid c){
+		double diff=9999;
+		int possible_index=-1;
+		double score=0;
+		for (int i=0;i<collections.size();i++){
+			double cutoff=avg_cutoff(i);
+			score+=cutoff;
+			double new_diff=Math.abs(c.tweet.score-cutoff);
+			if (new_diff<diff){
+				diff=new_diff;
+				possible_index=i;
+			}
+		}
+		//bagging the  cutoff scores
+		/*NOTICE: maybe not necessarily we need to bag the cutoff*/
+		score=score/collections.size();
+		boolean judge= (c.tweet.score>score);
+
 		int check=first_pos_id.compareTo(new BigInteger(c.tweet.tweetid));
 		if (check>0){
 			//it is before the first rel tweet, definitely is negative one
-			addNeg(c);
+			addNeg(c,possible_index);
 			return false;
 		}else if (check==0){
-			//during initialization, we have already added the first tweet
+			//This is VERY SPECIAL SITUATION BECAUSE THIS TWEET is already added
 			return true;
 		}else{
-			double pos_cutoff=this.cutoff();
-			double neg_cutoff=this.neg_cutoff();
-			//System.out.println(pos_cutoff+"::"+neg_cutoff);
-			if (c.tweet.score>(pos_cutoff+neg_cutoff)/2){
-				addPos(c);
+			if (judge){
+			//RELEVANT:
+				addPos(c,possible_index);
 				return true;
 			}else{
-				addNeg(c);
+			//IRRELEVANT:
+				addNeg(c,possible_index);
 				return false;
 			}
 		}
 	}
-	private void addPos(Centroid c){
+	private void addPos(Centroid c, int index){
 		c.relevant=true;
-		centroid_list.add(c);
-		rel_score_sqr_sum+=c.tweet.score*c.tweet.score;
-		rel_score_sum+=c.tweet.score;
-		rel_count++;
-		count++;
-	}
-	private void addNeg(Centroid c){
-		c.relevant=false;
-			centroid_list.add(c);
-			ir_score_sqr_sum+=c.tweet.score*c.tweet.score;
-			ir_score_sum+=c.tweet.score;
-			ir_count++;
-			count++;
-	}
-	private double neg_cutoff(){
-		double avg=ir_score_sum/ir_count;
-		double cutoff=0;
-		if (ir_count==1)
-			cutoff=avg;
-		else{
-			double ratio=pace*(ir_count-1.0)/count;
-			cutoff=avg+(ratio*Math.sqrt(    (ir_score_sqr_sum-avg*avg*ir_count) /  (ir_count-1)   ) );
-		}
-		return cutoff;
-	}
-	private double cutoff(){
-		double avg=rel_score_sum/rel_count;
-		double cutoff=0;
-		if (rel_count==1)
-			cutoff=avg;
-		else{
-			double ratio=pace*(rel_count-1.0)/count;
-			cutoff=avg-(ratio*Math.sqrt(    (rel_score_sqr_sum-avg*avg*rel_count) /  (rel_count-1)   ) );
-		}
-		return cutoff;
-	}
-	private void writeQueryFile(String s){
-		try{
-			s=s.replaceAll("[^A-Za-z0-9\\s]","").trim();
-			BufferedWriter bw=new BufferedWriter(new FileWriter(new File("temp.txt")));
-			bw.write("");
-			bw.write("<parameters><query><number>000</number><text>");
-			bw.newLine();
-			bw.write(s);
-			bw.newLine();
-			bw.write("</text></query></parameters>");
-			bw.newLine();
+		ArrayList<Centroid> list=collections.get(index);
+		list.add(c);
 
-			bw.close();
-		}catch(Exception e){e.printStackTrace();}
+		Counter counter=pos_counters.get(index);
+		counter.add(c.tweet.score);
+	}
+	private void addNeg(Centroid c, int index){
+		c.relevant=false;
+		ArrayList<Centroid> list=collections.get(index);
+		list.add(c);
+
+		Counter counter=neg_counters.get(index);
+		counter.add(c.tweet.score);
+	}
+	private double avg_cutoff(int index){
+		return (pos_cutoff(index)+neg_cutoff(index))/2;
+	}
+	private double neg_cutoff(int index){
+		Counter counter=neg_counters.get(index);
+		int count=couter.count()+pos_counters.get(index).count();
+		double avg=counter.avg();
+		double cutoff=0;
+		if (counter.count()==1)
+			cutoff=avg;
+		else{
+			double ratio=pace*(counter.count()-1.0)/count;
+			cutoff=avg+(ratio*counter.std());
+		}
+		return cutoff;
+	}
+	private double pos_cutoff(int index){
+		Counter counter=pos_counters.get(index);
+		int count=couter.count()+neg_counters.get(index).count();
+		double avg=counter.avg();
+		double cutoff=0;
+		if (counter.count()==1)
+			cutoff=avg;
+		else{
+			double ratio=pace*(counter.count()-1.0)/count;
+			cutoff=avg-(ratio*counter.std());
+		}
+		return cutoff;
 	}
 }

@@ -104,14 +104,13 @@ public class Query{
 	
 	public boolean checkIn(Tweet t){
 		Centroid new_cent=new Centroid(t);	
-		//Get the score of this tweet with this query
-		new_cent.tweet.score=t.simScore(this);
+		
+		//Ask centroid the score
+		double score=centroid_list.getScore(new_cent);
+		new_cent.tweet.score=score;
+		//Add into centroid
 		boolean judge=centroid_list.add(new_cent);
 		
-		//If want to check the fact:
-		if (Configure.CHECK_FACT && judge==true)
-			centroid_list.correct(new_cent);
-
 		return judge;
 		
 	}
