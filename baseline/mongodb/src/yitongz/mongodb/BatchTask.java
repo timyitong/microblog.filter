@@ -10,6 +10,7 @@ public class BatchTask{
 		run();
 	}
 	private void run(){
+		Printer.newPrinter();
 		for (int i=Configure.QUERY_START;i<=Configure.QUERY_END ;i++){
 			ArrayList<Tweet> resultList=new ArrayList<Tweet> ();
 			Stack<Tweet> resultStack=new Stack<Tweet>();

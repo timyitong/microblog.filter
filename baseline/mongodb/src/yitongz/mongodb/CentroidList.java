@@ -10,8 +10,8 @@ import java.io.*;
 public class CentroidList{
 	public ArrayList <ArrayList<Centroid>> collections=new ArrayList <ArrayList<Centroid>> ();
 	public ArrayList <Counter> counter_list=new ArrayList <Counter>();
-	public static double INIT_WEIGHT=0.1;
-	public static int SLAVE_NUM=1;
+	public static double INIT_WEIGHT=Configure.INIT_WEIGHT;
+	public static int SLAVE_NUM=Configure.SLAVE_NUM;
 
 
 	private Query query;
@@ -30,35 +30,41 @@ public class CentroidList{
 		Counter counter=new Counter();
 		counter_list.add(counter);
 		counter.initWeight(0.9);
-
+		
 		Centroid first_p=new Centroid(new Tweet(query.tweetid));
 		l1.add(first_p);
 		first_p.relevant=true;
 		first_p.tweet.score=first_p.tweet.simScore(query);
 		counter.addPos(first_p.tweet.score);
-
-		Centroid first_n=n_list.get(0);
-		l1.add(first_n);
-		first_n.relevant=false;
-		first_n.tweet.score=first_n.tweet.simScore(query);
-		counter.addNeg(first_n.tweet.score);
-
+		
+		if (n_list!=null && n_list.size()>0){
+			Centroid first_n=n_list.get(0);
+			l1.add(first_n);
+			first_n.relevant=false;
+			//first_n.tweet.score=first_n.tweet.simScore(query);
+			first_n.tweet.score=Calculator.getInstance().sim.getSimScore(first_n.tweet,query,l1);
+			counter.addNeg(first_n.tweet.score);
+		}
 		//Then init slaves:
 		for (int i=0;i<SLAVE_NUM;i++){
 			ArrayList<Centroid> l=new ArrayList<Centroid>();
 			collections.add(l);
-			Counter counter=new Counter();
-			counter_list.add(counter);
-			counter.initWeight(0.1);
+			Counter slave_counter=new Counter();
+			counter_list.add(slave_counter);
+			slave_counter.initWeight(0.1);
 
-			Centroid first_n=n_list.get(i+1);
-			l.add(first_n);
-			first_n.relevant=false;
-			first_n.tweet.score=first_n.tweet.simScore(query);
-			counter.addNeg(first_n.tweet.score);
+			if (n_list!=null && n_list.size()-i-1>0){
+				Centroid slave_n=n_list.get(i+1);
+				l.add(slave_n);
+				slave_n.relevant=false;
+				slave_n.tweet.score=slave_n.tweet.simScore(query);
+				slave_counter.addNeg(slave_n.tweet.score);
+			}
 		}
 	}
 	public double getScore(Centroid c){
+		int count=0;
+		int count_init=0;
 		double score=0;
 		double score_init=0;
 		double w=0;
@@ -68,22 +74,42 @@ public class CentroidList{
 			ArrayList <Centroid> list=collections.get(i);
 			Counter counter=counter_list.get(i);
 			//getSimScore: Tweet t, Query q, ArrayList<Centroid> list
-			double ss=Calculator.getInstance().sim.getSimScore(c.tweet,this,list)
+			double ss=Calculator.getInstance().sim.getSimScore(c.tweet,query,list);
+			double ww=counter.cutoff();
+			w+=ww;
+			score+=ww*ss;
+			count++;
+			/*
 			if (counter.hasStd()){
-				double ww=Math.exp(-counter.std());
+				double ww=counter.cutoff();
 				w+=ww;
 				score+=ww*ss;
+				count++;
 			}else{
 				double ww=counter.initWeight();
 				w_init+=ww;
 				score_init+=ww*ss;
-			}
+				count_init++;
+			}*/
 		}
-		score=score/w;
-		score_init=score_init/w_init;
-		return (1-INIT_WEIGHT)*score+INIT_WEIGHT*score_init;
+		if (w!=0)
+			score=score/w;
+		if (w_init!=0)
+			score_init=score_init/w_init;
+		//double final_score=(count*score+count_init*score_init)/(count+count_init);
+		double final_score=0;
+		if (w!=0 && w_init!=0)
+			final_score=(1-INIT_WEIGHT)*score+INIT_WEIGHT*score_init;
+		else if (w==0)
+			final_score=score_init;
+		else if (w_init==0)
+			final_score=score;
+		
+		return final_score;
 	}
 	public boolean add(Centroid c){
+		int count=0;
+		int count_init=0;
 		double score=0;
 		double score_init=0;
 		double w=0;
@@ -96,21 +122,28 @@ public class CentroidList{
 				double ww=Math.exp(-counter.std());
 				w+=ww;
 				score+=ww*ss;
+				count++;
 			}else{
 				double ww=counter.initWeight();
 				w_init+=ww;
 				score_init+=ww*ss;
+				count_init++;
 			}
 		}
-		score=score/w;
-		score_init=score_init/w_init;
+		if (w!=0)
+			score=score/w;
+		if (w_init!=0)
+			score_init=score_init/w_init;
+		//double final_cutoff=(count*score+count_init*score_init)/(count+count_init);
 		double final_cutoff=(1-INIT_WEIGHT)*score+INIT_WEIGHT*score_init;
+		
 		//--finished bagging
 
 		//--Get the Judgement
 		boolean judge = (c.tweet.score>score);
 
-		int check=first_pos_id.compareTo(new BigInteger(c.tweet.tweetid));
+		//CHECK whether this query is too early
+		int check=new BigInteger(query.tweetid).compareTo(new BigInteger(c.tweet.tweetid));
 		if (check>0){
 			//it is before the first rel tweet, definitely is negative one
 			addNeg(c);
@@ -138,7 +171,7 @@ public class CentroidList{
 		double diff=-999;
 		for (int i=0;i<collections.size();i++){
 			Counter counter=counter_list.get(i);
-			double ss=stdDiffPos(c.tweet.score);
+			double ss=counter.stdDiffPos(c.tweet.score);
 			if (counter.hasStd()){
 				if (ss>diff){
 					k=i;
@@ -163,7 +196,7 @@ public class CentroidList{
 		double diff=-999;
 		for (int i=0;i<collections.size();i++){
 			Counter counter=counter_list.get(i);
-			double ss=stdDiffNeg(c.tweet.score);
+			double ss=counter.stdDiffNeg(c.tweet.score);
 			if (counter.hasStd()){
 				if (ss>diff){
 					k=i;

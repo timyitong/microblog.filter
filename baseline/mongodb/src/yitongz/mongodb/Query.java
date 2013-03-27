@@ -119,29 +119,3 @@ public class Query{
 		return "tweetid:"+tweetid+" newesttweet:"+newesttweet+" num:"+num+"\n words:"+words;
 	}
 }
-
-/* 	This block is commented out because I adopt rachhio
-		it belongs to checkIn method
-		//K nearst neighbour:
-		Collections.sort(centroid_list);
-		int top_len=Math.min(centroid_list.size(),k);
-		ArrayList <Centroid> top_k_list=new ArrayList <Centroid> (centroid_list.subList(0,top_len));
-		
-		//K nearst neighbour:voting
-		
-		double sim_sum=0;
-
-		int rel=0;
-		for (Centroid cent : top_k_list){
-			vote+=cent.score*cent.query_score;
-			sim_sum+=cent.score;
-			//System.out.println("score:"+cent.score+" hostid:"+cent.tweet.tweetid+" vote:"+vote);
-		}
-		if (sim_sum!=0)
-			vote=vote/sim_sum;
-		else
-			vote=0;
-
-		//Punish the vote score with similarity with query
-		vote=alpha*vote+(1-alpha)*t.simScore(this);
-*/

@@ -1,18 +1,33 @@
 package yitongz.mongodb;
 //The Counter for any L0, L1, L2 stats counting needs
 public class Counter{
-	private static double PACE=2.5;
+	private static double PACE=0.7;
 
 	int count=0;
-	double rel_count=0;
+
+	int rel_count=0;
 	double rel_sum=0;
 	double rel_sqr_sum=0;
 
-	double ir_count=0;
+	int ir_count=0;
 	double ir_sum=0;
 	double ir_sqr_sum=0;
 
+	String firstPos=null;
 	double init_weight=0;
+
+	public String toString(){
+		String s="count: "+count+" rel:"+rel_count+" ir:"+ir_count+"\n"
+				+"sum: rel "+rel_sum+" ir "+ir_sum+"\n"
+				+"sqr: rel "+rel_sqr_sum+" ir "+ir_sqr_sum;
+		return s;
+	}
+	void firstPos(String s){
+		firstPos=s;
+	}
+	String firstPos(){
+		return firstPos;
+	}
 	void addPos(double s){
 		count++;
 		
@@ -21,11 +36,13 @@ public class Counter{
 		rel_sqr_sum+=s*s;
 	}
 	void addNeg(double s){
+		//if (ir_count*1.0/count <=0.9){
 		count++;
 
 		ir_count++;
 		ir_sum+=s;
 		ir_sqr_sum+=s*s;
+		//}
 	}
 	void removePos(double s){
 		count--;
@@ -63,36 +80,41 @@ public class Counter{
 		return Math.sqrt( 	(rel_sqr_sum-rel_count*avg*avg)/(rel_count-1) 	);
 	}
 	double stdNeg(){
-		double avg=avgPos();
-		return Math.sqrt( 	(rel_sqr_sum-rel_count*avg*avg)/(rel_count-1) 	);
+		double avg=avgNeg();
+		return Math.sqrt( 	(ir_sqr_sum-ir_count*avg*avg)/(ir_count-1) 	);
 	}
 	double stdDiffPos(double s){
-		if (rel_count<=1)
+		if (rel_count<=2)
 			return 999;
 
 		double old_s=stdPos();
+		double old_u=avgPos();
 		addPos(s);
 		double new_s=stdPos();
+		double new_u=avgPos();
 		removePos(s);
-		return old_s-new_s;
+		return rel_count/count*(old_s-new_s);
 	}
 	double stdDiffNeg(double s){
-		if (ir_count<=1)
+		if (ir_count<=2)
 			return 999;
 
 		double old_s=stdNeg();
+		double old_u=avgNeg();
 		addNeg(s);
 		double new_s=stdNeg();
+		double new_u=avgNeg();
 		removeNeg(s);
-		return old_s-new_s;
+		return ir_count/count*(old_s-new_s);
 	}
 	double cutoff(){
 		return (cutoffPos()+cutoffNeg())/2;
 	}
-	double cutoffNeg(int index){
+	double cutoffNeg(){
 		if (countNeg()==0)
 			return 0;
 
+		double cutoff;
 		if (countNeg()==1)
 			cutoff=avgNeg();
 		else{
@@ -101,10 +123,11 @@ public class Counter{
 		}
 		return cutoff;
 	}
-	double cutoffPos(int index){
+	double cutoffPos(){
 		if (countPos()==0)
 			return 0;
 
+		double cutoff;
 		if (countPos()==1)
 			cutoff=avgPos();
 		else{
@@ -123,6 +146,8 @@ public class Counter{
 		this.init_weight=w;
 	}
 	double initWeight(){
+		//double r=0.1;
+		//return (1-r)*avgPos()+r*avgNeg();
 		return this.init_weight;
 	}
 }

@@ -3,6 +3,7 @@ package yitongz.mongodb;
 import java.util.LinkedList;
 import java.util.Hashtable;
 import java.util.StringTokenizer;
+import java.util.ArrayList;
 import java.lang.Math;
 
 public class RochhioSimScore implements SimScoreCalculator{

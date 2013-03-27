@@ -1,6 +1,12 @@
 package yitongz.mongodb;
+import java.util.ArrayList;
+import java.io.*;
+import java.util.HashMap;
+import java.util.StringTokenizer;
+import java.util.Iterator;
+import java.util.Collections;
 public class IndriSearcher{
-	private static boolean RESET_TOP=true;
+	private static boolean RESET_TOP=false;
 	private static HashMap <String,ArrayList<Centroid> > doc_map=null;
 	private static int TOP_IR=1000;
 	public static ArrayList<Centroid> getTopDocs(String query_tag,int k){
@@ -12,7 +18,14 @@ public class IndriSearcher{
 			}else if (doc_map==null) //IF no need reset and not loaded yet
 				loadDocsFromFile();
 
-			ArrayList<Centroid> list=doc_map.get(query.num);
+			ArrayList<Centroid> list=doc_map.get(query_tag);
+			if (list==null)
+				return null;
+			
+			//Uniformly shuffle the docs:
+			//list=new ArrayList<Centroid>(list.subList(0,Math.min(list.size(),(int)(k*2.038) )) );
+			//Collections.shuffle(list);
+			
 			Iterator <Centroid> it=list.iterator();
 			int j=0;
 			while (it.hasNext() && j<k){
@@ -25,20 +38,22 @@ public class IndriSearcher{
 		return result_list;
 	}
 	private static void loadDocsFromFile(){
-		doc_map=new HashMap < String,ArrayList<Centroid> > ();
-		BufferedReader br=new BufferedReader(new FileReader(new File(Configure.TOPIREL_FILE)));
-		String line=null;
-		while ((line=br.readLine())!=null){
-			StringTokenizer st=new StringTokenizer(line);
-			String tag=st.nextToken();
-			String tweetid=st.nextToken();
-			ArrayList<Centroid> list=doc_map.get(tag);
-			if (list==null){
-				list=new ArrayList<Centroid>();
-				doc_map.put(tag,list);
+		try{
+			doc_map=new HashMap < String,ArrayList<Centroid> > ();
+			BufferedReader br=new BufferedReader(new FileReader(new File(Configure.TOPIREL_FILE)));
+			String line=null;
+			while ((line=br.readLine())!=null){
+				StringTokenizer st=new StringTokenizer(line);
+				String tag=st.nextToken();
+				String tweetid=st.nextToken();
+				ArrayList<Centroid> list=doc_map.get(tag);
+				if (list==null){
+					list=new ArrayList<Centroid>();
+					doc_map.put(tag,list);
+				}
+				list.add(  new Centroid(new Tweet(tweetid)) );
 			}
-			list.add(  new Centroid(new Tweet(tweetid)) );
-		}
+		}catch(Exception e){e.printStackTrace();}
 	}
 	private static void loadDocsFromIndri(){
 		try{
@@ -48,6 +63,7 @@ public class IndriSearcher{
 				Query query=it.next();
 
 				String command="sh runquery.sh temp.txt "+TOP_IR+" "+Configure.INV_LIST_FOLDER+query.num;
+				System.out.println(command);
 				writeQueryFile(query.words);
 				
 				Process process=Runtime.getRuntime().exec(command);
@@ -58,6 +74,10 @@ public class IndriSearcher{
 				int j=0;
 				while (br.ready() && j<TOP_IR){
 					String s=br.readLine();
+
+					if (j==0)
+						System.out.println(s);
+
 					StringTokenizer st=new StringTokenizer(s);
 					st.nextToken();
 					st.nextToken();

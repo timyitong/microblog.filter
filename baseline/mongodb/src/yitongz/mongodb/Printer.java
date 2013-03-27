@@ -20,6 +20,11 @@ public class Printer{
 			}
 		}catch(Exception e){e.printStackTrace();}
 	}
+	public static void newPrinter(){
+		try{
+			bw=new BufferedWriter(new FileWriter(new File(output_url+System.currentTimeMillis()+".txt")));
+		}catch(Exception e){e.printStackTrace();}
+	}
 	public static void close(){
 		try{
 			bw.close();
