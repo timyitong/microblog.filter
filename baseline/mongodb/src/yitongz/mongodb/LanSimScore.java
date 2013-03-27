@@ -111,8 +111,12 @@ public class LanSimScore implements SimScoreCalculator{
 				}	
 			}
 		}
-		d2_rel.multiply(b/count_rel);
-		d2_ir.multiply(c/count_ir);
+		//We do not use the typical Rochhio para setting
+		//d2_rel.multiply(b/count_rel);
+		//d2_ir.multiply(c/count_ir);
+		
+		d2_rel.multiply(1);
+		d2_ir.multiply(1);
 		DocVector d2=new DocVector();
 		d2.add(q.vector);
 		d2.multiply(a);

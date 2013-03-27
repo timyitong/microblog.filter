@@ -73,6 +73,7 @@ public class DocVector implements VectorCalculator{
 	        	map.put(term,f);
 	        }else{
 	        	new_f=new_f+f;
+	        	//map.put(term,new_f); //ADD LINE PUT
 	        }
 		}
 	}
@@ -86,6 +87,7 @@ public class DocVector implements VectorCalculator{
 	        	map.put(term,0-f);
 	        }else{
 	        	new_f=new_f-f;
+	        	//map.put(term,new_f); //ADD LINE PUT
 	        }
 		}	
 	}
@@ -95,6 +97,7 @@ public class DocVector implements VectorCalculator{
 	        String term = entry.getKey();
 
 	        f=f*c;
+	        map.put(term,f); //ADD LINE PUT
 		}
 	}
 	public double innerProduct(DocVector d){
@@ -122,5 +125,14 @@ public class DocVector implements VectorCalculator{
 	        mod+=f*f;
 		}
 		return Math.sqrt(mod);
+	}
+	public String toString(){
+		StringBuilder sb=new StringBuilder();
+		for (Map.Entry<String,Double> entry : map.entrySet() ) {
+	        Double f = entry.getValue();
+	        String term = entry.getKey();
+	        sb.append(term+":"+f+" ");
+		}
+		return sb.toString();
 	}
 }

@@ -1,6 +1,7 @@
 package yitongz.mongodb;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.HashMap;
 import java.util.StringTokenizer;
 import java.math.BigInteger;
@@ -17,7 +18,7 @@ public class CentroidList{
 	private static int TOP_IR=1;
 
 	private int count=0;
-	private double fixed_ratio=2.25;
+	private double pace=2.5;
 	//used to calculate the positive cutoff
 	private int rel_count=0;
 	private double rel_score_sum=0;
@@ -44,6 +45,23 @@ public class CentroidList{
 	}
 	public ArrayList <Centroid> getList(){
 		return this.centroid_list;
+	}
+	public void correct(Centroid nc){
+		if (!Facts.check(query.num,nc.tweet.tweetid)){
+			Iterator <Centroid> it=centroid_list.iterator();
+			while (it.hasNext()){
+				if (it.next().tweet.tweetid.equals(nc.tweet.tweetid)){
+					it.remove();
+					nc.relevant=false;
+					rel_score_sqr_sum-=nc.tweet.score;
+					rel_score_sum-=nc.tweet.score;
+					rel_count--;
+					count--;
+					addNeg(nc);
+					break;
+				}
+			}
+		}
 	}
 	private void getTopIREL(){
 		try{
@@ -141,11 +159,11 @@ public class CentroidList{
 	}
 	private void addNeg(Centroid c){
 		c.relevant=false;
-		centroid_list.add(c);
-		ir_score_sqr_sum+=c.tweet.score*c.tweet.score;
-		ir_score_sum+=c.tweet.score;
-		ir_count++;
-		count++;
+			centroid_list.add(c);
+			ir_score_sqr_sum+=c.tweet.score*c.tweet.score;
+			ir_score_sum+=c.tweet.score;
+			ir_count++;
+			count++;
 	}
 	private double neg_cutoff(){
 		double avg=ir_score_sum/ir_count;
@@ -153,7 +171,7 @@ public class CentroidList{
 		if (ir_count==1)
 			cutoff=avg;
 		else{
-			double ratio=fixed_ratio*(ir_count-1.0)/count;
+			double ratio=pace*(ir_count-1.0)/count;
 			cutoff=avg+(ratio*Math.sqrt(    (ir_score_sqr_sum-avg*avg*ir_count) /  (ir_count-1)   ) );
 		}
 		return cutoff;
@@ -164,7 +182,7 @@ public class CentroidList{
 		if (rel_count==1)
 			cutoff=avg;
 		else{
-			double ratio=fixed_ratio*(rel_count-1.0)/count;
+			double ratio=pace*(rel_count-1.0)/count;
 			cutoff=avg-(ratio*Math.sqrt(    (rel_score_sqr_sum-avg*avg*rel_count) /  (rel_count-1)   ) );
 		}
 		return cutoff;

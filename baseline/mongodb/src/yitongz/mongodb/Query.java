@@ -65,10 +65,11 @@ public class Query{
 			/*HERE do a little query expansion*/
 			//words=expand(words);
 			vector=new DocVector(words);
+			
 			if (words_expand!=null){
 				DocVector vector_expand=new DocVector(words_expand);
-				vector_expand.multiply(0.1);
-				vector.multiply(0.9);
+				vector_expand.multiply(1);
+				vector.multiply(1);
 				vector.add(vector_expand);
 			}
 			cursor.close();
@@ -109,7 +110,7 @@ public class Query{
 		
 		//If want to check the fact:
 		if (Configure.CHECK_FACT && judge==true)
-				new_cent.relevant=Facts.check(this.num,t.tweetid);
+			centroid_list.correct(new_cent);
 
 		return judge;
 		
