@@ -115,8 +115,8 @@ public class Main{
 
 	}
 	private static void run() throws Exception{
-		new TuneTask();
-		//new BatchTask();
+		//new TuneTask();
+		new BatchTask();
 	}
 	public static void main(String argv[]){
 		try{

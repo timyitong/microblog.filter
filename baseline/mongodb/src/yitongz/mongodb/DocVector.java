@@ -73,7 +73,8 @@ public class DocVector implements VectorCalculator{
 	        	map.put(term,f);
 	        }else{
 	        	new_f=new_f+f;
-	        	//map.put(term,new_f); //ADD LINE PUT
+	        	if (Configure.MODE.equals("SVM"))
+	        		map.put(term,new_f); //ADD LINE PUT
 	        }
 		}
 	}
@@ -87,7 +88,8 @@ public class DocVector implements VectorCalculator{
 	        	map.put(term,0-f);
 	        }else{
 	        	new_f=new_f-f;
-	        	//map.put(term,new_f); //ADD LINE PUT
+	        	if (Configure.MODE.equals("SVM"))
+	        		map.put(term,new_f); //ADD LINE PUT
 	        }
 		}	
 	}

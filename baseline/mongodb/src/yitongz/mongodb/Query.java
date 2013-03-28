@@ -101,18 +101,27 @@ public class Query{
 		return build.toString();
 	}
 
-	
+	private SVMChecker svmChecker=null;
 	public boolean checkIn(Tweet t){
-		Centroid new_cent=new Centroid(t);	
+		if (Configure.equals("SVM")){
+			if (svmChecker==null) svmChecker=new svmChecker(this);
+
+			return svmChecker.judge(t);
+		}else{
+
+			//====This is the Centroid part
+
+			Centroid new_cent=new Centroid(t);	
+			
+			//Ask centroid the score
+			double score=centroid_list.getScore(new_cent);
+			new_cent.tweet.score=score;
+			//Add into centroid
+			boolean judge=centroid_list.add(new_cent);
+			
+			return judge;
 		
-		//Ask centroid the score
-		double score=centroid_list.getScore(new_cent);
-		new_cent.tweet.score=score;
-		//Add into centroid
-		boolean judge=centroid_list.add(new_cent);
-		
-		return judge;
-		
+		}
 	}
 
 	public String toString(){
