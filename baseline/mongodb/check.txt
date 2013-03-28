@@ -1,0 +1,400 @@
+======SLAVE_NUM:0
+all num_ret 247
+all num_rel 609
+all num_rel_ret 179
+all set_prec 0.6837
+all set_recl 0.3255
+all F_0.5 0.4706
+all t11su 0.4893
+======SLAVE_NUM:1
+all num_ret 372
+all num_rel 609
+all num_rel_ret 202
+all set_prec 0.6259
+all set_recl 0.3597
+all F_0.5 0.4516
+all t11su 0.4156
+======SLAVE_NUM:2
+all num_ret 381
+all num_rel 609
+all num_rel_ret 199
+all set_prec 0.6223
+all set_recl 0.3870
+all F_0.5 0.4640
+all t11su 0.4447
+======SLAVE_NUM:3
+all num_ret 438
+all num_rel 609
+all num_rel_ret 227
+all set_prec 0.5846
+all set_recl 0.4351
+all F_0.5 0.4455
+all t11su 0.4340
+======SLAVE_NUM:4
+all num_ret 424
+all num_rel 609
+all num_rel_ret 221
+all set_prec 0.5978
+all set_recl 0.4319
+all F_0.5 0.4591
+all t11su 0.4424
+======SLAVE_NUM:5
+all num_ret 433
+all num_rel 609
+all num_rel_ret 226
+all set_prec 0.5861
+all set_recl 0.4352
+all F_0.5 0.4488
+all t11su 0.4346
+======SLAVE_NUM:6
+all num_ret 429
+all num_rel 609
+all num_rel_ret 226
+all set_prec 0.5951
+all set_recl 0.4352
+all F_0.5 0.4585
+all t11su 0.4422
+======SLAVE_NUM:7
+all num_ret 439
+all num_rel 609
+all num_rel_ret 233
+all set_prec 0.6030
+all set_recl 0.4406
+all F_0.5 0.4679
+all t11su 0.4471
+======SLAVE_NUM:8
+all num_ret 452
+all num_rel 609
+all num_rel_ret 238
+all set_prec 0.5810
+all set_recl 0.4438
+all F_0.5 0.4544
+all t11su 0.4330
+======SLAVE_NUM:9
+all num_ret 448
+all num_rel 609
+all num_rel_ret 237
+all set_prec 0.6123
+all set_recl 0.3954
+all F_0.5 0.4774
+all t11su 0.4864
+======SLAVE_NUM:10
+all num_ret 456
+all num_rel 609
+all num_rel_ret 240
+all set_prec 0.5926
+all set_recl 0.3653
+all F_0.5 0.4534
+all t11su 0.4644
+======SLAVE_NUM:11
+all num_ret 456
+all num_rel 609
+all num_rel_ret 237
+all set_prec 0.5715
+all set_recl 0.4377
+all F_0.5 0.4498
+all t11su 0.4342
+======SLAVE_NUM:12
+all num_ret 473
+all num_rel 609
+all num_rel_ret 243
+all set_prec 0.5618
+all set_recl 0.4486
+all F_0.5 0.4374
+all t11su 0.4333
+======SLAVE_NUM:13
+all num_ret 478
+all num_rel 609
+all num_rel_ret 247
+all set_prec 0.5651
+all set_recl 0.4512
+all F_0.5 0.4400
+all t11su 0.4356
+======SLAVE_NUM:14
+all num_ret 470
+all num_rel 609
+all num_rel_ret 245
+all set_prec 0.5680
+all set_recl 0.4428
+all F_0.5 0.4480
+all t11su 0.4366
+======SLAVE_NUM:15
+all num_ret 468
+all num_rel 609
+all num_rel_ret 248
+all set_prec 0.5893
+all set_recl 0.4518
+all F_0.5 0.4629
+all t11su 0.4507
+======SLAVE_NUM:16
+all num_ret 478
+all num_rel 609
+all num_rel_ret 249
+all set_prec 0.5677
+all set_recl 0.4446
+all F_0.5 0.4447
+all t11su 0.4378
+======SLAVE_NUM:17
+all num_ret 468
+all num_rel 609
+all num_rel_ret 244
+all set_prec 0.5689
+all set_recl 0.4093
+all F_0.5 0.4309
+all t11su 0.4229
+======SLAVE_NUM:18
+all num_ret 564
+all num_rel 609
+all num_rel_ret 247
+all set_prec 0.5401
+all set_recl 0.4467
+all F_0.5 0.4202
+all t11su 0.3865
+======SLAVE_NUM:19
+all num_ret 498
+all num_rel 609
+all num_rel_ret 245
+all set_prec 0.5460
+all set_recl 0.4285
+all F_0.5 0.4254
+all t11su 0.3879
+======SLAVE_NUM:20
+all num_ret 506
+all num_rel 609
+all num_rel_ret 247
+all set_prec 0.5346
+all set_recl 0.4299
+all F_0.5 0.4152
+all t11su 0.3841
+======SLAVE_NUM:21
+all num_ret 514
+all num_rel 609
+all num_rel_ret 252
+all set_prec 0.5365
+all set_recl 0.4416
+all F_0.5 0.4178
+all t11su 0.3907
+======SLAVE_NUM:22
+all num_ret 532
+all num_rel 609
+all num_rel_ret 250
+all set_prec 0.5510
+all set_recl 0.4487
+all F_0.5 0.4352
+all t11su 0.4351
+======SLAVE_NUM:23
+all num_ret 539
+all num_rel 609
+all num_rel_ret 266
+all set_prec 0.5290
+all set_recl 0.4646
+all F_0.5 0.4200
+all t11su 0.3908
+======SLAVE_NUM:24
+all num_ret 559
+all num_rel 609
+all num_rel_ret 251
+all set_prec 0.5414
+all set_recl 0.4486
+all F_0.5 0.4252
+all t11su 0.4177
+======SLAVE_NUM:25
+all num_ret 582
+all num_rel 609
+all num_rel_ret 251
+all set_prec 0.5489
+all set_recl 0.4485
+all F_0.5 0.4321
+all t11su 0.4353
+======SLAVE_NUM:26
+all num_ret 564
+all num_rel 609
+all num_rel_ret 250
+all set_prec 0.5627
+all set_recl 0.4425
+all F_0.5 0.4419
+all t11su 0.4412
+======SLAVE_NUM:27
+all num_ret 601
+all num_rel 609
+all num_rel_ret 255
+all set_prec 0.5468
+all set_recl 0.4528
+all F_0.5 0.4324
+all t11su 0.4379
+======SLAVE_NUM:28
+all num_ret 590
+all num_rel 609
+all num_rel_ret 254
+all set_prec 0.5675
+all set_recl 0.4518
+all F_0.5 0.4455
+all t11su 0.4430
+======SLAVE_NUM:29
+all num_ret 583
+all num_rel 609
+all num_rel_ret 256
+all set_prec 0.5774
+all set_recl 0.4518
+all F_0.5 0.4553
+all t11su 0.4510
+======SLAVE_NUM:30
+all num_ret 587
+all num_rel 609
+all num_rel_ret 254
+all set_prec 0.5552
+all set_recl 0.4429
+all F_0.5 0.4312
+all t11su 0.4340
+======SLAVE_NUM:31
+all num_ret 592
+all num_rel 609
+all num_rel_ret 256
+all set_prec 0.5629
+all set_recl 0.4498
+all F_0.5 0.4430
+all t11su 0.4447
+======SLAVE_NUM:32
+all num_ret 599
+all num_rel 609
+all num_rel_ret 258
+all set_prec 0.5705
+all set_recl 0.4596
+all F_0.5 0.4483
+all t11su 0.4475
+======SLAVE_NUM:33
+all num_ret 596
+all num_rel 609
+all num_rel_ret 258
+all set_prec 0.5668
+all set_recl 0.4666
+all F_0.5 0.4491
+all t11su 0.4500
+======SLAVE_NUM:34
+all num_ret 597
+all num_rel 609
+all num_rel_ret 260
+all set_prec 0.5666
+all set_recl 0.4524
+all F_0.5 0.4464
+all t11su 0.4469
+======SLAVE_NUM:35
+all num_ret 600
+all num_rel 609
+all num_rel_ret 258
+all set_prec 0.5629
+all set_recl 0.4511
+all F_0.5 0.4433
+all t11su 0.4453
+======SLAVE_NUM:36
+all num_ret 610
+all num_rel 609
+all num_rel_ret 258
+all set_prec 0.5594
+all set_recl 0.4531
+all F_0.5 0.4372
+all t11su 0.4400
+======SLAVE_NUM:37
+all num_ret 605
+all num_rel 609
+all num_rel_ret 256
+all set_prec 0.5512
+all set_recl 0.4377
+all F_0.5 0.4248
+all t11su 0.4298
+======SLAVE_NUM:38
+all num_ret 609
+all num_rel 609
+all num_rel_ret 257
+all set_prec 0.5568
+all set_recl 0.4505
+all F_0.5 0.4384
+all t11su 0.4420
+======SLAVE_NUM:39
+all num_ret 602
+all num_rel 609
+all num_rel_ret 253
+all set_prec 0.5486
+all set_recl 0.4337
+all F_0.5 0.4257
+all t11su 0.4311
+======SLAVE_NUM:40
+all num_ret 611
+all num_rel 609
+all num_rel_ret 257
+all set_prec 0.5483
+all set_recl 0.4448
+all F_0.5 0.4270
+all t11su 0.4320
+======SLAVE_NUM:41
+all num_ret 616
+all num_rel 609
+all num_rel_ret 258
+all set_prec 0.5554
+all set_recl 0.4511
+all F_0.5 0.4382
+all t11su 0.4421
+======SLAVE_NUM:42
+all num_ret 621
+all num_rel 609
+all num_rel_ret 260
+all set_prec 0.5756
+all set_recl 0.4608
+all F_0.5 0.4557
+all t11su 0.4627
+======SLAVE_NUM:43
+all num_ret 609
+all num_rel 609
+all num_rel_ret 257
+all set_prec 0.5534
+all set_recl 0.4383
+all F_0.5 0.4273
+all t11su 0.4315
+======SLAVE_NUM:44
+all num_ret 611
+all num_rel 609
+all num_rel_ret 257
+all set_prec 0.5534
+all set_recl 0.4382
+all F_0.5 0.4274
+all t11su 0.4314
+======SLAVE_NUM:45
+all num_ret 615
+all num_rel 609
+all num_rel_ret 256
+all set_prec 0.5622
+all set_recl 0.4376
+all F_0.5 0.4362
+all t11su 0.4475
+======SLAVE_NUM:46
+all num_ret 613
+all num_rel 609
+all num_rel_ret 256
+all set_prec 0.5501
+all set_recl 0.4376
+all F_0.5 0.4245
+all t11su 0.4296
+======SLAVE_NUM:47
+all num_ret 619
+all num_rel 609
+all num_rel_ret 256
+all set_prec 0.5485
+all set_recl 0.4441
+all F_0.5 0.4266
+all t11su 0.4317
+======SLAVE_NUM:48
+all num_ret 617
+all num_rel 609
+all num_rel_ret 255
+all set_prec 0.5497
+all set_recl 0.4370
+all F_0.5 0.4240
+all t11su 0.4292
+======SLAVE_NUM:49
+all num_ret 608
+all num_rel 609
+all num_rel_ret 256
+all set_prec 0.5518
+all set_recl 0.4376
+all F_0.5 0.4257
+all t11su 0.4302

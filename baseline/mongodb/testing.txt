@@ -1,0 +1,120 @@
+======PACE: 0.2
+all num_ret 577
+all num_rel 609
+all num_rel_ret 256
+all set_prec 0.4531
+all set_recl 0.4526
+all F_0.5 0.4194
+all t11su 0.3713
+======PACE: 0.30000000000000004
+all num_ret 847
+all num_rel 609
+all num_rel_ret 264
+all set_prec 0.4914
+all set_recl 0.4777
+all F_0.5 0.3980
+all t11su 0.3654
+======PACE: 0.4
+all num_ret 799
+all num_rel 609
+all num_rel_ret 259
+all set_prec 0.4847
+all set_recl 0.4694
+all F_0.5 0.3954
+all t11su 0.3687
+======PACE: 0.5
+all num_ret 445
+all num_rel 609
+all num_rel_ret 233
+all set_prec 0.6244
+all set_recl 0.3880
+all F_0.5 0.4258
+all t11su 0.4171
+======PACE: 0.6
+all num_ret 402
+all num_rel 609
+all num_rel_ret 210
+all set_prec 0.6531
+all set_recl 0.3943
+all F_0.5 0.4488
+all t11su 0.4843
+======PACE: 0.7
+all num_ret 611
+all num_rel 609
+all num_rel_ret 240
+all set_prec 0.5289
+all set_recl 0.4414
+all F_0.5 0.4124
+all t11su 0.3930
+======PACE: 0.7999999999999999
+all num_ret 618
+all num_rel 609
+all num_rel_ret 253
+all set_prec 0.5198
+all set_recl 0.4701
+all F_0.5 0.4211
+all t11su 0.3741
+======PACE: 0.8999999999999999
+all num_ret 568
+all num_rel 609
+all num_rel_ret 236
+all set_prec 0.5157
+all set_recl 0.4498
+all F_0.5 0.4582
+all t11su 0.4094
+======PACE: 0.9999999999999999
+all num_ret 420
+all num_rel 609
+all num_rel_ret 220
+all set_prec 0.6268
+all set_recl 0.4322
+all F_0.5 0.4720
+all t11su 0.4975
+======PACE: 1.0999999999999999
+all num_ret 372
+all num_rel 609
+all num_rel_ret 188
+all set_prec 0.6298
+all set_recl 0.4063
+all F_0.5 0.4347
+all t11su 0.4687
+======PACE: 1.2
+all num_ret 422
+all num_rel 609
+all num_rel_ret 198
+all set_prec 0.6014
+all set_recl 0.4067
+all F_0.5 0.4260
+all t11su 0.4401
+======PACE: 1.3
+all num_ret 424
+all num_rel 609
+all num_rel_ret 196
+all set_prec 0.5495
+all set_recl 0.3783
+all F_0.5 0.4179
+all t11su 0.3873
+======PACE: 1.4000000000000001
+all num_ret 367
+all num_rel 609
+all num_rel_ret 182
+all set_prec 0.6043
+all set_recl 0.3667
+all F_0.5 0.3984
+all t11su 0.4432
+======PACE: 1.5000000000000002
+all num_ret 410
+all num_rel 609
+all num_rel_ret 192
+all set_prec 0.5582
+all set_recl 0.4172
+all F_0.5 0.4230
+all t11su 0.4202
+======PACE: 1.6000000000000003
+all num_ret 379
+all num_rel 609
+all num_rel_ret 170
+all set_prec 0.5987
+all set_recl 0.3168
+all F_0.5 0.3586
+all t11su 0.3662

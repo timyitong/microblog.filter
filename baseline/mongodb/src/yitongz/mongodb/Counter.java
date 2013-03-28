@@ -1,7 +1,7 @@
 package yitongz.mongodb;
 //The Counter for any L0, L1, L2 stats counting needs
 public class Counter{
-	private static double PACE=0.7;
+	public static double PACE=0.75;
 
 	int count=0;
 

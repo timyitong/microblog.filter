@@ -30,7 +30,7 @@ public class BatchTask{
 			// GET tweets list
 			// The original readin list is in Descending time order
 			// we need to sort them:
-			ArrayList<String> tweets_list=TweetForCheckList.getList(i);
+			ArrayList<String> tweets_list=new TweetForCheckList().getList(i);
 			Collections.sort(tweets_list);
 
 			Iterator <String> tweets=tweets_list.iterator();
@@ -41,10 +41,10 @@ public class BatchTask{
 				//NEW the tweet:
 				Tweet tweet=new Tweet(tweet_id); 
 				tweet.query_num=query.num;
-
+				if (tweet.score!=0)
+					System.out.println(tweet.score);
 				//CHECK whether this TWEET relevant to this QUERY
 				tweet.relevant=query.checkIn(tweet);
-
 				//ADD tweet to RESULT
 				resultStack.add(tweet);
 			}
@@ -53,6 +53,9 @@ public class BatchTask{
 			}
 			//System.out.println(i);
 			Printer.printFilterResult(resultList);
+
+			//if (i==Configure.QUERY_START)
+			//	System.out.println(query.centroid_list);
 		}
 		//After all printing close the printer
 		Printer.close();

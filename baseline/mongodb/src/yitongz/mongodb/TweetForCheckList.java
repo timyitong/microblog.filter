@@ -13,10 +13,12 @@ This class read in all the tweets needed to be made a decision about and return 
 */
 
 public class TweetForCheckList{
-	public static String list_url=Configure.TRUE_RESULT_FILE;
-	public static Hashtable <Integer, ArrayList<String> > map=null;
-	private TweetForCheckList(){}
-	private static void init(){
+	public String list_url=Configure.TRUE_RESULT_FILE;
+	public Hashtable <Integer, ArrayList<String> > map=null;
+	public TweetForCheckList(){
+		init();
+	}
+	private void init(){
 		try{
 		map=new Hashtable <Integer, ArrayList<String> >();
 		BufferedReader br=new BufferedReader(new FileReader(new File(list_url)));
@@ -36,7 +38,7 @@ public class TweetForCheckList{
 		br.close();
 		}catch(Exception e){e.printStackTrace();}
 	}
-	public static ArrayList<String> getList(int query_id){
+	public ArrayList<String> getList(int query_id){
 		if (map==null)
 			init();
 		return map.get(query_id); 

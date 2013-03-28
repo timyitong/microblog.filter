@@ -17,8 +17,9 @@ public class Configure{
 	
 	public static int QUERY_START=1;
 	public static int QUERY_END=49;
-	public static double INIT_WEIGHT=0.3;
-	public static int SLAVE_NUM=0;
+	public static double INIT_WEIGHT=0.1;
+	public static int SLAVE_NUM=42;
+	public static int TOP_IR_START_POINT=350;
 
 	public static String RUN_NAME="yitongz-baseline"; // The run name
 	public static String VECTOR_MODE="BM25"; // "BM25" "Normal" "KL"

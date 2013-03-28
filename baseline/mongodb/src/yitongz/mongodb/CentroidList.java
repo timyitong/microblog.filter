@@ -10,8 +10,8 @@ import java.io.*;
 public class CentroidList{
 	public ArrayList <ArrayList<Centroid>> collections=new ArrayList <ArrayList<Centroid>> ();
 	public ArrayList <Counter> counter_list=new ArrayList <Counter>();
-	public static double INIT_WEIGHT=Configure.INIT_WEIGHT;
-	public static int SLAVE_NUM=Configure.SLAVE_NUM;
+	public double INIT_WEIGHT=Configure.INIT_WEIGHT;
+	public int SLAVE_NUM=Configure.SLAVE_NUM;
 
 
 	private Query query;
@@ -20,6 +20,19 @@ public class CentroidList{
 		this.query=q;
 		
 		init_MasterSlave();
+	}
+	public String toString(){
+		StringBuilder sb=new StringBuilder();
+		int i=1;
+		sb.append("====");
+		for (ArrayList <Centroid> list: collections){
+			sb.append("Seed:"+i+"\n");
+			for (Centroid c: list){
+				sb.append("1:"+c.tweet.tweetid+" score:"+c.tweet.score+" | tweet.relevant: "+c.tweet.relevant+" | cent.relevant: "+c.relevant+"\n");
+			}
+			i++;
+		}
+		return sb.toString();
 	}
 	private void init_MasterSlave(){
 		ArrayList<Centroid> n_list=IndriSearcher.getTopDocs(this.query.num,SLAVE_NUM+1);
@@ -31,7 +44,9 @@ public class CentroidList{
 		counter_list.add(counter);
 		counter.initWeight(0.9);
 		
-		Centroid first_p=new Centroid(new Tweet(query.tweetid));
+		Tweet t=new Tweet(query.tweetid);
+		t.relevant=true;
+		Centroid first_p=new Centroid(t);
 		l1.add(first_p);
 		first_p.relevant=true;
 		first_p.tweet.score=first_p.tweet.simScore(query);

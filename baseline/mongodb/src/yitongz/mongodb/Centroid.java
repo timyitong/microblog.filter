@@ -8,6 +8,9 @@ public class Centroid implements Comparable <Centroid>{
 	public Centroid (Tweet t){
 		tweet=t;
 	}	
+	public Centroid clone(){
+		return new Centroid(new Tweet(tweet.tweetid));
+	}
 	public int compareTo(Centroid c){
 		if (this.score > c.score)
 			return -1;

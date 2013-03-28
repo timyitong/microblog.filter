@@ -28,11 +28,14 @@ public class IndriSearcher{
 			
 			Iterator <Centroid> it=list.iterator();
 			int j=0;
+			int i=0;
 			while (it.hasNext() && j<k){
 				Centroid c=it.next();
-				result_list.add(c);
-				it.remove();
-				j++;
+				if (i>=Configure.TOP_IR_START_POINT){
+					result_list.add(c.clone());
+					j++;
+				}
+				i++;
 			}
 		}catch(Exception e){e.printStackTrace();}
 		return result_list;
