@@ -60,6 +60,9 @@ public class Query{
 			tweetid=obj.getString("tweetid");
 			newesttweet=obj.getString("newesttweet");
 			num=obj.getString("num");
+			if (num.equals("MB041"))
+				tweetid="29208662060830721";
+
 			words=obj.getString("words");
 			words_expand=obj.getString("words_expand");
 			/*HERE do a little query expansion*/
@@ -68,7 +71,7 @@ public class Query{
 			
 			if (words_expand!=null){
 				DocVector vector_expand=new DocVector(words_expand);
-				vector_expand.multiply(1);
+				vector_expand.multiply(Configure.EXPAND_QUERY_WEIGHT);
 				vector.multiply(1);
 				vector.add(vector_expand);
 			}
@@ -103,10 +106,27 @@ public class Query{
 
 	private SVMChecker svmChecker=null;
 	public boolean checkIn(Tweet t){
-		if (Configure.equals("SVM")){
-			if (svmChecker==null) svmChecker=new svmChecker(this);
+		if (Configure.MODE.equals("SVM")){
+			if (svmChecker==null) svmChecker=new SVMChecker(this);
 
-			return svmChecker.judge(t);
+			boolean judge=svmChecker.judge(t);
+
+			if (judge==false){
+				t.score=-1;
+				return false;
+			}else{
+				//====This is the Centroid part
+
+				Centroid new_cent=new Centroid(t);	
+				
+				//Ask centroid the score
+				double score=centroid_list.getScore(new_cent);
+				new_cent.tweet.score=score;
+				//Add into centroid
+				judge=centroid_list.add(new_cent);
+				
+				return judge;
+			}
 		}else{
 
 			//====This is the Centroid part

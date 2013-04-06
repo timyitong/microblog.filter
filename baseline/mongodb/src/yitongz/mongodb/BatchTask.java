@@ -43,8 +43,16 @@ public class BatchTask{
 				tweet.query_num=query.num;
 				if (tweet.score!=0)
 					System.out.println(tweet.score);
-				//CHECK whether this TWEET relevant to this QUERY
-				tweet.relevant=query.checkIn(tweet);
+				
+				//Ignore tweets do not have URL
+				//Only improve precisions, do not help recall very much
+				//if (tweet==null || tweet.hasurls==null || tweet.hasurls.trim().equals("false")){
+				//	tweet.relevant=false;
+				//	tweet.score=-10;
+				//}else{
+					//CHECK whether this TWEET relevant to this QUERY
+					tweet.relevant=query.checkIn(tweet);
+				//}
 				//ADD tweet to RESULT
 				resultStack.add(tweet);
 			}

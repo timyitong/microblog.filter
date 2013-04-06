@@ -22,6 +22,18 @@ public class Counter{
 				+"sqr: rel "+rel_sqr_sum+" ir "+ir_sqr_sum;
 		return s;
 	}
+	void merge(Counter c){
+		count+=c.count;
+		
+		rel_count+=c.rel_count;
+		rel_sum+=c.rel_sum;
+		rel_sqr_sum+=c.rel_sqr_sum;
+
+		ir_count+=c.ir_count;
+		ir_sum+=c.ir_sum;
+		ir_sqr_sum+=c.ir_sqr_sum;
+		
+	}
 	void firstPos(String s){
 		firstPos=s;
 	}
@@ -149,5 +161,9 @@ public class Counter{
 		//double r=0.1;
 		//return (1-r)*avgPos()+r*avgNeg();
 		return this.init_weight;
+	}
+	double svmcutoff(){
+		double score;
+		return 0;
 	}
 }

@@ -1,23 +1,23 @@
 package yitongz.mongodb;
 import java.util.HashMap;
 public class WordIDMap{
-	private WordIDDictionary dic=new WordIDDictionary();
+	private static WordIDMap instance=new WordIDMap();
 
-	private HashMap<String,Integer> map=new HashMap<String,Integer>();
+	private static HashMap<String,Integer> map=new HashMap<String,Integer>();
 	private static int index=1;
-	private WordIDDictionary(){
+	private WordIDMap(){
 
 	}
-	public static WordIDDictionary getInstance(){
-		return dic;
+	public static WordIDMap getInstance(){
+		return instance;
 	}
 	public static int getID(String word){
-		int id=map.get(word);
+		Integer id=map.get(word);
 		if (id==null){
-			id=index;
+			id=new Integer(index);
 			map.put(word,id);
 			index++;
 		}
-		return id;
+		return id.intValue();
 	}
 } 

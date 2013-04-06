@@ -10,7 +10,7 @@ public class Configure{
 	public static String OUTPUT_FOLDER="../../data/result/"; // where to store the result
 	public static String TOPIREL_FILE="../../data/top_irels.txt"; // store the top irrelevant files
 	public static String INV_LIST_FOLDER="../../data/_indri_inv_train/";
-	public static String MODE="SVM"; // | "Centroid"
+	public static String MODE="Centroid"; // | "Centroid" "SVM"
 
 	public static boolean CHECK_FACT=false; //whether I check the fact, if make a relevant tweet decision
 	public static boolean USE_TWEET_EXPAND=false; // use expanded tweet or not
@@ -24,6 +24,11 @@ public class Configure{
 
 	public static String RUN_NAME="yitongz-baseline"; // The run name
 	public static String VECTOR_MODE="BM25"; // "BM25" "Normal" "KL"
+
+	public static double ROCHHIO_A=1.3;
+	public static double ROCHHIO_B=3.4;
+	public static double ROCHHIO_C=0.6;
+	public static double EXPAND_QUERY_WEIGHT=1.1;
 
 	public static void switch_to_test(){
 		TEST_MODE=true;
