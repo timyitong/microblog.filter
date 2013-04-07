@@ -99,7 +99,7 @@ public class Main{
 	}
 	private static void init() throws Exception{
 		/*switch to test data*/
-			//Configure.switch_to_test();
+			Configure.switch_to_test();
 		/*Load in the truth files*/
 		Facts.load();
 

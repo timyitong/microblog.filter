@@ -2,21 +2,54 @@ package yitongz.mongodb;
 import java.util.ArrayList;
 import java.io.*;
 import java.util.HashMap;
+import java.util.TreeMap;
 import java.util.StringTokenizer;
 import java.util.Iterator;
 import java.util.Collections;
+import java.util.Map;
 public class IndriSearcher{
-	private static boolean RESET_TOP=false;
+	public static boolean RESET_TOP=false;
 	private static HashMap <String,ArrayList<Centroid> > doc_map=null;
 	private static int TOP_IR=1000;
+	public static DocVector getExpandedVector(String query_num,String words){
+		load();
+
+		DocVector result=new DocVector();
+		TreeMap <String,Integer> map=new TreeMap <String,Integer> ();
+		ArrayList <Centroid> list=doc_map.get(query_num);
+		for (int i=0;i<10 && i<list.size(); i++){
+			Tweet t=list.get(i).tweet;
+			if (t==null || t.clean_tweet==null)
+				continue;
+			StringTokenizer st=new StringTokenizer(t.clean_tweet);
+			while (st.hasMoreTokens()){
+				String word=st.nextToken();
+				Integer tf=map.get(word);
+				if (tf==null)
+					tf=new Integer(0);
+				map.put(word,tf);
+			}
+		}
+		ArrayList <Word> ll=new ArrayList <Word> ();
+		for (Map.Entry<String,Integer> entry : map.entrySet() ) {
+			Integer tf=entry.getValue();
+			String 	w=entry.getKey();
+			Word word=new Word(w,tf);
+			ll.add(word);
+		}
+		Collections.sort(ll);
+		StringBuilder sb=new StringBuilder();
+		for (int i=0;i<=3;i++){
+			sb.append(" "+ll.get(i).word);
+		}
+		result=new DocVector(sb.toString());
+		result.multiply(Configure.EXPAND_QUERY2_WEIGHT);
+		return result;
+	}
 	public static ArrayList<Centroid> getTopDocs(String query_tag,int k){
 		ArrayList<Centroid> result_list=new ArrayList<Centroid>();
 		try{
-			if (RESET_TOP){ // IF we need reset
-				loadDocsFromIndri();
-				RESET_TOP=false;
-			}else if (doc_map==null) //IF no need reset and not loaded yet
-				loadDocsFromFile();
+			load();
 
 			ArrayList<Centroid> list=doc_map.get(query_tag);
 			if (list==null)
@@ -39,6 +72,13 @@ public class IndriSearcher{
 			}
 		}catch(Exception e){e.printStackTrace();}
 		return result_list;
+	}
+	private static void load(){
+		if (RESET_TOP){ // IF we need reset
+			loadDocsFromIndri();
+			RESET_TOP=false;
+		}else if (doc_map==null) //IF no need reset and not loaded yet
+			loadDocsFromFile();
 	}
 	private static void loadDocsFromFile(){
 		try{

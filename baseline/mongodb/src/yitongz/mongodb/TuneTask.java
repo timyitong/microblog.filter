@@ -1,7 +1,7 @@
 package yitongz.mongodb;
 import java.io.*;
 public class TuneTask{
-	private int times=30;
+	private int times=40;
 	private String message=null;
 	public TuneTask(){
 		for (int i=0;i<times;i++){
@@ -11,9 +11,24 @@ public class TuneTask{
 		}
 	}
 	private void config(){
+		message="PACE:"+Configure.AUGUMENT_PACE;
+		Configure.AUGUMENT_PACE+=0.01;
+
+		/*
+		message="expand:"+Configure.EXPAND_QUERY2_WEIGHT;
+		Configure.EXPAND_QUERY2_WEIGHT+=0.01;
+		*/
+
+		/*
+		message="k1:"+Configure.BM25_K1;
+		Configure.BM25_K1+=0.05;
+		*/
+
+		/*
 		message="expand_weight:"+Configure.EXPAND_QUERY_WEIGHT;
 		Configure.EXPAND_QUERY_WEIGHT+=0.1;
-
+		*/
+		
 		/*
 		message="c:"+Configure.ROCHHIO_C;
 		Configure.ROCHHIO_C+=0.1;

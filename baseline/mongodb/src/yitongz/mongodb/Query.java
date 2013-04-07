@@ -74,6 +74,8 @@ public class Query{
 				vector_expand.multiply(Configure.EXPAND_QUERY_WEIGHT);
 				vector.multiply(1);
 				vector.add(vector_expand);
+				//add the expand two:
+				vector.add(IndriSearcher.getExpandedVector(num,words));
 			}
 			cursor.close();
 

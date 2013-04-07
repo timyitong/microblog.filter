@@ -22,13 +22,25 @@ public class Configure{
 	public static int SLAVE_NUM=42;
 	public static int TOP_IR_START_POINT=0;//350;
 
+	public static double PREC_LIMIT=0.15;
+	public static double AUGUMENT_PACE=1.01;
+
 	public static String RUN_NAME="yitongz-baseline"; // The run name
 	public static String VECTOR_MODE="BM25"; // "BM25" "Normal" "KL"
 
+	//Rochhio Pseudo Relevance Feedback
 	public static double ROCHHIO_A=1.3;
 	public static double ROCHHIO_B=3.4;
 	public static double ROCHHIO_C=0.6;
 	public static double EXPAND_QUERY_WEIGHT=1.1;
+	public static double EXPAND_QUERY2_WEIGHT=0.09;
+
+	//BM25
+	public static int BM25_AVG_LENGTH=20;
+	public static double BM25_K1=2.95;
+	public static double BM25_B=0.75;
+	public static double BM25_K3=0;
+
 
 	public static void switch_to_test(){
 		TEST_MODE=true;
@@ -36,5 +48,6 @@ public class Configure{
 		TRUE_RESULT_FILE="../../data/filtering-qrels.txt";
 		TOTAL_WORD_STATS="../../data/word_stats.txt";
 		INV_LIST_FOLDER="../../data/_indri_inv/";
+		IndriSearcher.RESET_TOP=true;
 	}
 }

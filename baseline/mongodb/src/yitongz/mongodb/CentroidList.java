@@ -12,13 +12,15 @@ public class CentroidList{
 	public ArrayList <Counter> counter_list=new ArrayList <Counter>();
 	public double INIT_WEIGHT=Configure.INIT_WEIGHT;
 	public int SLAVE_NUM=Configure.SLAVE_NUM;
-
+	public double AUGUMENT=1;
+	public int right=0;
+	public int wrong=0;
 
 	private Query query;
 
 	public CentroidList (Query q){
 		this.query=q;
-		
+		System.out.println(q.num);
 		init_MasterSlave();
 	}
 	public String toString(){
@@ -152,8 +154,9 @@ public class CentroidList{
 		//double final_cutoff=(count*score+count_init*score_init)/(count+count_init);
 		double final_cutoff=(1-INIT_WEIGHT)*score+INIT_WEIGHT*score_init;
 		
-		//--finished bagging
-
+		//--finished bagging, final step, augment:
+		score=score*AUGUMENT;
+		score=0.171072732028912;
 		//--Get the Judgement
 		boolean judge = (c.tweet.score>score);
 
@@ -170,6 +173,19 @@ public class CentroidList{
 			if (judge){
 			//RELEVANT:
 				addPos(c);
+				//Check facts and augment the pace
+				if (Facts.check(query.num,c.tweet.tweetid))
+					right++;
+				else
+					wrong++;
+				double prec=right*1.0/(right+wrong);
+				System.out.println(prec);
+				if ( (right+wrong)>=5 && prec< Configure.PREC_LIMIT ){
+					AUGUMENT=AUGUMENT*Configure.AUGUMENT_PACE;
+					//right=0;
+					//wrong=0;
+				} 
+
 				return true;
 			}else{
 			//IRRELEVANT:

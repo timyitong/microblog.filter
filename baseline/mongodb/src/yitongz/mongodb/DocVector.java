@@ -48,10 +48,10 @@ public class DocVector implements VectorCalculator{
 	private void normalize_bm25(int doc_length){
 		WordStats wordStats=WordStats.getInstance();
 		int total_oc=wordStats.getTC();
-		double k1=2;
-		double b=0.75;
-		int avg_doc_length=20;
-		double k3=0;
+		double k1=Configure.BM25_K1;
+		double b=Configure.BM25_B;
+		int avg_doc_length=Configure.BM25_AVG_LENGTH;
+		double k3=Configure.BM25_K3;
 
 		for (Map.Entry<String,Double> entry : this.map.entrySet() ) {
 	        Double f = entry.getValue();
