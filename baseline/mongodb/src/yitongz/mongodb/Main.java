@@ -99,7 +99,7 @@ public class Main{
 	}
 	private static void init() throws Exception{
 		/*switch to test data*/
-			Configure.switch_to_test();
+			//Configure.switch_to_test();
 		/*Load in the truth files*/
 		Facts.load();
 
@@ -108,8 +108,8 @@ public class Main{
 		/*Insert all tweets*/
 			//addTweets();
 		/*Add WortStats to database*/
-			//WordStats st=WordStats.getInstance();
-			//st.run();
+			WordStats st=WordStats.getInstance();
+			st.run_2gram();
 	}
 	private static void test() throws Exception{
 
@@ -122,7 +122,7 @@ public class Main{
 		try{
 			init();
 			//test();
-			run();
+			//run();
 		}catch(Exception e){e.printStackTrace();}
 	}
 }

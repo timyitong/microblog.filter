@@ -22,12 +22,31 @@ public class DocVector implements VectorCalculator{
 				f=f+1;
 			}
 		}
+		add_2gram(w);
+
 		if (Configure.VECTOR_MODE.equals("BM25"))
 			normalize_bm25(w.length());
 		else if (Configure.VECTOR_MODE.equals("KL"))
 			normalize_kl(w.length());
 		else if (Configure.VECTOR_MODE.equals("Lan"))
 			normalize_lan(w.length());
+	}
+	private void add_2gram(String w){
+		w=w.toLowerCase();
+		StringTokenizer st=new StringTokenizer(w);
+		String old_word=null;
+		while (st.hasMoreTokens()){
+			String word=st.nextToken();
+			if (old_word!=null){
+				String key=old_word+" "+word;
+				Double f=map.get(key);
+				if (f==null)
+					map.put(key,new Double(f));
+				else
+					map.put(key,f+1);
+			}
+			old_word=word;
+		}
 	}
 	private void normalize_lan(int doc_length){
 		WordStats wordStats=WordStats.getInstance();

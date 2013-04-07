@@ -48,6 +48,6 @@ public class Configure{
 		TRUE_RESULT_FILE="../../data/filtering-qrels.txt";
 		TOTAL_WORD_STATS="../../data/word_stats.txt";
 		INV_LIST_FOLDER="../../data/_indri_inv/";
-		IndriSearcher.RESET_TOP=true;
+		TOPIREL_FILE="../../data/test.top_irels.txt";
 	}
 }

@@ -17,6 +17,9 @@ public class IndriSearcher{
 		DocVector result=new DocVector();
 		TreeMap <String,Integer> map=new TreeMap <String,Integer> ();
 		ArrayList <Centroid> list=doc_map.get(query_num);
+		if (list==null)
+			return result;
+		
 		for (int i=0;i<10 && i<list.size(); i++){
 			Tweet t=list.get(i).tweet;
 			if (t==null || t.clean_tweet==null)
@@ -44,6 +47,7 @@ public class IndriSearcher{
 		}
 		result=new DocVector(sb.toString());
 		result.multiply(Configure.EXPAND_QUERY2_WEIGHT);
+		
 		return result;
 	}
 	public static ArrayList<Centroid> getTopDocs(String query_tag,int k){

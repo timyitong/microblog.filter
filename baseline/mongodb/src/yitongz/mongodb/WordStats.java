@@ -75,6 +75,65 @@ public class WordStats{
 		}
 		return tf.intValue();
 	}
+	public void run_2gram(){
+		try{
+		NumberFormat nf=NumberFormat.getInstance();
+		nf.setMinimumIntegerDigits(3);
+		String tag;
+
+		DBCollection coll=DBCon.getTable("words");
+
+		for (int i=5;i<=49;i++){
+			//CHECK MODE decide which to skip
+			if (i==18) continue;
+			/*
+			if (Configure.TEST_MODE){
+				if (i%5==1 || i==18) continue; // the 18 is missing all needed to run tweets
+			}else{
+				if (i%5!=1) continue;
+			}*/
+
+			tag="MB"+nf.format(i);
+			TreeMap <String,Integer> map=new TreeMap<String,Integer>();
+			BufferedReader br=new BufferedReader(new FileReader(new File(folder+tag+" ")));
+			String line=null;
+			int total_count=0;
+			while ((line=br.readLine())!=null){
+				if (line.matches(".*CLEANTWEET.*CLEANTWEET.*")){
+					line=line.substring(0+"<CLEANTWEET>".length(),line.length()-"<CLEANTWEET>".length()-1);
+
+					StringTokenizer st=new StringTokenizer(line);
+					String old_word=null;
+					while (st.hasMoreTokens()){
+						String word=st.nextToken();
+						word=word.replaceAll("[^0-9a-zA-Z]","");
+						if (word.length()>0 && old_word!=null && old_word.length()!=0){
+							total_count++;
+							String key=(old_word+" "+word).toLowerCase();
+							Integer count=map.get(key);
+							if (count==null){
+								count=new Integer(1);
+								map.put(key,count);
+							}else{
+								count+=1;
+								map.put(key,count);
+							}
+						}
+						old_word=word;
+					}
+				}
+			}
+			for (Map.Entry<String,Integer> entry : map.entrySet() ) {
+		        Integer count = entry.getValue();
+		        String word = entry.getKey();
+
+		        BasicDBObject tmp=new BasicDBObject("query_id",i).append("word",word).append("count",count.intValue());
+		        coll.save(tmp);
+   			}
+   			System.out.println(i+" "+total_count);
+		}
+		}catch(Exception e){e.printStackTrace();}
+	}
 	/*Load all stats into database*/
 	public void run(){
 		try{
