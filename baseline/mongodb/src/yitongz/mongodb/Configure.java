@@ -22,8 +22,12 @@ public class Configure{
 	public static int SLAVE_NUM=42;
 	public static int TOP_IR_START_POINT=0;//350;
 
-	public static double PREC_LIMIT=0.15;
+	public static double PREC_LIMIT=0.15; // increasing if low accuracy threshold 
 	public static double AUGUMENT_PACE=1.01;
+	public static double NGRAM_WEIGHT=0.1;
+	//fixed cutoff
+	public static boolean USE_FIXED_CUTOFF=false;
+	public static double FIXED_CUTOFF=0.171072732028912;
 
 	public static String RUN_NAME="yitongz-baseline"; // The run name
 	public static String VECTOR_MODE="BM25"; // "BM25" "Normal" "KL"

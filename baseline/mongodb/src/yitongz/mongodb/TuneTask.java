@@ -11,8 +11,17 @@ public class TuneTask{
 		}
 	}
 	private void config(){
+		message="Fixed Cutoff:"+Configure.FIXED_CUTOFF;
+		Configure.FIXED_CUTOFF+=0.02;
+		/*
+		message="2GRAM:"+Configure.NGRAM_WEIGHT;
+		Configure.NGRAM_WEIGHT+=0.05;
+		*/
+
+		/*
 		message="PACE:"+Configure.AUGUMENT_PACE;
 		Configure.AUGUMENT_PACE+=0.01;
+		*/
 
 		/*
 		message="expand:"+Configure.EXPAND_QUERY2_WEIGHT;

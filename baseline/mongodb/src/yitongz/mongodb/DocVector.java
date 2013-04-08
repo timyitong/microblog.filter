@@ -41,7 +41,7 @@ public class DocVector implements VectorCalculator{
 				String key=old_word+" "+word;
 				Double f=map.get(key);
 				if (f==null)
-					map.put(key,new Double(f));
+					map.put(key,new Double(1));
 				else
 					map.put(key,f+1);
 			}
@@ -79,6 +79,8 @@ public class DocVector implements VectorCalculator{
 	        double idf=Math.log((total_oc+0.5-df)/(0.5+df));
 	        double tf=f/(f+k1*((1-b)+b*doc_length/avg_doc_length) );
 	        f=idf*tf;
+	        if (term.indexOf(" ")!=-1) // if it is 2gram
+	        	f=f*Configure.NGRAM_WEIGHT;
 	        this.map.put(term,f);
 		}
 	}

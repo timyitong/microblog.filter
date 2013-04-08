@@ -58,8 +58,8 @@ public class CentroidList{
 			Centroid first_n=n_list.get(0);
 			l1.add(first_n);
 			first_n.relevant=false;
-			//first_n.tweet.score=first_n.tweet.simScore(query);
 			first_n.tweet.score=Calculator.getInstance().sim.getSimScore(first_n.tweet,query,l1);
+			first_n.tweet.score=Configure.FIXED_CUTOFF;
 			counter.addNeg(first_n.tweet.score);
 		}
 		//Then init slaves:
@@ -156,7 +156,9 @@ public class CentroidList{
 		
 		//--finished bagging, final step, augment:
 		score=score*AUGUMENT;
-		score=0.171072732028912;
+		//fixed score:
+		if (score==0 || Configure.USE_FIXED_CUTOFF)
+			score=Configure.FIXED_CUTOFF;
 		//--Get the Judgement
 		boolean judge = (c.tweet.score>score);
 
@@ -173,13 +175,15 @@ public class CentroidList{
 			if (judge){
 			//RELEVANT:
 				addPos(c);
+
+				System.out.println(score);
 				//Check facts and augment the pace
 				if (Facts.check(query.num,c.tweet.tweetid))
 					right++;
 				else
 					wrong++;
 				double prec=right*1.0/(right+wrong);
-				System.out.println(prec);
+				//System.out.println(prec);
 				if ( (right+wrong)>=5 && prec< Configure.PREC_LIMIT ){
 					AUGUMENT=AUGUMENT*Configure.AUGUMENT_PACE;
 					//right=0;

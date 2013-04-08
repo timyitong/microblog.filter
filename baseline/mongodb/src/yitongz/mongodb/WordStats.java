@@ -83,15 +83,15 @@ public class WordStats{
 
 		DBCollection coll=DBCon.getTable("words");
 
-		for (int i=5;i<=49;i++){
+		for (int i=7;i<=49;i++){
 			//CHECK MODE decide which to skip
-			if (i==18) continue;
-			/*
+			//if (i==18) continue;
+			
 			if (Configure.TEST_MODE){
 				if (i%5==1 || i==18) continue; // the 18 is missing all needed to run tweets
 			}else{
 				if (i%5!=1) continue;
-			}*/
+			}
 
 			tag="MB"+nf.format(i);
 			TreeMap <String,Integer> map=new TreeMap<String,Integer>();

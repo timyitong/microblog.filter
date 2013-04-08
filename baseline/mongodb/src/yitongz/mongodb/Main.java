@@ -108,21 +108,29 @@ public class Main{
 		/*Insert all tweets*/
 			//addTweets();
 		/*Add WortStats to database*/
-			WordStats st=WordStats.getInstance();
-			st.run_2gram();
+			//WordStats st=WordStats.getInstance();
+			//st.run_2gram();
 	}
 	private static void test() throws Exception{
 
 	}
-	private static void run() throws Exception{
-		//new TuneTask();
+	private static void run_batch() throws Exception {
 		new BatchTask();
+	}
+	private static void run_tune() throws Exception{
+		new TuneTask();
 	}
 	public static void main(String argv[]){
 		try{
 			init();
 			//test();
-			//run();
+			if (argv[0]==null){
+				run_batch();
+			}else if (argv[0].equals("TuneTask")){
+				run_tune();
+			}else{
+				run_batch();
+			}
 		}catch(Exception e){e.printStackTrace();}
 	}
 }
