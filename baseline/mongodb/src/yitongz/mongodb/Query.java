@@ -118,7 +118,7 @@ public class Query{
 				return false;
 			}else{
 				//====This is the Centroid part
-
+				/*
 				Centroid new_cent=new Centroid(t);	
 				
 				//Ask centroid the score
@@ -126,7 +126,7 @@ public class Query{
 				new_cent.tweet.score=score;
 				//Add into centroid
 				judge=centroid_list.add(new_cent);
-				
+				*/
 				return judge;
 			}
 		}else{
@@ -135,11 +135,8 @@ public class Query{
 
 			Centroid new_cent=new Centroid(t);	
 			
-			//Ask centroid the score
-			double score=centroid_list.getScore(new_cent);
-			new_cent.tweet.score=score;
-			//Add into centroid
-			boolean judge=centroid_list.add(new_cent);
+			//Check into centroid
+			boolean judge=centroid_list.checkIn(new_cent);
 			
 			return judge;
 		

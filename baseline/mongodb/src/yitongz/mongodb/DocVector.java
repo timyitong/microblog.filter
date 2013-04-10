@@ -10,6 +10,15 @@ public class DocVector implements VectorCalculator{
 	public DocVector(){
 
 	}
+	public DocVector clone(){
+		DocVector doc=new DocVector();
+		for (Map.Entry<String,Double> entry : this.map.entrySet() ) {
+	        Double f = entry.getValue();
+	        String term = entry.getKey();
+	        doc.map.put(term,f);
+		}
+		return doc;
+	}
 	public DocVector(String w){
 		w=w.trim().replaceAll("[^A-Za-z0-9\\s]","");
 		StringTokenizer st=new StringTokenizer(w);
@@ -135,6 +144,9 @@ public class DocVector implements VectorCalculator{
 	        }
 		}	
 		return score;
+	}
+	public double innerProduct_norm(DocVector d){
+		return innerProduct(d)/(this.mod()*d.mod());
 	}
 	public double mod(){
 		if (modValue!=-1)
