@@ -41,8 +41,6 @@ public class BatchTask{
 				//NEW the tweet:
 				Tweet tweet=new Tweet(tweet_id); 
 				tweet.query_num=query.num;
-				if (tweet.score!=0)
-					System.out.println(tweet.score);
 				
 				//Ignore tweets do not have URL
 				//Only improve precisions, do not help recall very much
@@ -51,7 +49,12 @@ public class BatchTask{
 				//	tweet.score=-10;
 				//}else{
 					//CHECK whether this TWEET relevant to this QUERY
-					tweet.relevant=query.checkIn(tweet);
+					if (tweet.vector==null){
+						tweet.relevant=false;
+						tweet.score=-10;
+					}else{
+						tweet.relevant=query.checkIn(tweet);
+					}
 				//}
 				//ADD tweet to RESULT
 				resultStack.add(tweet);

@@ -85,15 +85,18 @@ public class CentroidList{
 			vec1.multiply(Configure.ROCHHIO_A);
 			if (n_list!=null && n_list.size()-i-1>0){
 				Centroid slave_n=n_list.get(i+1);
+
 				l.add(slave_n);
 				slave_n.relevant=false;
 				slave_n.tweet.score=slave_n.tweet.simScore(query);
 				slave_counter.addNeg(slave_n.tweet.score);
 
-				//add DocVector
-				DocVector vec2=slave_n.tweet.vector.clone();
-				vec2.multiply(Configure.ROCHHIO_C);
-				vec1.minus(vec2);
+				if (slave_n.tweet.clean_tweet!=null){
+					//add DocVector
+					DocVector vec2=slave_n.tweet.vector.clone();
+					vec2.multiply(Configure.ROCHHIO_C);
+					vec1.minus(vec2);
+				}
 			}
 			vectors.add(vec1);
 		}
@@ -112,8 +115,8 @@ public class CentroidList{
 			ArrayList <Centroid> list=collections.get(i);
 			Counter counter=counter_list.get(i);
 			//getSimScore: Tweet t, Query q, ArrayList<Centroid> list
-				//double ss=Calculator.getInstance().sim.getSimScore(c.tweet,query,list);
-			double ss=vectors.get(i).innerProduct_norm(c.tweet.vector);
+			double ss=Calculator.getInstance().sim.getSimScore(c.tweet,query,list);
+				//double ss=vectors.get(i).innerProduct_norm(c.tweet.vector);
 			double ww=counter.cutoff();
 			if (ss>ww)
 				adds[i]=false;
@@ -201,38 +204,73 @@ public class CentroidList{
 			if (judge){
 			//RELEVANT:
 				addPos(c);
-
-				//perceptron training:
-				// adds[] false means ss >  ww
-				//		  true  means ss <= ww
+				/*
 				for (int j=0;j<collections.size();j++){
-					int step=0;
-					while (adds[j] && step<100){
-						addPos(c,j);
-						ArrayList <Centroid> list=collections.get(j);
-						Counter counter=counter_list.get(j);
-						//getSimScore: Tweet t, Query q, ArrayList<Centroid> list
-							//double ss=Calculator.getInstance().sim.getSimScore(c.tweet,query,list);
-							//double sq=Calculator.getInstance().sim.getSimScore(queryCentroid.tweet,query,list);
-						double ss=vectors.get(j).innerProduct_norm(c.tweet.vector);
-						double sq=vectors.get(j).innerProduct_norm(queryCentroid.tweet.vector);
-						double ww=counter.cutoff();
-						//System.out.println(ss-ww);
-						if (ss>ww)
-							adds[j]=false;
-						step++;
-
-						if (sq<=ww) // if query itself has been bended
-							addPos(queryCentroid,j);
-					}
-				}
+					if (adds[j])
+						train(j);
+				}*/
 
 				System.out.println(score);
 				//Check facts and augment the pace
-				if (Facts.check(query.num,c.tweet.tweetid))
+				if (Facts.check(query.num,c.tweet.tweetid)){
 					right++;
-				else
+					
+					//perceptron training:
+					// adds[] false means ss >  ww
+					//		  true  means ss <= ww
+					
+					for (int j=0;j<collections.size();j++){
+						int step=0;
+						while (adds[j] && step<500){
+							addPos(c,j);
+							ArrayList <Centroid> list=collections.get(j);
+							Counter counter=counter_list.get(j);
+							//getSimScore: Tweet t, Query q, ArrayList<Centroid> list
+							double ss=Calculator.getInstance().sim.getSimScore(c.tweet,query,list);
+							double sq=Calculator.getInstance().sim.getSimScore(queryCentroid.tweet,query,list);
+								//double ss=vectors.get(j).innerProduct_norm(c.tweet.vector);
+								//double sq=vectors.get(j).innerProduct_norm(queryCentroid.tweet.vector);
+							double ww=counter.cutoff();
+							//System.out.println(ss-ww);
+							if (ss>ww)
+								adds[j]=false;
+							step++;
+
+							if (sq<=ww) // if query itself has been bended
+								addPos(queryCentroid,j);
+						}
+					}
+					
+					
+				}else{
 					wrong++;
+					//perceptron training:
+					// adds[] false means ss >  ww
+					//		  true  means ss <= ww
+					/*
+					for (int j=0;j<collections.size();j++){
+						int step=0;
+						while (!adds[j] && step<500){
+							addPos(c,j);
+							ArrayList <Centroid> list=collections.get(j);
+							Counter counter=counter_list.get(j);
+							//getSimScore: Tweet t, Query q, ArrayList<Centroid> list
+							double ss=Calculator.getInstance().sim.getSimScore(c.tweet,query,list);
+							double sq=Calculator.getInstance().sim.getSimScore(queryCentroid.tweet,query,list);
+								//double ss=vectors.get(j).innerProduct_norm(c.tweet.vector);
+								//double sq=vectors.get(j).innerProduct_norm(queryCentroid.tweet.vector);
+							double ww=counter.cutoff();
+							//System.out.println(ss-ww);
+							if (ss<=ww)
+								adds[j]=true;
+							step++;
+
+							if (sq<=ww) // if query itself has been bended
+								addPos(queryCentroid,j);
+						}
+					}*/
+					
+				}
 				double prec=right*1.0/(right+wrong);
 				//System.out.println(prec);
 				if ( (right+wrong)>=5 && prec< Configure.PREC_LIMIT ){
@@ -245,33 +283,28 @@ public class CentroidList{
 			}else{
 			//IRRELEVANT:
 				addNeg(c);
-
-				//perceptron training:
-				// adds[] false means ss >  ww
-				//		  true  means ss <= ww
-				for (int j=0;j<collections.size();j++){
-					int step=0;
-					while (!adds[j] && step<30){
-						addPos(c,j);
-						ArrayList <Centroid> list=collections.get(j);
-						Counter counter=counter_list.get(j);
-						//getSimScore: Tweet t, Query q, ArrayList<Centroid> list
-							// double ss=Calculator.getInstance().sim.getSimScore(c.tweet,query,list);
-							// double sq=Calculator.getInstance().sim.getSimScore(queryCentroid.tweet,query,list);
-						double ss=vectors.get(j).innerProduct_norm(c.tweet.vector);
-						double sq=vectors.get(j).innerProduct_norm(queryCentroid.tweet.vector);
-						double ww=counter.cutoff();
-						//System.out.println(ss-ww);
-						if (ss<=ww)
-							adds[j]=true;
-						step++;
-
-						if (sq<=ww) // if query itself has been bended
-							addPos(queryCentroid,j);
-						step++;
-					}
-				}
 				return false;
+			}
+		}
+	}
+	private void train(int index){
+		ArrayList <Centroid> list=collections.get(index);
+		DocVector vector=vectors.get(index);
+		Counter counter=counter_list.get(index);
+
+		for (int i=0;i<list.size();i++){
+			Centroid c=list.get(i);
+			boolean in=true;
+			int step=0;
+			while (in && step<20 && c.tweet.vector!=null){
+				double ss=vector.innerProduct_norm(c.tweet.vector);
+				double ww=counter.cutoff();
+				in=false;
+				if (c.relevant && ss<ww){
+					in=true;
+					addPos(c,index);
+				}
+				step++;
 			}
 		}
 	}
