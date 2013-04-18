@@ -26,6 +26,10 @@ public class BatchTask{
 			WordStats.setCurrentQueryID(i);
 			//GET the query:
 			Query query=new Query(i);
+			//update the online tf counting...
+			if (Configure.ONLINE_TF){
+				OnlineWordStats.getInstance().refresh();
+			}
 
 			// GET tweets list
 			// The original readin list is in Descending time order
@@ -42,6 +46,9 @@ public class BatchTask{
 				Tweet tweet=new Tweet(tweet_id); 
 				tweet.query_num=query.num;
 				
+				if (Configure.ONLINE_TF && tweet!=null && tweet.clean_tweet!=null){
+					OnlineWordStats.getInstance().register(tweet.clean_tweet);
+				}
 				//Ignore tweets do not have URL
 				//Only improve precisions, do not help recall very much
 				//if (tweet==null || tweet.hasurls==null || tweet.hasurls.trim().equals("false")){

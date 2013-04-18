@@ -26,8 +26,8 @@ public class Configure{
 	public static double AUGUMENT_PACE=1.01;
 	public static double NGRAM_WEIGHT=0.1;
 	//fixed cutoff
-	public static boolean USE_FIXED_CUTOFF=false;
-	public static double FIXED_CUTOFF=0.171072732028912;
+	public static boolean USE_FIXED_CUTOFF=true;
+	public static double FIXED_CUTOFF=0.1;//0.171072732028912;
 
 	public static String RUN_NAME="yitongz-baseline"; // The run name
 	public static String VECTOR_MODE="BM25"; // "BM25" "Normal" "KL"
@@ -44,6 +44,9 @@ public class Configure{
 	public static double BM25_K1=2.95;
 	public static double BM25_B=0.75;
 	public static double BM25_K3=0;
+
+	//Online TF
+	public static boolean ONLINE_TF=false;
 
 
 	public static void switch_to_test(){

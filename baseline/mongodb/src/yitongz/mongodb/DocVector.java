@@ -74,8 +74,14 @@ public class DocVector implements VectorCalculator{
 		}
 	}
 	private void normalize_bm25(int doc_length){
-		WordStats wordStats=WordStats.getInstance();
+		Stats wordStats;
+		if (Configure.ONLINE_TF){
+			wordStats=OnlineWordStats.getInstance();
+		}else {
+			wordStats=WordStats.getInstance();
+		}
 		int total_oc=wordStats.getTC();
+
 		double k1=Configure.BM25_K1;
 		double b=Configure.BM25_B;
 		int avg_doc_length=Configure.BM25_AVG_LENGTH;

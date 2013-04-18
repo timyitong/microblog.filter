@@ -1,7 +1,7 @@
 package yitongz.mongodb;
 import java.io.*;
 public class TuneTask{
-	private int times=40;
+	private int times=10;
 	private String message=null;
 	public TuneTask(){
 		for (int i=0;i<times;i++){

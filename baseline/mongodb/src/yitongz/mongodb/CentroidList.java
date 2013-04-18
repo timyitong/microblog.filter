@@ -23,7 +23,7 @@ public class CentroidList{
 	public CentroidList (Query q){
 		this.query=q;
 		this.queryCentroid=new Centroid(new Tweet(q.tweetid));
-		System.out.println(q.num);
+		//System.out.println(q.num);
 		init_MasterSlave();
 	}
 	public String toString(){
@@ -41,7 +41,14 @@ public class CentroidList{
 	}
 	private void init_MasterSlave(){
 		ArrayList<Centroid> n_list=IndriSearcher.getTopDocs(this.query.num,SLAVE_NUM+1);
-		
+		if (Configure.ONLINE_TF){
+			for (Centroid c: n_list){
+				if (c.tweet!=null && c.tweet.clean_tweet!=null){
+					OnlineWordStats.getInstance().register(c.tweet.clean_tweet);
+				}
+			}
+		}
+
 		//First init master:
 		ArrayList<Centroid> l1=new ArrayList<Centroid>();
 		collections.add(l1); // add the centroid list
@@ -209,8 +216,29 @@ public class CentroidList{
 					if (adds[j])
 						train(j);
 				}*/
+				for (int j=0;j<collections.size();j++){
+					int step=0;
+					while (adds[j] && step<100){
+						addPos(c,j);
+						ArrayList <Centroid> list=collections.get(j);
+						Counter counter=counter_list.get(j);
+						//getSimScore: Tweet t, Query q, ArrayList<Centroid> list
+						double ss=Calculator.getInstance().sim.getSimScore(c.tweet,query,list);
+						double sq=Calculator.getInstance().sim.getSimScore(queryCentroid.tweet,query,list);
+							//double ss=vectors.get(j).innerProduct_norm(c.tweet.vector);
+							//double sq=vectors.get(j).innerProduct_norm(queryCentroid.tweet.vector);
+						double ww=counter.cutoff();
+						//System.out.println(ss-ww);
+						if (ss>ww)
+							adds[j]=false;
+						step++;
 
-				System.out.println(score);
+						if (sq<=ww) // if query itself has been bended
+							addPos(queryCentroid,j);
+					}
+				}
+
+				// System.out.println(score);
 				//Check facts and augment the pace
 				if (Facts.check(query.num,c.tweet.tweetid)){
 					right++;
@@ -218,10 +246,10 @@ public class CentroidList{
 					//perceptron training:
 					// adds[] false means ss >  ww
 					//		  true  means ss <= ww
-					
+					/*
 					for (int j=0;j<collections.size();j++){
 						int step=0;
-						while (adds[j] && step<500){
+						while (adds[j] && step<100){
 							addPos(c,j);
 							ArrayList <Centroid> list=collections.get(j);
 							Counter counter=counter_list.get(j);
@@ -240,6 +268,7 @@ public class CentroidList{
 								addPos(queryCentroid,j);
 						}
 					}
+					*/
 					
 					
 				}else{
@@ -250,7 +279,7 @@ public class CentroidList{
 					/*
 					for (int j=0;j<collections.size();j++){
 						int step=0;
-						while (!adds[j] && step<500){
+						while (!adds[j] && step<100){
 							addPos(c,j);
 							ArrayList <Centroid> list=collections.get(j);
 							Counter counter=counter_list.get(j);

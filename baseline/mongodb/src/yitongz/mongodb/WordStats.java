@@ -14,7 +14,7 @@ import java.io.*;
 import java.util.*;
 import java.text.NumberFormat;
 
-public class WordStats{
+public class WordStats implements Stats{
 	private String folder=Configure.TOPIC_TWEET_FOLDER;
 	private static WordStats stat=new WordStats();
 	private Hashtable <String,Integer> map=null;
