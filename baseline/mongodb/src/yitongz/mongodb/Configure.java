@@ -10,7 +10,7 @@ public class Configure{
 	public static String OUTPUT_FOLDER="../../data/result/"; // where to store the result
 	public static String TOPIREL_FILE="../../data/top_irels.txt"; // store the top irrelevant files
 	public static String INV_LIST_FOLDER="../../data/_indri_inv_train/";
-	public static String MODE="Centroid"; // | "Centroid" "SVM"
+	public static String MODE="Simple"; // | "Centroid" "SVM" "Simple"
 
 	public static boolean CHECK_FACT=false; //whether I check the fact, if make a relevant tweet decision
 	public static boolean USE_TWEET_EXPAND=false; // use expanded tweet or not

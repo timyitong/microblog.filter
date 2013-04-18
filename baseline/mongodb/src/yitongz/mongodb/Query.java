@@ -107,6 +107,8 @@ public class Query{
 	}
 
 	private SVMChecker svmChecker=null;
+	private SimpleChecker simpleChecker=null;
+
 	public boolean checkIn(Tweet t){
 		if (Configure.MODE.equals("SVM")){
 			if (svmChecker==null) svmChecker=new SVMChecker(this);
@@ -129,6 +131,10 @@ public class Query{
 				*/
 				return judge;
 			}
+		}else if (Configure.MODE.equals("Simple")){
+			if (simpleChecker==null) simpleChecker=new SimpleChecker(this);
+
+			return simpleChecker.check(t);
 		}else{
 
 			//====This is the Centroid part
