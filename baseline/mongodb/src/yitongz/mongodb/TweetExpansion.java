@@ -103,7 +103,25 @@ public class TweetExpansion{
 						sb.append(w+" ");
 					}
 				}
-				table.put(id,sb.toString());
+
+				if (Configure.URL_TOP_WORDS>0){
+					LinkedList <DocElement> l=new LinkedList <DocElement>();
+					for (Map.Entry<String,Integer> entry : map.entrySet() ) {
+				        Integer f = entry.getValue();
+				        String term = entry.getKey();
+				        DocElement d=new DocElement(f,term);
+				    	l.add(d);
+					}
+					Collections.sort(l);
+					l=(LinkedList <DocElement>)l.subList(Math.max(0,l.size()-Configure.URL_TOP_WORDS),l.size());
+					StringBuilder s=new StringBuilder();
+					for (DocElement d:l){
+						s.append(d.text+" ");
+					}
+					table.put(id,s.toString());
+				}else{
+					table.put(id,sb.toString());
+				}
 			}
 		}catch(Exception e){
 			e.printStackTrace();

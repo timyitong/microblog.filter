@@ -51,7 +51,8 @@ public class Configure{
 
 	//URL_EXPAND:
 	public static boolean USE_URL_EXPAND=true;
-	public static double URL_WEIGHT=1;
+	public static double URL_WEIGHT=0.95;
+	public static int URL_TOP_WORDS=0;
 
 
 	public static void switch_to_test(){
