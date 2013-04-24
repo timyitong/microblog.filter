@@ -24,6 +24,8 @@ public class DocVector implements VectorCalculator{
 		StringTokenizer st=new StringTokenizer(w);
 		while (st.hasMoreTokens()){
 			String term=st.nextToken();
+			if (Configure.CHECK_STOPLIST && Stoplist.getInstance().has(term))
+				continue;
 			Double f=map.get(term);
 			if (f==null){
 				map.put(term, new Double(1));

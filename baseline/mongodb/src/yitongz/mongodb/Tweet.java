@@ -15,7 +15,7 @@ import java.util.LinkedList;
 import java.util.StringTokenizer;
 import java.lang.Math;
 
-public class Tweet{
+public class Tweet implements Comparable <Tweet>{
 	String tweetid;
 	String docno;
 	String clean_tweet;
@@ -84,5 +84,13 @@ public class Tweet{
 
 	public double simScore(Tweet t){
 		return Calculator.getInstance().sim.getSimScore(this,t);
+	}
+
+	public int compareTo(Tweet t){
+		if (this.tweetid==null)
+			return -1;
+		if (t.tweetid==null)
+			return 1;
+		return new BigInteger(this.tweetid).compareTo(new BigInteger(t.tweetid));
 	}
 }
