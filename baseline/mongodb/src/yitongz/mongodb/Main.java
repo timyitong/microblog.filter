@@ -103,6 +103,7 @@ public class Main{
 		/*Load in the truth files*/
 		Facts.load();
 
+		TweetExpansion t=new TweetExpansion();
 		/*Insert all queries*/
 			//addQueries();
 		/*Insert all tweets*/
@@ -124,6 +125,7 @@ public class Main{
 		try{
 			init();
 			//test();
+			
 			if (argv[0]==null){
 				run_batch();
 			}else if (argv[0].equals("TuneTask")){

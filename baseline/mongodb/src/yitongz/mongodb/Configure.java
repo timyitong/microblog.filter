@@ -49,6 +49,10 @@ public class Configure{
 	public static boolean ONLINE_TF=false;
 	public static boolean CHECK_STOPLIST=false;
 
+	//URL_EXPAND:
+	public static boolean USE_URL_EXPAND=true;
+	public static double URL_WEIGHT=1;
+
 
 	public static void switch_to_test(){
 		TEST_MODE=true;

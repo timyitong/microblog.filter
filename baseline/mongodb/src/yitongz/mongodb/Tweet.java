@@ -14,6 +14,7 @@ import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.StringTokenizer;
 import java.lang.Math;
+import java.math.BigInteger;
 
 public class Tweet implements Comparable <Tweet>{
 	String tweetid;
@@ -48,6 +49,8 @@ public class Tweet implements Comparable <Tweet>{
 			tweetid=obj.getString("tweetid");
 			docno=obj.getString("docno");
 			clean_tweet=obj.getString("clean_tweet");
+			String url_expand=TweetExpansion.getExpand(tweetid);
+			
 			notags_tweet=obj.getString("notags_tweet");
 			expand=obj.getString("expand");
 			expand_tweet=obj.getString("expand_tweet");
@@ -63,6 +66,12 @@ public class Tweet implements Comparable <Tweet>{
 				vector=new DocVector(expand_tweet);
 			else
 				vector=new DocVector(clean_tweet);
+
+			if (Configure.USE_URL_EXPAND && url_expand!=null){
+				DocVector d=new DocVector(url_expand);
+				d.multiply(Configure.URL_WEIGHT);
+				vector.add(d);
+			}
 
 			cursor.close();
 		}catch(Exception e){
