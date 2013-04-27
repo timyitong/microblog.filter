@@ -82,6 +82,27 @@ public class Tweet implements Comparable <Tweet>{
 			//e.printStackTrace();
 		}
 	}
+	public void save(){
+		try{
+		DBCollection coll=DBCon.getTable("tweets");
+		BasicDBObject obj=new BasicDBObject("tweetid",tweetid);
+		obj.append("docno",docno)
+		 	.append("clean_tweet",clean_tweet)
+		 	.append("notags_tweet",notags_tweet)
+		 	.append("expand",expand)
+		 	.append("expand_tweet",expand_tweet)
+		 	.append("hashtags",hashtags)
+		 	.append("date",date)
+		 	.append("user",user)
+		 	.append("retweet",retweet)
+		 	.append("hasurls",hasurls)
+		 	.append("onlyenglish",onlyenglish);
+
+		coll.save(obj);
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+	}
 	public String toString(){
 		return "tweetid:"+tweetid+" clean_tweet:"+clean_tweet;
 	}

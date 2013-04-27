@@ -1,7 +1,7 @@
 package yitongz.mongodb;
 import java.io.*;
 public class TuneTask{
-	private int times=20;
+	private int times=10;
 	private String message=null;
 	public TuneTask(){
 		for (int i=0;i<times;i++){
@@ -11,12 +11,14 @@ public class TuneTask{
 		}
 	}
 	private void config(){
+		/*
 		message="URL Weight:"+Configure.URL_WEIGHT;
 		Configure.URL_WEIGHT+=0.1;
-		/*
-		message="Fixed Cutoff:"+Configure.FIXED_CUTOFF;
-		Configure.FIXED_CUTOFF+=0.02;
 		*/
+		
+		message="Fixed Cutoff:"+Configure.FIXED_CUTOFF;
+		Configure.FIXED_CUTOFF+=0.005;
+		
 
 		/*
 		message="2GRAM:"+Configure.NGRAM_WEIGHT;

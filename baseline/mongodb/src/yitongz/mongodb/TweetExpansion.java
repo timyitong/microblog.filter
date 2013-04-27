@@ -7,9 +7,10 @@ public class TweetExpansion{
 	private String html_folder="../../data/_indri_tweet_links";
 	private static Hashtable <String,String> table=new Hashtable <String,String>();
 	private LinkedList <String> raw_list=new LinkedList <String>();
-	private String SAVE_URL="../../data/train.raw_url.txt";
+	private String SAVE_URL=Configure.TEST_MODE ? "../../data/test.raw_url.txt" :"../../data/train.raw_url.txt";
 
 	public TweetExpansion(){
+		//expand();
 		prepare();
 	}
 	public void expand(){
@@ -113,7 +114,7 @@ public class TweetExpansion{
 				    	l.add(d);
 					}
 					Collections.sort(l);
-					l=(LinkedList <DocElement>)l.subList(Math.max(0,l.size()-Configure.URL_TOP_WORDS),l.size());
+					l=new LinkedList <DocElement> (l.subList(Math.max(0,l.size()-Configure.URL_TOP_WORDS),l.size()) );
 					StringBuilder s=new StringBuilder();
 					for (DocElement d:l){
 						s.append(d.text+" ");

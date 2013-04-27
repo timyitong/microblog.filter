@@ -99,10 +99,11 @@ public class Main{
 	}
 	private static void init() throws Exception{
 		/*switch to test data*/
-			//Configure.switch_to_test();
+			Configure.switch_to_test();
 		/*Load in the truth files*/
 		Facts.load();
 
+		new TweetCrawler();
 		TweetExpansion t=new TweetExpansion();
 		/*Insert all queries*/
 			//addQueries();
@@ -125,14 +126,14 @@ public class Main{
 		try{
 			init();
 			//test();
-			
+			/*
 			if (argv[0]==null){
 				run_batch();
 			}else if (argv[0].equals("TuneTask")){
 				run_tune();
 			}else{
 				run_batch();
-			}
+			}*/
 		}catch(Exception e){e.printStackTrace();}
 	}
 }

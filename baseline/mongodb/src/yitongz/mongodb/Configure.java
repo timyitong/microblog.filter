@@ -49,7 +49,7 @@ public class Configure{
 	public static boolean ONLINE_TF=false;
 	public static boolean CHECK_STOPLIST=false;
 
-	//URL_EXPAND:
+	//TWEET URL_EXPAND:
 	public static boolean USE_URL_EXPAND=true;
 	public static double URL_WEIGHT=0.95;
 	public static int URL_TOP_WORDS=0;
