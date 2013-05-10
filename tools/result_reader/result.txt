@@ -1,0 +1,360 @@
+missing 1st tweet:query-null
+======BEND:-2.0
+all num_ret 459
+all num_rel 609
+all num_rel_ret 251
+all set_prec 0.6334
+all set_recl 0.4483
+all F_0.5 0.5700
+all t11su 0.5356
+missing 1st tweet:query-null
+======BEND:-1.9
+all num_ret 441
+all num_rel 609
+all num_rel_ret 242
+all set_prec 0.6301
+all set_recl 0.4420
+all F_0.5 0.5658
+all t11su 0.5335
+missing 1st tweet:query-null
+======BEND:-1.7999999999999998
+all num_ret 440
+all num_rel 609
+all num_rel_ret 241
+all set_prec 0.6299
+all set_recl 0.4414
+all F_0.5 0.5656
+all t11su 0.5331
+missing 1st tweet:query-null
+======BEND:-1.6999999999999997
+all num_ret 439
+all num_rel 609
+all num_rel_ret 240
+all set_prec 0.6297
+all set_recl 0.4407
+all F_0.5 0.5653
+all t11su 0.5327
+missing 1st tweet:query-null
+======BEND:-1.5999999999999996
+all num_ret 431
+all num_rel 609
+all num_rel_ret 237
+all set_prec 0.6386
+all set_recl 0.4387
+all F_0.5 0.5693
+all t11su 0.5346
+missing 1st tweet:query-null
+======BEND:-1.4999999999999996
+all num_ret 431
+all num_rel 609
+all num_rel_ret 237
+all set_prec 0.6386
+all set_recl 0.4387
+all F_0.5 0.5693
+all t11su 0.5346
+missing 1st tweet:query-null
+======BEND:-1.3999999999999995
+all num_ret 431
+all num_rel 609
+all num_rel_ret 237
+all set_prec 0.6386
+all set_recl 0.4387
+all F_0.5 0.5693
+all t11su 0.5346
+missing 1st tweet:query-null
+======BEND:-1.2999999999999994
+all num_ret 428
+all num_rel 609
+all num_rel_ret 238
+all set_prec 0.6572
+all set_recl 0.4394
+all F_0.5 0.5793
+all t11su 0.5396
+missing 1st tweet:query-null
+======BEND:-1.1999999999999993
+all num_ret 427
+all num_rel 609
+all num_rel_ret 238
+all set_prec 0.6585
+all set_recl 0.4394
+all F_0.5 0.5798
+all t11su 0.5398
+missing 1st tweet:query-null
+======BEND:-1.0999999999999992
+all num_ret 425
+all num_rel 609
+all num_rel_ret 237
+all set_prec 0.6605
+all set_recl 0.4387
+all F_0.5 0.5811
+all t11su 0.5424
+missing 1st tweet:query-null
+======BEND:-0.9999999999999992
+all num_ret 425
+all num_rel 609
+all num_rel_ret 237
+all set_prec 0.6605
+all set_recl 0.4387
+all F_0.5 0.5811
+all t11su 0.5424
+missing 1st tweet:query-null
+======BEND:-0.8999999999999992
+all num_ret 425
+all num_rel 609
+all num_rel_ret 237
+all set_prec 0.6605
+all set_recl 0.4387
+all F_0.5 0.5811
+all t11su 0.5424
+missing 1st tweet:query-null
+======BEND:-0.7999999999999993
+all num_ret 426
+all num_rel 609
+all num_rel_ret 239
+all set_prec 0.6643
+all set_recl 0.4401
+all F_0.5 0.5837
+all t11su 0.5437
+missing 1st tweet:query-null
+======BEND:-0.6999999999999993
+all num_ret 415
+all num_rel 609
+all num_rel_ret 234
+all set_prec 0.6633
+all set_recl 0.4324
+all F_0.5 0.5807
+all t11su 0.5423
+missing 1st tweet:query-null
+======BEND:-0.5999999999999993
+all num_ret 415
+all num_rel 609
+all num_rel_ret 234
+all set_prec 0.6633
+all set_recl 0.4324
+all F_0.5 0.5807
+all t11su 0.5423
+missing 1st tweet:query-null
+======BEND:-0.49999999999999933
+all num_ret 412
+all num_rel 609
+all num_rel_ret 232
+all set_prec 0.6663
+all set_recl 0.4303
+all F_0.5 0.5817
+all t11su 0.5439
+missing 1st tweet:query-null
+======BEND:-0.39999999999999936
+all num_ret 382
+all num_rel 609
+all num_rel_ret 223
+all set_prec 0.6648
+all set_recl 0.4240
+all F_0.5 0.5781
+all t11su 0.5446
+missing 1st tweet:query-null
+======BEND:-0.2999999999999994
+all num_ret 370
+all num_rel 609
+all num_rel_ret 219
+all set_prec 0.6642
+all set_recl 0.4196
+all F_0.5 0.5760
+all t11su 0.5440
+missing 1st tweet:query-null
+======BEND:-0.19999999999999937
+all num_ret 369
+all num_rel 609
+all num_rel_ret 219
+all set_prec 0.6646
+all set_recl 0.4196
+all F_0.5 0.5763
+all t11su 0.5443
+missing 1st tweet:query-null
+======BEND:-0.09999999999999937
+all num_ret 366
+all num_rel 609
+all num_rel_ret 218
+all set_prec 0.6652
+all set_recl 0.4189
+all F_0.5 0.5766
+all t11su 0.5443
+missing 1st tweet:query-null
+======BEND:6.38378239159465E-16
+all num_ret 366
+all num_rel 609
+all num_rel_ret 218
+all set_prec 0.6652
+all set_recl 0.4189
+all F_0.5 0.5766
+all t11su 0.5443
+missing 1st tweet:query-null
+======BEND:0.10000000000000064
+all num_ret 366
+all num_rel 609
+all num_rel_ret 218
+all set_prec 0.6652
+all set_recl 0.4189
+all F_0.5 0.5766
+all t11su 0.5443
+missing 1st tweet:query-null
+======BEND:0.20000000000000065
+all num_ret 366
+all num_rel 609
+all num_rel_ret 218
+all set_prec 0.6652
+all set_recl 0.4189
+all F_0.5 0.5766
+all t11su 0.5443
+missing 1st tweet:query-null
+======BEND:0.30000000000000066
+all num_ret 364
+all num_rel 609
+all num_rel_ret 216
+all set_prec 0.6648
+all set_recl 0.4176
+all F_0.5 0.5760
+all t11su 0.5434
+missing 1st tweet:query-null
+======BEND:0.4000000000000007
+all num_ret 364
+all num_rel 609
+all num_rel_ret 216
+all set_prec 0.6648
+all set_recl 0.4176
+all F_0.5 0.5760
+all t11su 0.5434
+missing 1st tweet:query-null
+======BEND:0.5000000000000007
+all num_ret 347
+all num_rel 609
+all num_rel_ret 211
+all set_prec 0.6633
+all set_recl 0.4141
+all F_0.5 0.5726
+all t11su 0.5439
+missing 1st tweet:query-null
+======BEND:0.6000000000000006
+all num_ret 344
+all num_rel 609
+all num_rel_ret 209
+all set_prec 0.6631
+all set_recl 0.4128
+all F_0.5 0.5719
+all t11su 0.5432
+missing 1st tweet:query-null
+======BEND:0.7000000000000006
+all num_ret 341
+all num_rel 609
+all num_rel_ret 208
+all set_prec 0.6628
+all set_recl 0.4121
+all F_0.5 0.5715
+all t11su 0.5438
+missing 1st tweet:query-null
+======BEND:0.8000000000000006
+all num_ret 338
+all num_rel 609
+all num_rel_ret 208
+all set_prec 0.6753
+all set_recl 0.4121
+all F_0.5 0.5788
+all t11su 0.5507
+missing 1st tweet:query-null
+======BEND:0.9000000000000006
+all num_ret 334
+all num_rel 609
+all num_rel_ret 208
+all set_prec 0.6920
+all set_recl 0.4121
+all F_0.5 0.5878
+all t11su 0.5556
+missing 1st tweet:query-null
+======BEND:1.0000000000000007
+all num_ret 334
+all num_rel 609
+all num_rel_ret 208
+all set_prec 0.6920
+all set_recl 0.4121
+all F_0.5 0.5878
+all t11su 0.5556
+missing 1st tweet:query-null
+======BEND:1.1000000000000008
+all num_ret 332
+all num_rel 609
+all num_rel_ret 208
+all set_prec 0.6937
+all set_recl 0.4121
+all F_0.5 0.5891
+all t11su 0.5566
+missing 1st tweet:query-null
+======BEND:1.2000000000000008
+all num_ret 330
+all num_rel 609
+all num_rel_ret 207
+all set_prec 0.6939
+all set_recl 0.4106
+all F_0.5 0.5883
+all t11su 0.5558
+missing 1st tweet:query-null
+======BEND:1.300000000000001
+all num_ret 323
+all num_rel 609
+all num_rel_ret 204
+all set_prec 0.6921
+all set_recl 0.4086
+all F_0.5 0.5857
+all t11su 0.5554
+missing 1st tweet:query-null
+======BEND:1.400000000000001
+all num_ret 321
+all num_rel 609
+all num_rel_ret 203
+all set_prec 0.6932
+all set_recl 0.4080
+all F_0.5 0.5859
+all t11su 0.5552
+missing 1st tweet:query-null
+======BEND:1.500000000000001
+all num_ret 321
+all num_rel 609
+all num_rel_ret 203
+all set_prec 0.6932
+all set_recl 0.4080
+all F_0.5 0.5859
+all t11su 0.5552
+missing 1st tweet:query-null
+======BEND:1.6000000000000012
+all num_ret 320
+all num_rel 609
+all num_rel_ret 203
+all set_prec 0.6936
+all set_recl 0.4080
+all F_0.5 0.5863
+all t11su 0.5554
+missing 1st tweet:query-null
+======BEND:1.7000000000000013
+all num_ret 319
+all num_rel 609
+all num_rel_ret 202
+all set_prec 0.6934
+all set_recl 0.4073
+all F_0.5 0.5860
+all t11su 0.5550
+missing 1st tweet:query-null
+======BEND:1.8000000000000014
+all num_ret 319
+all num_rel 609
+all num_rel_ret 202
+all set_prec 0.6934
+all set_recl 0.4073
+all F_0.5 0.5860
+all t11su 0.5550
+missing 1st tweet:query-null
+======BEND:1.9000000000000015
+all num_ret 312
+all num_rel 609
+all num_rel_ret 200
+all set_prec 0.6943
+all set_recl 0.4059
+all F_0.5 0.5863
+all t11su 0.5569

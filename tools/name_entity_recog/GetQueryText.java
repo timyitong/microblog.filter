@@ -24,7 +24,7 @@ public class GetQueryText{
 
 		BufferedWriter bw=new BufferedWriter(new FileWriter(new File("queries.txt")));
 		for (int i=2;i<=49;i++){
-			if (i%5==1) continue;
+			if (i%5==1 || i==18) continue;
 			String tag="MB"+nf.format(i);
 
 			BasicDBObject query=new BasicDBObject("num",tag);

@@ -29,7 +29,8 @@ public class Retrieve{
 		br.close();
 
 		for (int i=1;i<=49;i++){
-			if (i%5!=1) continue;
+			if (i%5==1 || i==18) continue;
+
 			String query_tag="MB"+nf.format(i);
 
 			BasicDBObject query=new BasicDBObject("num",query_tag);
@@ -40,14 +41,14 @@ public class Retrieve{
 
 			BufferedWriter bw=new BufferedWriter(new FileWriter(new File("top_words/"+query_tag+".txt")));
 
-			while (tmp.hasMoreTokens()){
+			while (tmp.hasMoreTokens() && st.hasMoreTokens()){
 				String w=tmp.nextToken();
 
 				String tag=st.nextToken();
 				tag=tag.substring(tag.indexOf('/')+1,tag.length());
 				if (!tag.trim().equals("O")){
 					writeQueryFile(w);
-					String command="sh runqueryfile.sh temp.txt ../../data/_indri_inv_train/"+query_tag;
+					String command="sh runqueryfile.sh temp.txt ../../data/_indri_inv/"+query_tag;
 					System.out.println(command);
 					Process process=Runtime.getRuntime().exec(command);
 

@@ -21,12 +21,12 @@ public class SaveExpand{
 		DBCollection coll=db.getCollection("queries");
 
 		for (int i=1;i<=49;i++){
-			if (i%5!=1) continue;
+			if (i%5==1 || i==18) continue;
 
 			String tag="MB"+nf.format(i);
 			BufferedReader br=new BufferedReader(new FileReader(new File("top_words_ner/"+tag+".txt")));
 			String line=null;
-			StringBuilder sb=new StringBuilder();
+			StringBuilder sb=new StringBuilder("");
 			while ((line=br.readLine())!=null){
 				sb.append(line.trim()+" ");
 			}
