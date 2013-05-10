@@ -1,7 +1,7 @@
 package yitongz.mongodb;
 //The Counter for any L0, L1, L2 stats counting needs
 public class Counter{
-	public static double PACE=0.75;
+	public double PACE=Configure.PACE;
 
 	int count=0;
 
@@ -85,7 +85,7 @@ public class Counter{
 	}
 	double std(){
 		//TODO average std may not be the best way
-		return (stdPos()+stdNeg())/2;
+		return (0.4125*(rel_count-1)*stdPos()/count+0.8625*(ir_count-1)*stdNeg()/count)/2;
 	}
 	double stdPos(){
 		double avg=avgPos();
@@ -120,7 +120,28 @@ public class Counter{
 		return ir_count/count*(old_s-new_s);
 	}
 	double cutoff(){
-		return (cutoffPos()+cutoffNeg())/2;
+		double cut;
+		double s1=stdPos();
+		double s2=stdNeg();
+		double u1=avgPos();
+		double u2=avgNeg();
+		if (false){
+
+			cut = (u1/s1+u2*ir_count/s2)/(1/s1+ir_count/s2);
+		}else{
+			cut= (cutoffPos()+cutoffNeg())/2;
+
+			//avg threshold
+			/*
+			if (rel_count==0)
+				cut=u2;
+			else if (ir_count==0)
+				cut=u1;
+			else
+				cut=(u1+u2)/2;
+			*/
+		}
+		return cut;
 	}
 	double cutoffNeg(){
 		if (countNeg()==0)
@@ -130,7 +151,7 @@ public class Counter{
 		if (countNeg()==1)
 			cutoff=avgNeg();
 		else{
-			double ratio=PACE*(countNeg()-1.0)/count;
+			double ratio=0.55*PACE*(countNeg()-1.0)/count;
 			cutoff=avgNeg()+(ratio*stdNeg());
 		}
 		return cutoff;
@@ -143,7 +164,7 @@ public class Counter{
 		if (countPos()==1)
 			cutoff=avgPos();
 		else{
-			double ratio=PACE*(countPos()-1.0)/count;
+			double ratio=-1.15*PACE*(countPos()-1.0)/count;
 			cutoff=avgPos()+(ratio*stdPos());
 		}
 		return cutoff;

@@ -62,6 +62,8 @@ public class BatchTask{
 					}else{
 						tweet.relevant=query.checkIn(tweet);
 					}
+					if ( Double.isNaN(tweet.score) )
+						System.out.println(tweet.toString());
 				//}
 				//ADD tweet to RESULT
 				resultStack.add(tweet);

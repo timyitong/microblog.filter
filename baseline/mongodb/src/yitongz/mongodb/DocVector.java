@@ -96,6 +96,7 @@ public class DocVector implements VectorCalculator{
 	        double idf=Math.log((total_oc+0.5-df)/(0.5+df));
 	        double tf=f/(f+k1*((1-b)+b*doc_length/avg_doc_length) );
 	        f=idf*tf;
+	        //f=idf*f;
 	        if (term.indexOf(" ")!=-1) // if it is 2gram
 	        	f=f*Configure.NGRAM_WEIGHT;
 	        this.map.put(term,f);

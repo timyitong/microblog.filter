@@ -57,6 +57,16 @@ public class Tweet implements Comparable <Tweet>{
 			hashtags=obj.getString("hashtags");
 			date=obj.getString("date");
 			user=obj.getString("user");
+			//Handle new crawled tweets:
+			if (user==null && clean_tweet!=null){
+				clean_tweet=clean_tweet.replaceAll("http[^\\s]*","");
+				clean_tweet=clean_tweet.replaceAll("[^A-Za-z0-9\\s]","");
+				if (clean_tweet.trim().length()==0)
+					clean_tweet=null;
+				//else
+				//	System.out.println(clean_tweet);
+			}
+
 			retweet=obj.getString("retweet");
 			hasurls=obj.getString("hasurls");
 			onlyenglish=obj.getString("onlyenglish");

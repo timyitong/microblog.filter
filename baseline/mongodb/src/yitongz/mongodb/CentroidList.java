@@ -216,28 +216,29 @@ public class CentroidList{
 					if (adds[j])
 						train(j);
 				}*/
-				for (int j=0;j<collections.size();j++){
-					int step=0;
-					while (adds[j] && step<100){
-						addPos(c,j);
-						ArrayList <Centroid> list=collections.get(j);
-						Counter counter=counter_list.get(j);
-						//getSimScore: Tweet t, Query q, ArrayList<Centroid> list
-						double ss=Calculator.getInstance().sim.getSimScore(c.tweet,query,list);
-						double sq=Calculator.getInstance().sim.getSimScore(queryCentroid.tweet,query,list);
-							//double ss=vectors.get(j).innerProduct_norm(c.tweet.vector);
-							//double sq=vectors.get(j).innerProduct_norm(queryCentroid.tweet.vector);
-						double ww=counter.cutoff();
-						//System.out.println(ss-ww);
-						if (ss>ww)
-							adds[j]=false;
-						step++;
+				if (Configure.PERCEPTRON){
+					for (int j=0;j<collections.size();j++){
+						int step=0;
+						while (adds[j] && step<100){
+							addPos(c,j);
+							ArrayList <Centroid> list=collections.get(j);
+							Counter counter=counter_list.get(j);
+							//getSimScore: Tweet t, Query q, ArrayList<Centroid> list
+							double ss=Calculator.getInstance().sim.getSimScore(c.tweet,query,list);
+							double sq=Calculator.getInstance().sim.getSimScore(queryCentroid.tweet,query,list);
+								//double ss=vectors.get(j).innerProduct_norm(c.tweet.vector);
+								//double sq=vectors.get(j).innerProduct_norm(queryCentroid.tweet.vector);
+							double ww=counter.cutoff();
+							//System.out.println(ss-ww);
+							if (ss>ww)
+								adds[j]=false;
+							step++;
 
-						if (sq<=ww) // if query itself has been bended
-							addPos(queryCentroid,j);
+							if (sq<=ww) // if query itself has been bended
+								addPos(queryCentroid,j);
+						}
 					}
 				}
-
 				// System.out.println(score);
 				//Check facts and augment the pace
 				if (Facts.check(query.num,c.tweet.tweetid)){

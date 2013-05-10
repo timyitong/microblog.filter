@@ -16,6 +16,8 @@ public class Configure{
 	public static boolean USE_TWEET_EXPAND=false; // use expanded tweet or not
 	public static boolean TEST_MODE=false; //whether we are using the test dataset
 	
+	//Multiple centroids:
+	public static boolean MULTI=true;
 	public static int QUERY_START=1;
 	public static int QUERY_END=49;
 	public static double INIT_WEIGHT=0.1;
@@ -28,6 +30,8 @@ public class Configure{
 	//fixed cutoff
 	public static boolean USE_FIXED_CUTOFF=false;
 	public static double FIXED_CUTOFF=0.171072732028912;
+	public static double BEND=-2;
+	public static double PACE=0.75;
 
 	public static String RUN_NAME="yitongz-baseline"; // The run name
 	public static String VECTOR_MODE="BM25"; // "BM25" "Normal" "KL"
@@ -54,6 +58,13 @@ public class Configure{
 	public static double URL_WEIGHT=0.95;
 	public static int URL_TOP_WORDS=0;
 
+	//PERCEPTRON
+	public static boolean PERCEPTRON=false;
+
+	//QUERY Expand
+	public static boolean QUERY_EXPAND=false;
+
+	public static double FIXED_THRESHOLD=0.05;
 
 	public static void switch_to_test(){
 		TEST_MODE=true;

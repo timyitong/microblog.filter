@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.StringTokenizer;
 import java.io.IOException;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
 import java.io.InputStreamReader;
 import java.io.FileReader;
 import java.io.File;
@@ -24,7 +26,7 @@ public class TweetCrawler{
 	private final Logger logger = Logger.getLogger(TweetCrawler.class.getName());
 	private Twitter twitter=null;
 	public TweetCrawler(){
-		crawl();
+		//crawl();
 	}
 	private void crawl(){
 		try{
@@ -34,9 +36,24 @@ public class TweetCrawler{
 				t.clean_tweet=fetchTweet(id);
 				t.save();
 				System.out.println(t.toString());
-				Thread.sleep(1800L);
+				Thread.sleep(5010L);
 			}
 		}catch(Exception e){e.printStackTrace();}
+	}
+	public void output(){
+		LinkedList <Tweet> list=getList();
+		try{
+			BufferedWriter bw=new BufferedWriter(new FileWriter(new File("../../data/tweets_crawled.txt")));
+			for (Tweet t: list){
+				if (t.clean_tweet!=null && t.user==null){
+					bw.write(t.tweetid+" "+t.clean_tweet);
+					bw.newLine();
+				}
+			}
+			bw.close();
+		}catch(Exception e){
+			e.printStackTrace();
+		}
 	}
 	private void getTwitter(){
 		String message="Twitter application using Java http://www.java-tutorial.ch/architecture/twitter-with-java-tutorial";
@@ -98,7 +115,7 @@ public class TweetCrawler{
 				st.nextToken();
 				st.nextToken();
 				Tweet t=new Tweet(st.nextToken());
-				if (t!=null && t.tweetid!=null && t.user==null ){
+				if (Integer.parseInt(st.nextToken())>0 && t!=null && t.tweetid!=null && t.user==null ){
 					list.add(t);
 				}
 			}

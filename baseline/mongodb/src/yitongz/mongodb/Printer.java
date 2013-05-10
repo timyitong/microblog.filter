@@ -1,6 +1,8 @@
 package yitongz.mongodb;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.io.*;
 
 public class Printer{
@@ -10,6 +12,7 @@ public class Printer{
 	public static void printFilterResult(ArrayList <Tweet> list){
 		try{
 			if (bw==null) bw=new BufferedWriter(new FileWriter(new File(output_url+System.currentTimeMillis()+".txt")));
+			Collections.reverse(list);
 			for (Tweet t: list){
 				bw.write(t.query_num
 						+" "+t.tweetid

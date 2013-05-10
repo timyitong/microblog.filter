@@ -58,6 +58,8 @@ public class Query{
 			cursor= coll.find(query);
 			BasicDBObject obj=(BasicDBObject)cursor.next();
 			tweetid=obj.getString("tweetid");
+			if (new Tweet(tweetid).clean_tweet==null)
+				System.out.println("missing 1st tweet:query-"+num);
 			newesttweet=obj.getString("newesttweet");
 			num=obj.getString("num");
 			if (num.equals("MB041"))
@@ -69,14 +71,15 @@ public class Query{
 			//words=expand(words);
 			vector=new DocVector(words);
 			
-			if (words_expand!=null){
+			if (Configure.QUERY_EXPAND && words_expand!=null && words_expand.trim().length()>0){
 				DocVector vector_expand=new DocVector(words_expand);
 				vector_expand.multiply(Configure.EXPAND_QUERY_WEIGHT);
 				vector.multiply(1);
 				vector.add(vector_expand);
-				//add the expand two:
-				vector.add(IndriSearcher.getExpandedVector(num,words));
 			}
+			//add the expand two:
+			vector.add(IndriSearcher.getExpandedVector(num,words));
+			
 			cursor.close();
 
 			centroid_list=new CentroidList(this);

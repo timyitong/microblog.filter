@@ -103,7 +103,9 @@ public class Main{
 		/*Load in the truth files*/
 		Facts.load();
 
-		new TweetCrawler();
+			//new TweetChecking();
+
+		//new TweetCrawler();
 		TweetExpansion t=new TweetExpansion();
 		/*Insert all queries*/
 			//addQueries();
@@ -111,7 +113,7 @@ public class Main{
 			//addTweets();
 		/*Add WortStats to database*/
 			//WordStats st=WordStats.getInstance();
-			//st.run_2gram();
+				//st.run_2gram();
 	}
 	private static void test() throws Exception{
 
@@ -126,14 +128,14 @@ public class Main{
 		try{
 			init();
 			//test();
-			/*
+			
 			if (argv[0]==null){
 				run_batch();
 			}else if (argv[0].equals("TuneTask")){
 				run_tune();
 			}else{
 				run_batch();
-			}*/
+			}
 		}catch(Exception e){e.printStackTrace();}
 	}
 }
